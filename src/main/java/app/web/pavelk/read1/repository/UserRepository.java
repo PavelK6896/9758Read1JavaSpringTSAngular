@@ -1,6 +1,5 @@
 package app.web.pavelk.read1.repository;
 
-
 import app.web.pavelk.read1.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -14,6 +14,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfiguration {
+
+    //свагер
     @Bean
     public Docket redditCloneApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -24,6 +26,7 @@ public class SwaggerConfiguration {
                 .apiInfo(getApiInfo());
     }
 
+    //заголовки для емаила
     private ApiInfo getApiInfo() {
         return new ApiInfoBuilder()
                 .title("Read1 API")
