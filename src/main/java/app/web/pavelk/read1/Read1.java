@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
-@EnableAsync
+@EnableAsync // асинхроная обработка аннотаций
 @Import(SwaggerConfiguration.class)
 public class Read1 {
 

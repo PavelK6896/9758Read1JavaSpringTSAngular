@@ -19,7 +19,7 @@ public class MailService {
     private final JavaMailSender mailSender;
     private final MailContentBuilder mailContentBuilder;
 
-    @Async
+    @Async // либо ничего либо вернет Future // либо исмользовать мечачь брокера
     public void sendMail(NotificationEmail notificationEmail) {
         MimeMessagePreparator mimeMessagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);

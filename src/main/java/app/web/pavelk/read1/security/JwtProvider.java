@@ -23,6 +23,7 @@ import static java.util.Date.from;
 @Service
 public class JwtProvider {
 
+    //генерируеться ключь из файла
     private KeyStore keyStore;
     @Value("${jwt.expiration.time}")
     private Long jwtExpirationInMillis;
@@ -30,16 +31,23 @@ public class JwtProvider {
     @PostConstruct
     public void init() {
         try {
+
+            //хранилища ключей
             keyStore = KeyStore.getInstance("JKS");
             InputStream resourceAsStream = getClass().getResourceAsStream("/springblog.jks");
+
+            //загружать
             keyStore.load(resourceAsStream, "secret".toCharArray());
         } catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException e) {
+            //Исключение произошло при загрузке хранилища ключей
             throw new SpringRedditException("Exception occurred while loading keystore", e);
         }
     }
 
     public String generateToken(Authentication authentication) {
         User principal = (User) authentication.getPrincipal();
+
+        //сбилдить токен
         return Jwts.builder()
                 .setSubject(principal.getUsername())
                 .setIssuedAt(from(Instant.now()))
@@ -61,7 +69,8 @@ public class JwtProvider {
         try {
             return (PrivateKey) keyStore.getKey("springblog", "secret".toCharArray());
         } catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException e) {
-            throw new SpringRedditException("Exception occured while retrieving public key from keystore", e);
+            //Исключение произошло при извлечении открытого ключа из хранилища ключей
+            throw new SpringRedditException("Exception occurred while retrieving public key from keystore", e);
         }
     }
 
@@ -74,7 +83,7 @@ public class JwtProvider {
         try {
             return keyStore.getCertificate("springblog").getPublicKey();
         } catch (KeyStoreException e) {
-            throw new SpringRedditException("Exception occured while " +
+            throw new SpringRedditException("Exception occurred while " +
                     "retrieving public key from keystore", e);
         }
     }
