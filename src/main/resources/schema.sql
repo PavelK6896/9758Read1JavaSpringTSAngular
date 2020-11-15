@@ -1,3 +1,101 @@
 CREATE SCHEMA IF NOT EXISTS client;
 -- AUTHORIZATION joe;
 
+---------------------------------------
+-- Hibernate:
+--
+-- create table client.post (
+--                              post_id  bigserial not null,
+--                              created_date timestamp,
+--                              description text,
+--                              post_name varchar(255),
+--                              url varchar(255),
+--                              vote_count int4,
+--                              subreddit_id int8,
+--                              user_id int8,
+--                              primary key (post_id)
+-- )
+--     Hibernate:
+--
+-- create table client.refresh_token (
+--                                       id  bigserial not null,
+--                                       created_date timestamp,
+--                                       token varchar(255),
+--                                       primary key (id)
+-- )
+--     Hibernate:
+--
+-- create table client.subreddit (
+--                                   id  bigserial not null,
+--                                   created_date timestamp,
+--                                   description varchar(255),
+--                                   name varchar(255),
+--                                   user_id int8,
+--                                   primary key (id)
+-- )
+--     Hibernate:
+--
+-- create table client.token (
+--                               id  bigserial not null,
+--                               expiry_date timestamp,
+--                               token varchar(255),
+--                               user_id int8,
+--                               primary key (id)
+-- )
+--     Hibernate:
+--
+-- create table client.users (
+--                               id  bigserial not null,
+--                               created timestamp,
+--                               email varchar(255),
+--                               enabled boolean,
+--                               password varchar(255),
+--                               username varchar(255),
+--                               primary key (id)
+-- )
+--     Hibernate:
+--
+-- create table subreddit_posts (
+--                                  subreddit_id int8 not null,
+--                                  posts_post_id int8 not null
+-- )
+--     Hibernate:
+--
+-- alter table subreddit_posts
+--     add constraint UK_ih17w4fa2em7w3u1tt8gqv2wh unique (posts_post_id)
+--     Hibernate:
+--
+-- alter table client.post
+--     add constraint FKmlnoks6ujgl9ynt53af0bx4pj
+--         foreign key (subreddit_id)
+--             references client.subreddit
+--     Hibernate:
+--
+-- alter table client.post
+--     add constraint FK7ky67sgi7k0ayf22652f7763r
+--         foreign key (user_id)
+--             references client.users
+--     Hibernate:
+--
+-- alter table client.subreddit
+--     add constraint FK1umuh48cq77u6i52atb21shci
+--         foreign key (user_id)
+--             references client.users
+--     Hibernate:
+--
+-- alter table client.token
+--     add constraint FKj8rfw4x0wjjyibfqq566j4qng
+--         foreign key (user_id)
+--             references client.users
+--     Hibernate:
+--
+-- alter table subreddit_posts
+--     add constraint FKl27wc8sin3rt45ayge7fanx10
+--         foreign key (posts_post_id)
+--             references client.post
+--     Hibernate:
+--
+-- alter table subreddit_posts
+--     add constraint FK1plpyiqs72shw84g90q0fes5r
+--         foreign key (subreddit_id)
+--             references client.subreddit

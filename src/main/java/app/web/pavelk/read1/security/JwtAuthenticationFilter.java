@@ -28,21 +28,28 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+
+
         String jwt = getJwtFromRequest(request);
 
+        //валедирует зарание можно бросить ексепшен при парсенге имени
         if (StringUtils.hasText(jwt) && jwtProvider.validateToken(jwt)) {
+            //парсет имя валидирует бросает ексепшен
             String username = jwtProvider.getUsernameFromJwt(jwt);
 
+            //грузит юзера создает авторизацию
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
                     null, userDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
+            //устанавливает авторизацию в спринг
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
     }
 
+    //отрезает слово
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
 
