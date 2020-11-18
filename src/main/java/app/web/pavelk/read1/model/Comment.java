@@ -15,7 +15,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Comment {
+public class Comment { //коментарий
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
