@@ -12,10 +12,12 @@ import app.web.pavelk.read1.repository.VerificationTokenRepository;
 import app.web.pavelk.read1.security.JwtProvider;
 import app.web.pavelk.read1.service.mail.MailService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,7 +82,7 @@ public class AuthService {
     }
 
     @Transactional
-    public void fetchUserAndEnable(VerificationToken verificationToken) {
+    public void fetchUserAndEnable(VerificationToken verificationToken) { //проверка для регистрации
         //из токена регистрации
         String username = verificationToken.getUser().getUsername();
         //найти юзера
@@ -93,7 +95,7 @@ public class AuthService {
     }
 
 
-    public AuthenticationResponse signIn(LoginRequest loginRequest) {
+    public AuthenticationResponse signIn(LoginRequest loginRequest) { // вход
 
         //создает авторизацию для спринга
         Authentication authenticate = authenticationManager
@@ -112,5 +114,20 @@ public class AuthService {
                 .username(loginRequest.getUsername())
                 .build();
 
+    }
+
+    @Transactional(readOnly = true)
+    public User getCurrentUser() { // текущий юзер
+
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.
+                getContext().getAuthentication().getPrincipal();//принципал
+
+        return userRepository.findByUsername(principal.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getUsername()));
+    }
+
+    public boolean isLoggedIn() { // проверка авторизации
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
     }
 }

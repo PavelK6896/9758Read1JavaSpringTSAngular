@@ -18,23 +18,23 @@ public class SubReadController {
 
     private final SubReadService subReadService;
 
-    @PostMapping // сохранит сабскрайб вернет дто с ид
+    @PostMapping // оздаеть подписку
     public ResponseEntity<SubredditDto> createSubreddit(@RequestBody SubredditDto subredditDto) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(subReadService.save(subredditDto));
     }
 
-//    @GetMapping // вернет все подписки
-//    public ResponseEntity<List<SubredditDto>> getAllSubreddits() {
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(subReadService.getAll());
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<SubredditDto> getSubreddit(@PathVariable Long id) {
-//        return ResponseEntity
-//                .status(HttpStatus.OK)
-//                .body(subReadService.getSubreddit(id));
-//    }
+    @GetMapping // вернет все подписки
+    public ResponseEntity<List<SubredditDto>> getAllSubreddits() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(subReadService.getAll());
+    }
+
+    @GetMapping("/{id}") // одну подписку
+    public ResponseEntity<SubredditDto> getSubreddit(@PathVariable Long id) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(subReadService.getSubreddit(id));
+    }
 }

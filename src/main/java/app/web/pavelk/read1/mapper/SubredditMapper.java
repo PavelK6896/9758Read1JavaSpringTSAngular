@@ -13,20 +13,25 @@ import java.util.List;
 // нужен плагин в мавене
 // и он всеравно неработает ошибки и т д
 // проще дто сбилдить наверно вот
+// в плагин ломбок или ошибка
 @Mapper(componentModel = "spring")
 public interface SubredditMapper {
 
-    // подменяем значение для numberOfPosts из метода
-//    @Mapping( target = "numberOfPosts", expression = "0", ignore = true)
+    //из сущьности в дто
+    @Mapping(target = "numberOfPosts", expression = "java(mapPosts(subreddit.getPosts()))")
     SubredditDto mapSubredditToDto(Subreddit subreddit);
 
-    default Integer mapPosts(Subreddit subreddits) {
-        return subreddits.getPosts().size();
+    //странные метод мастракта
+    default Integer mapPosts(List<Post> numberOfPosts) {
+        return numberOfPosts.size();
     }
 
-    //из одного в другое
+    //из дто в сущьность
+    //Наследование // Обратно
     @InheritInverseConfiguration
-//    @Mapping(target = "posts", ignore = true)
+    @Mapping(target = "posts", ignore = true)
     Subreddit mapDtoToSubreddit(SubredditDto subredditDto);
+
+
 }
 
