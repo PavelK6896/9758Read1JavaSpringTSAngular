@@ -27,6 +27,7 @@ public class RefreshTokenService {
         return refreshTokenRepository.save(refreshToken);
     }
 
+    //поиск рефрешь токена в базе
     void validateRefreshToken(String token) {
         refreshTokenRepository.findByToken(token)
                 .orElseThrow(() -> new SpringRedditException("Invalid refresh Token"));//Недопустимый токен обновления

@@ -25,6 +25,7 @@ public class JwtProvider {
 
     //генерируеться ключь из файла
     private KeyStore keyStore;
+
     @Value("${jwt.expiration.time}")
     private Long jwtExpirationInMillis;
 
@@ -44,6 +45,7 @@ public class JwtProvider {
         }
     }
 
+    //генерация токена по авторизации
     public String generateToken(Authentication authentication) {
         User principal = (User) authentication.getPrincipal();
 
@@ -56,6 +58,7 @@ public class JwtProvider {
                 .compact();
     }
 
+    //генерация токена по имени
     public String generateTokenWithUserName(String username) {
         return Jwts.builder()
                 .setSubject(username)
@@ -65,6 +68,7 @@ public class JwtProvider {
                 .compact();
     }
 
+    //секрет кей
     private PrivateKey getPrivateKey() {
         try {
             return (PrivateKey) keyStore.getKey("springblog", "secret".toCharArray());
@@ -74,6 +78,7 @@ public class JwtProvider {
         }
     }
 
+    //главная проверка авторизации
     public boolean validateToken(String jwt) {
         parser().setSigningKey(getPublickey()).parseClaimsJws(jwt);
         return true;
@@ -83,12 +88,13 @@ public class JwtProvider {
         try {
             return keyStore.getCertificate("springblog").getPublicKey();
         } catch (KeyStoreException e) {
-            throw new SpringRedditException("Exception occurred while " +
-                    "retrieving public key from keystore", e);
+            throw new SpringRedditException("Exception occurred while " +//Исключение произошло в то время как
+                    "retrieving public key from keystore", e);//извлечение открытого ключа из хранилища ключей
         }
     }
 
 
+    //имя пользователя
     public String getUsernameFromJwt(String token) {
         Claims claims = parser()
                 .setSigningKey(getPublickey())
@@ -98,6 +104,7 @@ public class JwtProvider {
         return claims.getSubject();
     }
 
+    //длительность токена
     public Long getJwtExpirationInMillis() {
         return jwtExpirationInMillis;
     }

@@ -26,7 +26,7 @@ public class SwaggerConfiguration {
                 .apiInfo(getApiInfo());
     }
 
-    //заголовки для емаила
+    //заголовки для апи
     private ApiInfo getApiInfo() {
         return new ApiInfoBuilder()
                 .title("Read1 API")

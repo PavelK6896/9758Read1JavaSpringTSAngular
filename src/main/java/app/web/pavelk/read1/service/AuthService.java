@@ -2,6 +2,7 @@ package app.web.pavelk.read1.service;
 
 import app.web.pavelk.read1.dto.AuthenticationResponse;
 import app.web.pavelk.read1.dto.LoginRequest;
+import app.web.pavelk.read1.dto.RefreshTokenRequest;
 import app.web.pavelk.read1.dto.RegisterRequest;
 import app.web.pavelk.read1.exceptions.SpringRedditException;
 import app.web.pavelk.read1.model.NotificationEmail;
@@ -129,5 +130,24 @@ public class AuthService {
     public boolean isLoggedIn() { // проверка авторизации
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
+    }
+
+
+    //обновление токена
+    public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+
+        //поиск токена в дб
+        refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
+
+        //генерация нового токена по имени
+        //по рефрешь токену генери новый обычьный токен
+        String token = jwtProvider.generateTokenWithUserName(refreshTokenRequest.getUsername());
+
+        return AuthenticationResponse.builder()
+                .authenticationToken(token)
+                .refreshToken(refreshTokenRequest.getRefreshToken())
+                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+                .username(refreshTokenRequest.getUsername())
+                .build();
     }
 }
