@@ -24,10 +24,11 @@ public class AuthController {
     private final AuthService authService;
     private final RefreshTokenService refreshTokenService;
 
-    @PostMapping("/signUp")//регистрация пренимаем дто
+    @PostMapping("/signup")//регистрация пренимаем дто
     public ResponseEntity<String> signUp(@RequestBody RegisterRequest registerRequest) {
         //валидация?
         //проверка на существование?
+      log.info("signup");
 
         authService.signUp(registerRequest);
         return new ResponseEntity<>("User Registration Successful",
@@ -41,9 +42,9 @@ public class AuthController {
         return new ResponseEntity<>("Account Activated Successfully", OK); //Учетная Запись Успешно Активирована
     }
 
-    @PostMapping("/signIn")//для входа
+    @PostMapping("/signin")//для входа
     public AuthenticationResponse login(@RequestBody LoginRequest loginRequest) {
-        log.info("signIn");
+        log.info("signin");
         return authService.signIn(loginRequest);
     }
 
