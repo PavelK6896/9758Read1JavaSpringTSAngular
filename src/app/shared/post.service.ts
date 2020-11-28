@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {PostModel} from "./post-model";
@@ -8,7 +8,8 @@ import {PostModel} from "./post-model";
 })
 export class PostService { // для постов
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   getAllPosts(): Observable<Array<PostModel>> {
     return this.http.get<Array<PostModel>>('http://localhost:8080/api/posts/');

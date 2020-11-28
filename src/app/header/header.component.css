@@ -1,22 +1,24 @@
-header{
+header {
   border-radius: 1px solid;
 }
-.reddit-icon-svg{
+
+.reddit-icon-svg {
   height: 50px;
   padding: 8px 8px 8px 0;
   width: 50px;
 }
 
-.reddit-text{
+.reddit-text {
   font-weight: 700;
   height: 50px;
   width: 50px;
 }
-.logo{
+
+.logo {
   text-decoration: none;
 }
 
-.login, .sign-up{
+.login, .sign-up {
   background-color: transparent;
   border-color: #0079D3;
   color: #0079D3;
@@ -36,17 +38,17 @@ header{
   opacity: 1;
 }
 
-.sign-up{
+.sign-up {
   background-color: #0079D3;
   border-color: #0079D3;
   color: aliceblue;
 }
 
-.sign-up:hover{
+.sign-up:hover {
   opacity: 0.6;
 }
 
-.userdetails{
+.userdetails {
   background-color: transparent;
   border-color: #0079D3;
   color: #0079D3;
@@ -67,11 +69,11 @@ header{
   border: 0px;
 }
 
-.userdetails:hover{
+.userdetails:hover {
   border: 1px solid;
 }
 
-.dropdown-item{
+.dropdown-item {
   background-color: #f8f9fa;
   font-size: 14px;
   font-weight: 500;
@@ -80,15 +82,15 @@ header{
   vertical-align: middle;
 }
 
-.dropdown-item:hover{
+.dropdown-item:hover {
   background-color: #0079D3;
 }
 
-.dropdown-menu{
+.dropdown-menu {
   background-color: #f8f9fa;
 }
 
-.account-icon{
+.account-icon {
   border-radius: 4px;
   float: left;
   margin-right: 5px;

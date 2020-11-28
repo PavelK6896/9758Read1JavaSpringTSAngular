@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 // import { faUser } from '@fortawesome/free-solid-svg-icons';
 import {Router} from "@angular/router";
 
@@ -14,7 +14,8 @@ export class HeaderComponent implements OnInit { // верхнее меню
   username: string;
 
   // constructor(private authService: AuthService, private router: Router) { }
-  constructor( private router: Router) { }
+  constructor(private router: Router) {
+  }
 
   ngOnInit() {
     // this.authService.loggedIn.subscribe((data: boolean) => this.isLoggedIn = data);

@@ -19,6 +19,12 @@ import static org.springframework.http.HttpStatus.OK;
 @RequestMapping("/api/auth")
 @AllArgsConstructor
 @Slf4j
+//добавляет 4 заголовка
+//  Access-Control-Allow-Origin: *
+//  Vary: Origin
+//  Vary: Access-Control-Request-Method
+//  Vary: Access-Control-Request-Headers
+//@CrossOrigin
 public class AuthController {
 
     private final AuthService authService;
@@ -42,9 +48,9 @@ public class AuthController {
         return new ResponseEntity<>("Account Activated Successfully", OK); //Учетная Запись Успешно Активирована
     }
 
-    @PostMapping("/signin")//для входа
+    @PostMapping("/login")//для входа
     public AuthenticationResponse login(@RequestBody LoginRequest loginRequest) {
-        log.info("signin");
+        log.info("login");
         return authService.signIn(loginRequest);
     }
 

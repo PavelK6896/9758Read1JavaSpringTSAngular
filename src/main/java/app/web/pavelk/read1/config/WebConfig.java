@@ -10,6 +10,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
 
+    //  Referrer Policy: strict-origin-when-cross-origin
+
+//  добовляет три заголовка в ответе тогда блаузер разрешит прочитать ответ
+//  Access-Control-Allow-Credentials: true
+//  Access-Control-Allow-Origin: http://localhost:4200
+//  Access-Control-Expose-Headers: Authorization
+
     @Override
     public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")

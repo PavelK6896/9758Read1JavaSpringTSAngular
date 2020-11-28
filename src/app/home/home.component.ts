@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PostModel} from "../shared/post-model";
 import {PostService} from "../shared/post.service";
 

@@ -36,7 +36,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .cors().and()
+          //* Добавляет {@link CorsFilter} для использования. Если Боб по имени corsFilter является
+          //	 * при условии, что используется {@link CorsFilter}. Иначе если corsConfigurationSource является
+          //	 * определено, то используется {@link CorsConfiguration}. В противном случае, если Spring MVC является
+          //	 * на пути к классу используется {@link HandlerMappingIntrospector}.
+
+          //добовляет три заголовка
+          //Vary: Origin
+          //Vary: Access-Control-Request-Method
+          //Vary: Access-Control-Request-Headers
+
+//                .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/","/api/auth/**")
