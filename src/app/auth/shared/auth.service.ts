@@ -12,6 +12,7 @@ import {LocalStorageService} from "ngx-webstorage";
 })
 export class AuthService {
 
+  //@Output () - функция декоратора, маркирующая свойство как путь для данных, чтобы отправиться от ребенка на родитель.
   @Output() loggedIn: EventEmitter<boolean> = new EventEmitter();
   @Output() username: EventEmitter<string> = new EventEmitter();
 

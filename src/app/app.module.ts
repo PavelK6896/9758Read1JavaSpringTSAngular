@@ -17,10 +17,14 @@ import {PostTileComponent} from './shared/post-tile/post-tile.component';
 import {VoteButtonComponent} from './shared/vote-button/vote-button.component';
 import {SideBarComponent} from './shared/side-bar/side-bar.component';
 import {SubredditSideBarComponent} from './shared/subreddit-side-bar/subreddit-side-bar.component';
-import { CreateSubredditComponent } from './subreddit/create-subreddit/create-subreddit.component';
-import { CreatePostComponent } from './post/create-post/create-post.component';
-import { ListSubredditsComponent } from './subreddit/list-subreddits/list-subreddits.component';
+import {CreateSubredditComponent} from './subreddit/create-subreddit/create-subreddit.component';
+import {CreatePostComponent} from './post/create-post/create-post.component';
+import {ListSubredditsComponent} from './subreddit/list-subreddits/list-subreddits.component';
 import {EditorModule} from "@tinymce/tinymce-angular";
+import {ViewPostComponent} from './post/view-post/view-post.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { UserProfileComponent } from './auth/user-profile/user-profile.component';
+
 
 @NgModule({
   declarations: [
@@ -35,7 +39,9 @@ import {EditorModule} from "@tinymce/tinymce-angular";
     SubredditSideBarComponent,
     CreateSubredditComponent,
     CreatePostComponent,
-    ListSubredditsComponent
+    ListSubredditsComponent,
+    ViewPostComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +52,8 @@ import {EditorModule} from "@tinymce/tinymce-angular";
     BrowserAnimationsModule, // для анимации
     ToastrModule.forRoot(),  //для анимации тостар
     FontAwesomeModule, //иконки
-    EditorModule // tiny
+    EditorModule, // tiny
+    NgbModule //
 
 
   ],
