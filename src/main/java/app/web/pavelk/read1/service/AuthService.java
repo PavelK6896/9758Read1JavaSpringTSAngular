@@ -58,12 +58,12 @@ public class AuthService {
         user.setUsername(registerRequest.getUsername());
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        user.setCreated(Instant.now());//time
-        user.setEnabled(false);//active
+        user.setCreated(Instant.now());
+        user.setEnabled(false);
 
         userRepository.save(user);
 
-        String token = generateVerificationToken(user);//register token
+        String token = generateVerificationToken(user);
 
         mailService.sendMail(new NotificationEmail("Please Activate your Account",
                 user.getEmail(), "Thank you for signing up to Spring Reddit, " +
@@ -73,11 +73,10 @@ public class AuthService {
         return ResponseEntity.status(OK).body("User Registration Successful");
     }
 
-    //токен для регистрации
     private String generateVerificationToken(User user) {
-        String token = UUID.randomUUID().toString();//для сылки
+        String token = UUID.randomUUID().toString();
 
-        VerificationToken verificationToken = new VerificationToken();//для базы
+        VerificationToken verificationToken = new VerificationToken();
         verificationToken.setToken(token);
         verificationToken.setUser(user);
 
@@ -87,32 +86,26 @@ public class AuthService {
 
     public ResponseEntity<String> verifyAccount(String token) {
         log.info("verifyAccount");
-        Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);    //проверка есть ли токен в базе
-        fetchUserAndEnable(verificationToken.orElseThrow(() -> new SpringRedditException("Invalid Token")));//Недопустимый Токен
+        Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
+        fetchUserAndEnable(verificationToken.orElseThrow(() -> new SpringRedditException("Invalid Token")));
         return ResponseEntity.status(OK).body("Account Activated Successfully");
     }
 
     @Transactional
-    public void fetchUserAndEnable(VerificationToken verificationToken) { //проверка для регистрации
-        //из токена регистрации
+    public void fetchUserAndEnable(VerificationToken verificationToken) {
         String username = verificationToken.getUser().getUsername();
-        //найти юзера
         User user = userRepository.findByUsername(username)
-                //        Пользователь не найден с именем
                 .orElseThrow(() -> new SpringRedditException("User not found with name - " + username));
-        //установить значение активилован и сохранить
         user.setEnabled(true);
         userRepository.save(user);
     }
 
 
-    public ResponseEntity<AuthenticationResponse> signIn(LoginRequest loginRequest) { // вход
+    public ResponseEntity<AuthenticationResponse> signIn(LoginRequest loginRequest) {
         log.info("signIn");
-        //создает авторизацию для спринга
         Authentication authenticate = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
                         loginRequest.getPassword()));
-        //установить авторизацию в спринг
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         String token = jwtProvider.generateToken(authenticate);
 
@@ -125,29 +118,26 @@ public class AuthService {
     }
 
     @Transactional(readOnly = true)
-    public User getCurrentUser() { // текущий юзер
+    public User getCurrentUser() {
 
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.
-                getContext().getAuthentication().getPrincipal();//принципал
+                getContext().getAuthentication().getPrincipal();
 
         return userRepository.findByUsername(principal.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getUsername()));
     }
 
-    public boolean isLoggedIn() { // проверка авторизации
+    public boolean isLoggedIn() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
     }
 
 
-    //обновление токена
+
     public ResponseEntity<AuthenticationResponse> refreshToken(RefreshTokenRequest refreshTokenRequest) {
         log.info("refreshTokens");
-        //поиск токена в дб
         refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
 
-        //генерация нового токена по имени
-        //по рефрешь токену генери новый обычьный токен
         String token = jwtProvider.generateTokenWithUserName(refreshTokenRequest.getUsername());
 
         return ResponseEntity.status(OK).body(AuthenticationResponse.builder()

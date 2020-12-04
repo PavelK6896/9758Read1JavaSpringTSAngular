@@ -29,40 +29,37 @@ public class VoteService {
     private final PostRepository postRepository;
     private final AuthService authService;
 
-    @Transactional//ставим лайк
+    @Transactional
     public ResponseEntity<Void> vote(VoteDto voteDto) {
         log.info("vote");
-        //находим пост
+
         Post post = postRepository.findById(voteDto.getPostId())
                 .orElseThrow(() -> new PostNotFoundException("Post Not Found with ID - " + voteDto.getPostId()));
 
-        //тип +1 -1 пост и юзер
         Optional<Vote> voteByPostAndUser = voteRepository
                 .findTopByPostAndUserOrderByVoteIdDesc(post, authService.getCurrentUser());
 
-        //если уже есть голос
+
         if (voteByPostAndUser.isPresent() &&
                 voteByPostAndUser.get().getVoteType()
                         .equals(voteDto.getVoteType())) {
-            throw new SpringRedditException("You have already " //Вы уже это сделали
-                    + voteDto.getVoteType() + "'d for this post");//на эту должность
+            throw new SpringRedditException("You have already "
+                    + voteDto.getVoteType() + "'d for this post");
         }
 
-        //ставим голос в пост
         if (UPVOTE.equals(voteDto.getVoteType())) {
             post.setVoteCount(post.getVoteCount() + 1);
         } else {
             post.setVoteCount(post.getVoteCount() - 1);
         }
 
-        //сохроняем
+
         voteRepository.save(mapToVote(voteDto, post));
         postRepository.save(post);
 
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    //реобрпзуеться в сущьность
     private Vote mapToVote(VoteDto voteDto, Post post) {
         return Vote.builder()
                 .voteType(voteDto.getVoteType())

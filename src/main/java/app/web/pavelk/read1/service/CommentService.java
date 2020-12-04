@@ -38,7 +38,6 @@ public class CommentService {
     private final MailContentBuilder mailContentBuilder;
     private final MailService mailService;
 
-    //сохранить комент
     public ResponseEntity<Void> save(CommentsDto commentsDto) {
         log.info("createComment");
         Post post = postRepository.findById(commentsDto.getPostId())
@@ -51,12 +50,10 @@ public class CommentService {
         return ResponseEntity.status(CREATED).build();
     }
 
-    //отправить письмо о получении коментария
     private void sendCommentNotification(String message, User user) {
         mailService.sendMail(new NotificationEmail(user.getUsername() + " Commented on your post", user.getEmail(), message));
     }
 
-    //полусить все коментарии для поста
     public ResponseEntity<List<CommentsDto>> getAllCommentsForPost(Long postId) {
         log.info("getAllCommentsForPost");
         Post post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId.toString()));
@@ -65,7 +62,6 @@ public class CommentService {
                         .map(commentMapper::mapToDto).collect(toList()));
     }
 
-    //получить все коментарии юзера
     public ResponseEntity<List<CommentsDto>> getAllCommentsForUser(String userName) {
         log.info("getAllCommentsForUser");
         User user = userRepository.findByUsername(userName)

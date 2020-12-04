@@ -17,11 +17,9 @@ public class VoteController {
 
     private final VoteService voteService;
 
-    //для простовление лайков
     @PostMapping
     public ResponseEntity<Void> vote(@RequestBody VoteDto voteDto) {
         return voteService.vote(voteDto);
     }
-
 
 }

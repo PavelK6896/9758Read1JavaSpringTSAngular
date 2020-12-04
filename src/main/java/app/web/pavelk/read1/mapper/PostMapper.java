@@ -24,8 +24,6 @@ public abstract class PostMapper {
     @Autowired
     private AuthService authService;
 
-
-    //из дто в пост
     @Mapping(target = "createdDate", expression = "java(java.time.Instant.now())")
     @Mapping(target = "description", source = "postRequest.description")
     @Mapping(target = "subreddit", source = "subreddit")
@@ -33,7 +31,6 @@ public abstract class PostMapper {
     @Mapping(target = "user", source = "user")
     public abstract Post map(PostRequest postRequest, Subreddit subreddit, User user);
 
-    //из поста в дто
     @Mapping(target = "id", source = "postId")
     @Mapping(target = "subredditName", source = "subreddit.name")
     @Mapping(target = "userName", source = "user.username")
@@ -43,7 +40,6 @@ public abstract class PostMapper {
     @Mapping(target = "downVote", expression = "java(isPostDownVoted(post))")
     public abstract PostResponse mapToDto(Post post);
 
-    //методы для преобразования
     Integer commentCount(Post post) {
         return commentRepository.findByPost(post).size();
     }
@@ -60,7 +56,6 @@ public abstract class PostMapper {
         return checkVoteType(post, VoteType.DOWNVOTE);
     }
 
-    //проверка авторизации и зачисление лайков
     private boolean checkVoteType(Post post, VoteType voteType) {
         if (authService.isLoggedIn()) {
             Optional<Vote> voteForPostByUser =

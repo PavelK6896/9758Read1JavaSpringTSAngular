@@ -36,7 +36,6 @@ public class PostService {
     private final AuthService authService;
     private final PostMapper postMapper;
 
-    // сохронение поста
     public ResponseEntity<Void> save(PostRequest postRequest) {
         log.info("save");
         Subreddit subreddit = subredditRepository.findByName(postRequest.getSubredditName())
@@ -45,7 +44,6 @@ public class PostService {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    //полуесение дто 1
     @Transactional(readOnly = true)
     public ResponseEntity<PostResponse> getPost(Long id) {
         log.info("getPost");
@@ -54,7 +52,6 @@ public class PostService {
         return ResponseEntity.status(HttpStatus.OK).body(postMapper.mapToDto(post));
     }
 
-    // все дто поста
     @Transactional(readOnly = true)
     public ResponseEntity<List<PostResponse>> getAllPosts() {
         return ResponseEntity.status(HttpStatus.OK).body(
@@ -64,7 +61,6 @@ public class PostService {
                         .collect(toList()));
     }
 
-    // все посты по лайку
     @Transactional(readOnly = true)
     public ResponseEntity<List<PostResponse>> getPostsBySubreddit(Long subredditId) {
         log.info("getPostsBySubreddit");
@@ -74,7 +70,6 @@ public class PostService {
         return ResponseEntity.status(HttpStatus.OK).body(posts.stream().map(postMapper::mapToDto).collect(toList()));
     }
 
-    // все посты поимени
     @Transactional(readOnly = true)
     public ResponseEntity<List<PostResponse>> getPostsByUsername(String username) {
         log.info("getPostsBySubreddit");

@@ -50,34 +50,4 @@ public class SubReadService {
                 .orElseThrow(() -> new SpringRedditException("No subreddit found with ID - " + id));
         return ResponseEntity.status(HttpStatus.OK).body(subredditMapper.mapSubredditToDto(subreddit));
     }
-
-
-///-----------------------
-//    @Transactional // сохранение подписки и добасление ид
-//    public SubredditDto save(SubredditDto subredditDto) {
-//        Subreddit save = subredditRepository.save(Subreddit
-//                .builder().name(subredditDto.getName()).description(subredditDto.getDescription()).build());
-//        subredditDto.setId(save.getId());
-//        return subredditDto;
-//    }
-//
-//    @Transactional(readOnly = true) // возрощает все посты прогоняя через мапер
-//    public List<SubredditDto> getAll() {
-//                return subredditRepository.findAll()
-//                .stream()
-//                .map(s -> {
-//                    return SubredditDto.builder().id(s.getId()).name(s.getName())
-//                            .description(s.getDescription()).numberOfPosts(s.getPosts().size()).build();
-//                })
-//                .collect(toList());
-//    }
-//
-//    public SubredditDto getSubreddit(Long id) {
-//        Subreddit subreddit = subredditRepository.findById(id)
-//                .orElseThrow(() -> new SpringRedditException("No subreddit found with ID - " + id));
-//
-//       return SubredditDto.builder().id(subreddit.getId()).name(subreddit.getName())
-//                .description(subreddit.getDescription()).numberOfPosts(subreddit.getPosts().size()).build();
-//    }
-
 }

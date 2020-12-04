@@ -23,7 +23,6 @@ import static java.util.Date.from;
 @Service
 public class JwtProvider {
 
-    //генерируеться ключь из файла
     private KeyStore keyStore;
 
     @Value("${jwt.expiration.time}")
@@ -33,23 +32,18 @@ public class JwtProvider {
     public void init() {
         try {
 
-            //хранилища ключей
             keyStore = KeyStore.getInstance("JKS");
             InputStream resourceAsStream = getClass().getResourceAsStream("/springblog.jks");
 
-            //загружать
             keyStore.load(resourceAsStream, "secret".toCharArray());
         } catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException e) {
-            //Исключение произошло при загрузке хранилища ключей
             throw new SpringRedditException("Exception occurred while loading keystore", e);
         }
     }
 
-    //генерация токена по авторизации
     public String generateToken(Authentication authentication) {
         User principal = (User) authentication.getPrincipal();
 
-        //сбилдить токен
         return Jwts.builder()
                 .setSubject(principal.getUsername())
                 .setIssuedAt(from(Instant.now()))
@@ -58,7 +52,6 @@ public class JwtProvider {
                 .compact();
     }
 
-    //генерация токена по имени
     public String generateTokenWithUserName(String username) {
         return Jwts.builder()
                 .setSubject(username)
@@ -68,17 +61,14 @@ public class JwtProvider {
                 .compact();
     }
 
-    //секрет кей
     private PrivateKey getPrivateKey() {
         try {
             return (PrivateKey) keyStore.getKey("springblog", "secret".toCharArray());
         } catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException e) {
-            //Исключение произошло при извлечении открытого ключа из хранилища ключей
             throw new SpringRedditException("Exception occurred while retrieving public key from keystore", e);
         }
     }
 
-    //главная проверка авторизации
     public boolean validateToken(String jwt) {
         parser().setSigningKey(getPublickey()).parseClaimsJws(jwt);
         return true;
@@ -88,13 +78,11 @@ public class JwtProvider {
         try {
             return keyStore.getCertificate("springblog").getPublicKey();
         } catch (KeyStoreException e) {
-            throw new SpringRedditException("Exception occurred while " +//Исключение произошло в то время как
-                    "retrieving public key from keystore", e);//извлечение открытого ключа из хранилища ключей
+            throw new SpringRedditException("Exception occurred while " +
+                    "retrieving public key from keystore", e);
         }
     }
 
-
-    //имя пользователя
     public String getUsernameFromJwt(String token) {
         Claims claims = parser()
                 .setSigningKey(getPublickey())
@@ -104,7 +92,6 @@ public class JwtProvider {
         return claims.getSubject();
     }
 
-    //длительность токена
     public Long getJwtExpirationInMillis() {
         return jwtExpirationInMillis;
     }

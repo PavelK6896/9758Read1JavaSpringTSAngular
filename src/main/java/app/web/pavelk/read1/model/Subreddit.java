@@ -19,7 +19,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Builder
 @Table(name = "subreddit", schema = "client")
-public class Subreddit { // сабскрайб
+public class Subreddit {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
@@ -28,13 +28,9 @@ public class Subreddit { // сабскрайб
     @NotBlank(message = "Description is required")
     private String description;
 
-    //   * Поле, которому принадлежит отношение. Требуется, если
-//   только * связь не является однонаправленной.
-//  mappedBy = "dd"
     @OneToMany(fetch = LAZY)
     private List<Post> posts;
-    // будет ли создона дополнительная таблица для связи
-    // и таблица создаеться без схемы в паблике
+
 
     private Instant createdDate;
 

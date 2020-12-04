@@ -23,7 +23,6 @@ public class RefreshTokenService {
 
     private final RefreshTokenRepository refreshTokenRepository;
 
-    //создаем токен для рефреша todo привизать токен к юзеру или ненадо
     public RefreshToken generateRefreshToken() {
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setToken(UUID.randomUUID().toString());
@@ -32,10 +31,9 @@ public class RefreshTokenService {
         return refreshTokenRepository.save(refreshToken);
     }
 
-    //поиск рефрешь токена в базе
     void validateRefreshToken(String token) {
         refreshTokenRepository.findByToken(token)
-                .orElseThrow(() -> new SpringRedditException("Invalid refresh Token"));//Недопустимый токен обновления
+                .orElseThrow(() -> new SpringRedditException("Invalid refresh Token"));
     }
 
     public ResponseEntity<String> deleteRefreshToken(String token) {

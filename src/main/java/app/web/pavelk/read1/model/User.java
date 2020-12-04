@@ -37,19 +37,8 @@ public class User {
     private String email;
 
     @Column(name = "created")
-    private Instant created; //время
+    private Instant created;
 
     @Column(name = "enabled")
-    private boolean enabled; //включен
+    private boolean enabled;
 }
-
-
-//    create table user (
-//       user_id  bigserial not null,
-//        created timestamp,
-//        email varchar(255),
-//        enabled boolean not null,
-//        password varchar(255),
-//        username varchar(255),
-//        primary key (user_id)
-//    )

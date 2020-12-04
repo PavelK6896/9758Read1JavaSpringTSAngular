@@ -17,19 +17,16 @@ public class SubReadController {
 
     private final SubReadService subReadService;
 
-    // оздаеть подписку
     @PostMapping
     public ResponseEntity<SubredditDto> createSubreddit(@RequestBody SubredditDto subredditDto) {
         return subReadService.save(subredditDto);
     }
 
-    // вернет все подписки
     @GetMapping
     public ResponseEntity<List<SubredditDto>> getAllSubreddits() {
         return subReadService.getAll();
     }
 
-    // одну подписку
     @GetMapping("/{id}")
     public ResponseEntity<SubredditDto> getSubreddit(@PathVariable Long id) {
         return subReadService.getSubreddit(id);

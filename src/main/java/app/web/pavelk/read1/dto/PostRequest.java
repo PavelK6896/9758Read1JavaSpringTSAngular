@@ -16,15 +16,3 @@ public class PostRequest {
     private String url;
     private String description;
 }
-/*
-
-
-{
-    "subredditName":"who 1",
-    "postName":"who 1",
-    "url":"who 1",
-    "description":"who 1"
-}
-
-
-*/

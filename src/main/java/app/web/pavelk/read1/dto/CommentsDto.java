@@ -17,11 +17,3 @@ public class CommentsDto {
     private String userName;
 }
 
-/*
-{
-"postId":"3",
-"text":"ccccccdfsdferew3",
-"userName":"asdsdas"
-}
- */
-

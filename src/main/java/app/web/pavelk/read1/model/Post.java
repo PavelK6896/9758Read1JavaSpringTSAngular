@@ -19,7 +19,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "post", schema = "client")
-public class Post { // пост для блога
+public class Post {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long postId;
@@ -33,17 +33,11 @@ public class Post { // пост для блога
     private Integer voteCount = 0;
 
     @ManyToOne(fetch = LAZY)
-//    упоминаемый referencedColumnName = "userId" -- должен указывать на поле в user но неработает
-    //<p> по умолчанию (применяется только в том случае, если используется один столбец соединения
-    //*): то же имя, что и столбец первичного ключа
-    //ссылочной таблицы*.
-    // возможно   @JoinColumns({ через объект это указать
     @JoinColumn(name = "userId")
-    private User user; // храним id user
+    private User user;
 
     private Instant createdDate;
 
-    //referencedColumnName = "id" не работает указатьль возможно нужно мапить подругому
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "subredditId")
     private Subreddit subreddit;
