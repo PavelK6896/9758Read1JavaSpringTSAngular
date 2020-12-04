@@ -14,15 +14,20 @@ import app.web.pavelk.read1.repository.UserRepository;
 import app.web.pavelk.read1.service.mail.MailContentBuilder;
 import app.web.pavelk.read1.service.mail.MailService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class CommentService {
     private static final String POST_URL = "";
     private final PostRepository postRepository;
@@ -34,7 +39,8 @@ public class CommentService {
     private final MailService mailService;
 
     //сохранить комент
-    public void save(CommentsDto commentsDto) {
+    public ResponseEntity<Void> save(CommentsDto commentsDto) {
+        log.info("createComment");
         Post post = postRepository.findById(commentsDto.getPostId())
                 .orElseThrow(() -> new PostNotFoundException(commentsDto.getPostId().toString()));
         Comment comment = commentMapper.map(commentsDto, post, authService.getCurrentUser());
@@ -42,6 +48,7 @@ public class CommentService {
 
         String message = mailContentBuilder.build(authService.getCurrentUser() + " posted a comment on your post." + POST_URL);
         sendCommentNotification(message, post.getUser());
+        return ResponseEntity.status(CREATED).build();
     }
 
     //отправить письмо о получении коментария
@@ -50,21 +57,24 @@ public class CommentService {
     }
 
     //полусить все коментарии для поста
-    public List<CommentsDto> getAllCommentsForPost(Long postId) {
+    public ResponseEntity<List<CommentsDto>> getAllCommentsForPost(Long postId) {
+        log.info("getAllCommentsForPost");
         Post post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId.toString()));
-        return commentRepository.findByPost(post)
-                .stream()
-                .map(commentMapper::mapToDto).collect(toList());
+        return ResponseEntity.status(OK).body(
+                commentRepository.findByPost(post).stream()
+                        .map(commentMapper::mapToDto).collect(toList()));
     }
 
     //получить все коментарии юзера
-    public List<CommentsDto> getAllCommentsForUser(String userName) {
+    public ResponseEntity<List<CommentsDto>> getAllCommentsForUser(String userName) {
+        log.info("getAllCommentsForUser");
         User user = userRepository.findByUsername(userName)
                 .orElseThrow(() -> new UsernameNotFoundException(userName));
         System.out.println("--getAllCommentsForUser");
-        return commentRepository.findAllByUser(user)
-                .stream()
-                .map(commentMapper::mapToDto)
-                .collect(toList());
+        return ResponseEntity.status(OK)
+                .body(commentRepository.findAllByUser(user)
+                        .stream()
+                        .map(commentMapper::mapToDto)
+                        .collect(toList()));
     }
 }

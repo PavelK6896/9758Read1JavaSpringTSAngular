@@ -28,7 +28,7 @@ public class Subreddit { // сабскрайб
     @NotBlank(message = "Description is required")
     private String description;
 
-//   * Поле, которому принадлежит отношение. Требуется, если
+    //   * Поле, которому принадлежит отношение. Требуется, если
 //   только * связь не является однонаправленной.
 //  mappedBy = "dd"
     @OneToMany(fetch = LAZY)

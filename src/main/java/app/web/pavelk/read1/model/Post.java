@@ -38,7 +38,7 @@ public class Post { // пост для блога
     //*): то же имя, что и столбец первичного ключа
     //ссылочной таблицы*.
     // возможно   @JoinColumns({ через объект это указать
-    @JoinColumn(name = "userId" )
+    @JoinColumn(name = "userId")
     private User user; // храним id user
 
     private Instant createdDate;

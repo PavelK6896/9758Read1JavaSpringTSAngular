@@ -26,7 +26,7 @@ export class AuthService {
 
 
   signup(signupRequestPayload: SignupRequestPayload): Observable<any> {
-    return this.httpClient.post('http://localhost:8080/api/auth/signup',
+    return this.httpClient.post('http://localhost:8080/api/auth/signUp',
       signupRequestPayload, {responseType: 'text'});
   }
 
@@ -34,6 +34,9 @@ export class AuthService {
   login(loginRequestPayload: LoginRequestPayload): Observable<boolean> {
     return this.httpClient.post<LoginResponse>('http://localhost:8080/api/auth/login',
       loginRequestPayload).pipe(map(data => {
+
+
+      console.log("login", data)
       this.localStorage.store('authenticationToken', data.authenticationToken);
       this.localStorage.store('username', data.username);
       this.localStorage.store('refreshToken', data.refreshToken);

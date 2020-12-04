@@ -12,9 +12,10 @@ import app.web.pavelk.read1.model.User;
 import app.web.pavelk.read1.repository.PostRepository;
 import app.web.pavelk.read1.repository.SubredditRepository;
 import app.web.pavelk.read1.repository.UserRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,50 +37,52 @@ public class PostService {
     private final PostMapper postMapper;
 
     // сохронение поста
-    public void save(PostRequest postRequest) {
+    public ResponseEntity<Void> save(PostRequest postRequest) {
+        log.info("save");
         Subreddit subreddit = subredditRepository.findByName(postRequest.getSubredditName())
                 .orElseThrow(() -> new SubredditNotFoundException(postRequest.getSubredditName()));
-
-
         postRepository.save(postMapper.map(postRequest, subreddit, authService.getCurrentUser()));
-
-        log.info("save");
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     //полуесение дто 1
     @Transactional(readOnly = true)
-    public PostResponse getPost(Long id) {
+    public ResponseEntity<PostResponse> getPost(Long id) {
+        log.info("getPost");
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostNotFoundException(id.toString()));
-        return postMapper.mapToDto(post);
+        return ResponseEntity.status(HttpStatus.OK).body(postMapper.mapToDto(post));
     }
 
     // все дто поста
     @Transactional(readOnly = true)
-    public List<PostResponse> getAllPosts() {
-        return postRepository.findAll()
-                .stream()
-                .map(postMapper::mapToDto)
-                .collect(toList());
+    public ResponseEntity<List<PostResponse>> getAllPosts() {
+        return ResponseEntity.status(HttpStatus.OK).body(
+                postRepository.findAll()
+                        .stream()
+                        .map(postMapper::mapToDto)
+                        .collect(toList()));
     }
 
     // все посты по лайку
     @Transactional(readOnly = true)
-    public List<PostResponse> getPostsBySubreddit(Long subredditId) {
+    public ResponseEntity<List<PostResponse>> getPostsBySubreddit(Long subredditId) {
+        log.info("getPostsBySubreddit");
         Subreddit subreddit = subredditRepository.findById(subredditId)
                 .orElseThrow(() -> new SubredditNotFoundException(subredditId.toString()));
         List<Post> posts = postRepository.findAllBySubreddit(subreddit);
-        return posts.stream().map(postMapper::mapToDto).collect(toList());
+        return ResponseEntity.status(HttpStatus.OK).body(posts.stream().map(postMapper::mapToDto).collect(toList()));
     }
 
     // все посты поимени
     @Transactional(readOnly = true)
-    public List<PostResponse> getPostsByUsername(String username) {
+    public ResponseEntity<List<PostResponse>> getPostsByUsername(String username) {
+        log.info("getPostsBySubreddit");
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
-        return postRepository.findByUser(user)
+        return ResponseEntity.status(HttpStatus.OK).body(postRepository.findByUser(user)
                 .stream()
                 .map(postMapper::mapToDto)
-                .collect(toList());
+                .collect(toList()));
     }
 }

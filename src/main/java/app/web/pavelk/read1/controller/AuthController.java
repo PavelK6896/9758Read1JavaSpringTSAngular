@@ -15,71 +15,54 @@ import javax.validation.Valid;
 
 import static org.springframework.http.HttpStatus.OK;
 
-@RestController
-@RequestMapping("/api/auth")
-@AllArgsConstructor
-@Slf4j
 //добавляет 4 заголовка
 //  Access-Control-Allow-Origin: *
 //  Vary: Origin
 //  Vary: Access-Control-Request-Method
 //  Vary: Access-Control-Request-Headers
 //@CrossOrigin
+
+@RestController
+@RequestMapping("/api/auth")
+@AllArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
     private final RefreshTokenService refreshTokenService;
 
-    @PostMapping("/signup")//регистрация пренимаем дто
+    //регистрация
+    @PostMapping("/signUp")
     public ResponseEntity<String> signUp(@RequestBody RegisterRequest registerRequest) {
-        //валидация?
-        //проверка на существование?
-      log.info("signup");
-
-        authService.signUp(registerRequest);
-        return new ResponseEntity<>("User Registration Successful",
-                OK);
+        return authService.signUp(registerRequest);
     }
 
     //подтверждение регистрации
     @GetMapping("accountVerification/{token}")
     public ResponseEntity<String> verifyAccount(@PathVariable String token) {
-        authService.verifyAccount(token);
-        return new ResponseEntity<>("Account Activated Successfully", OK); //Учетная Запись Успешно Активирована
+        return authService.verifyAccount(token);
     }
 
-    @PostMapping("/login")//для входа
-    public AuthenticationResponse login(@RequestBody LoginRequest loginRequest) {
-        log.info("login");
+    //для входа
+    @PostMapping("/login")
+    public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginRequest loginRequest) {
         return authService.signIn(loginRequest);
     }
 
-
     //обновление токена
-    @PostMapping("/refresh/token")
     // * Ограничения, определенные для объекта и его свойств, проверяются при проверке
     //This behavior is applied recursively.
-    public AuthenticationResponse refreshTokens(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
+    // токена имя и время жизни обычьного токена
+    @PostMapping("/refresh/token")
+    public ResponseEntity<AuthenticationResponse> refreshTokens(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
         return authService.refreshToken(refreshTokenRequest);
-        //2 токена имя и время жизни обычьного токена
     }
-
-
 
     //для выхода и удаления рефрешь токена
     //нужо передовать рефрешь токен для удаления
+    //Маркер Обновления Успешно Удален
     @PostMapping("/logout")
     public ResponseEntity<String> logout(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) {
-        refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
-        return ResponseEntity.status(OK).body("Refresh Token Deleted Successfully!!");
-        //Маркер Обновления Успешно Удален
+        return refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
     }
-
-
-
-
-
-
-
 
 }

@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/votes/")
 @AllArgsConstructor
-public class VoteController { //Голос
+public class VoteController {
 
     private final VoteService voteService;
 
-    @PostMapping //для простовление лайков
+    //для простовление лайков
+    @PostMapping
     public ResponseEntity<Void> vote(@RequestBody VoteDto voteDto) {
-        voteService.vote(voteDto);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return voteService.vote(voteDto);
     }
 
 

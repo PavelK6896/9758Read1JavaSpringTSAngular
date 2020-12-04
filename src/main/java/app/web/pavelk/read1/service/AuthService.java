@@ -5,6 +5,7 @@ import app.web.pavelk.read1.dto.LoginRequest;
 import app.web.pavelk.read1.dto.RefreshTokenRequest;
 import app.web.pavelk.read1.dto.RegisterRequest;
 import app.web.pavelk.read1.exceptions.SpringRedditException;
+import app.web.pavelk.read1.exceptions.UserAlreadyExists;
 import app.web.pavelk.read1.model.NotificationEmail;
 import app.web.pavelk.read1.model.User;
 import app.web.pavelk.read1.model.VerificationToken;
@@ -13,6 +14,8 @@ import app.web.pavelk.read1.repository.VerificationTokenRepository;
 import app.web.pavelk.read1.security.JwtProvider;
 import app.web.pavelk.read1.service.mail.MailService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,9 +30,12 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.springframework.http.HttpStatus.OK;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
@@ -41,10 +47,11 @@ public class AuthService {
     private final RefreshTokenService refreshTokenService;
 
     @Transactional
-    public void signUp(RegisterRequest registerRequest) {
+    public ResponseEntity<String> signUp(RegisterRequest registerRequest) {
+        log.info("signUp");
         userRepository.findByUsername(registerRequest.getUsername())
                 .ifPresent(user -> {
-                    throw new SpringRedditException("Такой пользователь уже существует");
+                    throw new UserAlreadyExists("Such a user already exists");
                 });
 
         User user = new User();
@@ -62,6 +69,8 @@ public class AuthService {
                 user.getEmail(), "Thank you for signing up to Spring Reddit, " +
                 "please click on the below url to activate your account : " +
                 "http://localhost:8080/api/auth/accountVerification/" + token));
+
+        return ResponseEntity.status(OK).body("User Registration Successful");
     }
 
     //токен для регистрации
@@ -76,10 +85,11 @@ public class AuthService {
         return token;
     }
 
-    public void verifyAccount(String token) {
-        Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
-        //проверка есть ли токен в базе
+    public ResponseEntity<String> verifyAccount(String token) {
+        log.info("verifyAccount");
+        Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);    //проверка есть ли токен в базе
         fetchUserAndEnable(verificationToken.orElseThrow(() -> new SpringRedditException("Invalid Token")));//Недопустимый Токен
+        return ResponseEntity.status(OK).body("Account Activated Successfully");
     }
 
     @Transactional
@@ -96,8 +106,8 @@ public class AuthService {
     }
 
 
-    public AuthenticationResponse signIn(LoginRequest loginRequest) { // вход
-
+    public ResponseEntity<AuthenticationResponse> signIn(LoginRequest loginRequest) { // вход
+        log.info("signIn");
         //создает авторизацию для спринга
         Authentication authenticate = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
@@ -106,15 +116,12 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         String token = jwtProvider.generateToken(authenticate);
 
-        //ответ в дто todo Обернуть в ентити
-        return AuthenticationResponse.builder()
-                .authenticationToken(token)
-                .refreshToken(refreshTokenService.generateRefreshToken().getToken())
-                //todo время отдельно или в токене
-                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
-                .username(loginRequest.getUsername())
-                .build();
-
+        return ResponseEntity.status(OK).body(
+                AuthenticationResponse.builder()
+                        .authenticationToken(token)
+                        .refreshToken(refreshTokenService.generateRefreshToken().getToken())
+                        .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+                        .username(loginRequest.getUsername()).build());
     }
 
     @Transactional(readOnly = true)
@@ -134,8 +141,8 @@ public class AuthService {
 
 
     //обновление токена
-    public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
-
+    public ResponseEntity<AuthenticationResponse> refreshToken(RefreshTokenRequest refreshTokenRequest) {
+        log.info("refreshTokens");
         //поиск токена в дб
         refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
 
@@ -143,11 +150,11 @@ public class AuthService {
         //по рефрешь токену генери новый обычьный токен
         String token = jwtProvider.generateTokenWithUserName(refreshTokenRequest.getUsername());
 
-        return AuthenticationResponse.builder()
+        return ResponseEntity.status(OK).body(AuthenticationResponse.builder()
                 .authenticationToken(token)
                 .refreshToken(refreshTokenRequest.getRefreshToken())
                 .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
                 .username(refreshTokenRequest.getUsername())
-                .build();
+                .build());
     }
 }

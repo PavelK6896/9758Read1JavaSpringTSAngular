@@ -5,15 +5,20 @@ import app.web.pavelk.read1.exceptions.SpringRedditException;
 import app.web.pavelk.read1.model.RefreshToken;
 import app.web.pavelk.read1.repository.RefreshTokenRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.UUID;
 
+import static org.springframework.http.HttpStatus.OK;
+
 @Service
 @AllArgsConstructor
 @Transactional
+@Slf4j
 public class RefreshTokenService {
 
     private final RefreshTokenRepository refreshTokenRepository;
@@ -33,7 +38,9 @@ public class RefreshTokenService {
                 .orElseThrow(() -> new SpringRedditException("Invalid refresh Token"));//Недопустимый токен обновления
     }
 
-    public void deleteRefreshToken(String token) {
+    public ResponseEntity<String> deleteRefreshToken(String token) {
+        log.info("deleteRefreshToken");
         refreshTokenRepository.deleteByToken(token);
+        return ResponseEntity.status(OK).body("Refresh Token Deleted Successfully!!");
     }
 }

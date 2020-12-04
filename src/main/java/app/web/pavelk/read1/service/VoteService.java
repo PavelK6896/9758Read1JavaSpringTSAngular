@@ -9,6 +9,9 @@ import app.web.pavelk.read1.model.Vote;
 import app.web.pavelk.read1.repository.PostRepository;
 import app.web.pavelk.read1.repository.VoteRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +22,7 @@ import static app.web.pavelk.read1.model.VoteType.UPVOTE;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class VoteService {
 
     private final VoteRepository voteRepository;
@@ -26,7 +30,8 @@ public class VoteService {
     private final AuthService authService;
 
     @Transactional//ставим лайк
-    public void vote(VoteDto voteDto) {
+    public ResponseEntity<Void> vote(VoteDto voteDto) {
+        log.info("vote");
         //находим пост
         Post post = postRepository.findById(voteDto.getPostId())
                 .orElseThrow(() -> new PostNotFoundException("Post Not Found with ID - " + voteDto.getPostId()));
@@ -53,6 +58,8 @@ public class VoteService {
         //сохроняем
         voteRepository.save(mapToVote(voteDto, post));
         postRepository.save(post);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     //реобрпзуеться в сущьность

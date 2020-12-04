@@ -36,20 +36,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-          //* Добавляет {@link CorsFilter} для использования. Если Боб по имени corsFilter является
-          //	 * при условии, что используется {@link CorsFilter}. Иначе если corsConfigurationSource является
-          //	 * определено, то используется {@link CorsConfiguration}. В противном случае, если Spring MVC является
-          //	 * на пути к классу используется {@link HandlerMappingIntrospector}.
+                //* Добавляет {@link CorsFilter} для использования. Если Боб по имени corsFilter является
+                //	 * при условии, что используется {@link CorsFilter}. Иначе если corsConfigurationSource является
+                //	 * определено, то используется {@link CorsConfiguration}. В противном случае, если Spring MVC является
+                //	 * на пути к классу используется {@link HandlerMappingIntrospector}.
 
-          //добовляет три заголовка
-          //Vary: Origin
-          //Vary: Access-Control-Request-Method
-          //Vary: Access-Control-Request-Headers
+                //добовляет три заголовка
+                //Vary: Origin
+                //Vary: Access-Control-Request-Method
+                //Vary: Access-Control-Request-Headers
 
 //                .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/","/api/auth/**")
+                .antMatchers("/", "/api/auth/**")
                 .permitAll()
                 .antMatchers(HttpMethod.GET, "/api/subreddit")
                 .permitAll()
@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/api/posts/**")
                 .permitAll()
 
-                 //для свагера
+                //для свагера
                 .antMatchers("/v2/api-docs",
                         "/configuration/ui",
                         "/swagger-resources/**",

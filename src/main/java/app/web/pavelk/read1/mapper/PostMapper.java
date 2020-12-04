@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Optional;
 
 
-
 @Mapper(componentModel = "spring")
 public abstract class PostMapper {
 

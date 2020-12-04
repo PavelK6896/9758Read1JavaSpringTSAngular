@@ -13,28 +13,26 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/subreddit")
 @AllArgsConstructor
-@Slf4j
 public class SubReadController {
 
     private final SubReadService subReadService;
 
-    @PostMapping // оздаеть подписку
+    // оздаеть подписку
+    @PostMapping
     public ResponseEntity<SubredditDto> createSubreddit(@RequestBody SubredditDto subredditDto) {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(subReadService.save(subredditDto));
+        return subReadService.save(subredditDto);
     }
 
-    @GetMapping // вернет все подписки
+    // вернет все подписки
+    @GetMapping
     public ResponseEntity<List<SubredditDto>> getAllSubreddits() {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(subReadService.getAll());
+        return subReadService.getAll();
     }
 
-    @GetMapping("/{id}") // одну подписку
+    // одну подписку
+    @GetMapping("/{id}")
     public ResponseEntity<SubredditDto> getSubreddit(@PathVariable Long id) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(subReadService.getSubreddit(id));
+        return subReadService.getSubreddit(id);
     }
+
 }

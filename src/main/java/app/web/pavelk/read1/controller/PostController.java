@@ -4,13 +4,11 @@ import app.web.pavelk.read1.dto.PostRequest;
 import app.web.pavelk.read1.dto.PostResponse;
 import app.web.pavelk.read1.service.PostService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.springframework.http.ResponseEntity.status;
 
 @RestController
 @RequestMapping("/api/posts/")
@@ -19,29 +17,33 @@ public class PostController {
 
     private final PostService postService;
 
-    @PostMapping//создать
+    //создать
+    @PostMapping
     public ResponseEntity<Void> createPost(@RequestBody PostRequest postRequest) {
-        postService.save(postRequest);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return postService.save(postRequest);
     }
 
-    @GetMapping//все посты
+    //все посты
+    @GetMapping
     public ResponseEntity<List<PostResponse>> getAllPosts() {
-        return status(HttpStatus.OK).body(postService.getAllPosts());
+        return postService.getAllPosts();
     }
 
-    @GetMapping("/{id}")//один пост
+    //один пост
+    @GetMapping("/{id}")
     public ResponseEntity<PostResponse> getPost(@PathVariable Long id) {
-        return status(HttpStatus.OK).body(postService.getPost(id));
+        return postService.getPost(id);
     }
 
-    @GetMapping("by-subreddit/{id}")//посты по подписке
+    //посты по подписке
+    @GetMapping("by-subreddit/{id}")
     public ResponseEntity<List<PostResponse>> getPostsBySubreddit(Long id) {
-        return status(HttpStatus.OK).body(postService.getPostsBySubreddit(id));
+        return postService.getPostsBySubreddit(id);
     }
 
-    @GetMapping("by-user/{name}")//посты по имени
+    //посты по имени
+    @GetMapping("by-user/{name}")
     public ResponseEntity<List<PostResponse>> getPostsByUsername(String username) {
-        return status(HttpStatus.OK).body(postService.getPostsByUsername(username));
+        return postService.getPostsByUsername(username);
     }
 }

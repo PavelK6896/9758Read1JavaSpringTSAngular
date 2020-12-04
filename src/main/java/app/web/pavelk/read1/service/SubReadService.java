@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,28 +28,28 @@ public class SubReadService {
     private final SubredditMapper subredditMapper;
 
     @Transactional
-    public SubredditDto save(SubredditDto subredditDto) {
+    public ResponseEntity<SubredditDto> save(SubredditDto subredditDto) {
+        log.info("createSubreddit");
         Subreddit save = subredditRepository.save(subredditMapper.mapDtoToSubreddit(subredditDto));
         subredditDto.setId(save.getId());
-        return subredditDto;
+        return ResponseEntity.status(HttpStatus.CREATED).body(subredditDto);
     }
 
     @Transactional(readOnly = true)
-    public List<SubredditDto> getAll() {
-        return subredditRepository.findAll()
+    public ResponseEntity<List<SubredditDto>> getAll() {
+        log.info("getAllSubreddits");
+        return ResponseEntity.status(HttpStatus.OK).body(subredditRepository.findAll()
                 .stream()
                 .map(subredditMapper::mapSubredditToDto)
-                .collect(toList());
+                .collect(toList()));
     }
 
-    public SubredditDto getSubreddit(Long id) {
+    public ResponseEntity<SubredditDto> getSubreddit(Long id) {
+        log.info("getSubreddit");
         Subreddit subreddit = subredditRepository.findById(id)
                 .orElseThrow(() -> new SpringRedditException("No subreddit found with ID - " + id));
-        return subredditMapper.mapSubredditToDto(subreddit);
+        return ResponseEntity.status(HttpStatus.OK).body(subredditMapper.mapSubredditToDto(subreddit));
     }
-
-
-
 
 
 ///-----------------------
