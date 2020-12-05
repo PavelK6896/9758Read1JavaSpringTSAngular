@@ -1,0 +1,35 @@
+server:
+  servlet:
+    context-path:
+  port: 8080
+
+spring:
+  profiles:
+    active: "dev"
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+
+  datasource:
+    initialization-mode: always
+
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/read2
+    username: postgres
+    password: 0
+
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    properties:
+      hibernate:
+        format_sql: true
+        ddl-auto: none
+        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+
+jwt:
+  expiration:
+    time: 80000000000000
+
+

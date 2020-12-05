@@ -6,8 +6,7 @@ import app.web.pavelk.read1.exceptions.SpringRedditException;
 import java.util.Arrays;
 
 public enum VoteType {
-    UPVOTE(1), DOWNVOTE(-1),
-    ;
+    UP_VOTE(1), DOWN_VOTE(-1)    ;
 
     private int direction;
 

@@ -16,6 +16,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Entity
 @Builder
+@Table(name = "vote", schema = "post")
 public class Vote {
     @Id
     @GeneratedValue(strategy = IDENTITY)

@@ -15,16 +15,21 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "comment", schema = "post")
 public class Comment {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
+
     @NotEmpty
     private String text;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "postId")
     private Post post;
+
     private Instant createdDate;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "userId")
     private User user;

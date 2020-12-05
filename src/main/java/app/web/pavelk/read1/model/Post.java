@@ -18,18 +18,22 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "post", schema = "client")
+@Table(name = "post", schema = "post")
 public class Post {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long postId;
+
     @NotBlank(message = "Post Name cannot be empty or Null")
     private String postName;
+
     @Nullable
     private String url;
+
     @Nullable
     @Lob
     private String description;
+
     private Integer voteCount = 0;
 
     @ManyToOne(fetch = LAZY)

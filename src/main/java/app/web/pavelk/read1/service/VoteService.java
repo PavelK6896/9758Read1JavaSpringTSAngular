@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static app.web.pavelk.read1.model.VoteType.UPVOTE;
+import static app.web.pavelk.read1.model.VoteType.UP_VOTE;
 
 
 @Service
@@ -47,7 +47,7 @@ public class VoteService {
                     + voteDto.getVoteType() + "'d for this post");
         }
 
-        if (UPVOTE.equals(voteDto.getVoteType())) {
+        if (UP_VOTE.equals(voteDto.getVoteType())) {
             post.setVoteCount(post.getVoteCount() + 1);
         } else {
             post.setVoteCount(post.getVoteCount() - 1);

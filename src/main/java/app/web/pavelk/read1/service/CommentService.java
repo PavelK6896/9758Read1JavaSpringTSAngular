@@ -5,13 +5,12 @@ import app.web.pavelk.read1.dto.CommentsDto;
 import app.web.pavelk.read1.exceptions.PostNotFoundException;
 import app.web.pavelk.read1.mapper.CommentMapper;
 import app.web.pavelk.read1.model.Comment;
-import app.web.pavelk.read1.model.NotificationEmail;
+import app.web.pavelk.read1.dto.NotificationEmail;
 import app.web.pavelk.read1.model.Post;
 import app.web.pavelk.read1.model.User;
 import app.web.pavelk.read1.repository.CommentRepository;
 import app.web.pavelk.read1.repository.PostRepository;
 import app.web.pavelk.read1.repository.UserRepository;
-import app.web.pavelk.read1.service.mail.MailContentBuilder;
 import app.web.pavelk.read1.service.mail.MailService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +34,6 @@ public class CommentService {
     private final AuthService authService;
     private final CommentMapper commentMapper;
     private final CommentRepository commentRepository;
-    private final MailContentBuilder mailContentBuilder;
     private final MailService mailService;
 
     public ResponseEntity<Void> save(CommentsDto commentsDto) {
@@ -45,7 +43,7 @@ public class CommentService {
         Comment comment = commentMapper.map(commentsDto, post, authService.getCurrentUser());
         commentRepository.save(comment);
 
-        String message = mailContentBuilder.build(authService.getCurrentUser() + " posted a comment on your post." + POST_URL);
+        String message = authService.getCurrentUser().getUsername() + " posted a comment on your post." + POST_URL;
         sendCommentNotification(message, post.getUser());
         return ResponseEntity.status(CREATED).build();
     }

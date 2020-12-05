@@ -49,11 +49,11 @@ public abstract class PostMapper {
     }
 
     boolean isPostUpVoted(Post post) {
-        return checkVoteType(post, VoteType.UPVOTE);
+        return checkVoteType(post, VoteType.UP_VOTE);
     }
 
     boolean isPostDownVoted(Post post) {
-        return checkVoteType(post, VoteType.DOWNVOTE);
+        return checkVoteType(post, VoteType.DOWN_VOTE);
     }
 
     private boolean checkVoteType(Post post, VoteType voteType) {

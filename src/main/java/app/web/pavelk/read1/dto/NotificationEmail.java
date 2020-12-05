@@ -1,4 +1,4 @@
-package app.web.pavelk.read1.model;
+package app.web.pavelk.read1.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

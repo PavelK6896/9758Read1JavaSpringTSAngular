@@ -6,7 +6,7 @@ import app.web.pavelk.read1.dto.RefreshTokenRequest;
 import app.web.pavelk.read1.dto.RegisterRequest;
 import app.web.pavelk.read1.exceptions.SpringRedditException;
 import app.web.pavelk.read1.exceptions.UserAlreadyExists;
-import app.web.pavelk.read1.model.NotificationEmail;
+import app.web.pavelk.read1.dto.NotificationEmail;
 import app.web.pavelk.read1.model.User;
 import app.web.pavelk.read1.model.VerificationToken;
 import app.web.pavelk.read1.repository.UserRepository;
@@ -49,24 +49,28 @@ public class AuthService {
     @Transactional
     public ResponseEntity<String> signUp(RegisterRequest registerRequest) {
         log.info("signUp");
-        userRepository.findByUsername(registerRequest.getUsername())
-                .ifPresent(user -> {
-                    throw new UserAlreadyExists("Such a user already exists");
-                });
+        User setUser;
+        Optional<User> byUsername = userRepository.findByUsername(registerRequest.getUsername());
+        if(byUsername.isPresent()){
+            if (byUsername.get().isEnabled()){
+                throw new UserAlreadyExists("Such a user already exists");
+            }else {
+                setUser = byUsername.get();
+            }
+        }else {
+            setUser = new User();
+        }
 
-        User user = new User();
-        user.setUsername(registerRequest.getUsername());
-        user.setEmail(registerRequest.getEmail());
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        user.setCreated(Instant.now());
-        user.setEnabled(false);
+        setUser.setUsername(registerRequest.getUsername());
+        setUser.setEmail(registerRequest.getEmail());
+        setUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        setUser.setCreated(Instant.now());
+        setUser.setEnabled(false);
 
-        userRepository.save(user);
-
-        String token = generateVerificationToken(user);
-
+        userRepository.save(setUser);
+        String token = generateVerificationToken(setUser);
         mailService.sendMail(new NotificationEmail("Please Activate your Account",
-                user.getEmail(), "Thank you for signing up to Spring Reddit, " +
+                setUser.getEmail(), "Thank you for signing up to Spring Reddit, " +
                 "please click on the below url to activate your account : " +
                 "http://localhost:8080/api/auth/accountVerification/" + token));
 
@@ -131,7 +135,6 @@ public class AuthService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
     }
-
 
 
     public ResponseEntity<AuthenticationResponse> refreshToken(RefreshTokenRequest refreshTokenRequest) {
