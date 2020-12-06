@@ -51,3 +51,5 @@ Thumbs.db
 /*.iml
 /src/main/resources/setting1.properties
 /src/main/resources/application-dev.yaml
+/src/test/resources/application-test2.yaml
+/src/test/resources/application-test.yaml

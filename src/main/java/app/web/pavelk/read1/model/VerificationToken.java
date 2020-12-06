@@ -1,6 +1,7 @@
 package app.web.pavelk.read1.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.time.Instant;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
