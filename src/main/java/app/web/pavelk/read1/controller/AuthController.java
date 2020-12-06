@@ -23,12 +23,10 @@ public class AuthController {
     private final AuthService authService;
     private final RefreshTokenService refreshTokenService;
 
-
     @PostMapping("/signUp")
     public ResponseEntity<String> signUp(@RequestBody RegisterRequest registerRequest) {
         return authService.signUp(registerRequest);
     }
-
 
     @GetMapping("accountVerification/{token}")
     public ResponseEntity<String> verifyAccount(@PathVariable String token) {

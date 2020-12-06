@@ -5,84 +5,62 @@ import app.web.pavelk.read1.security.JwtAuthenticationFilter;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
-@RequiredArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
+    @Override
+    public void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+                .csrf().disable()
+                .authorizeRequests()
 
-    //для создания авторизации
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/subreddit").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/posts/").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
+
+                .antMatchers(
+                        "/v2/api-docs",
+                        "/configuration/ui",
+                        "/swagger-resources/**",
+                        "/configuration/security",
+                        "/swagger-ui.html",
+                        "/webjars/**").permitAll()
+
+                .anyRequest().authenticated()
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        httpSecurity.addFilterBefore(jwtAuthenticationFilter,
+                UsernamePasswordAuthenticationFilter.class);
+    }
+
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
-    @Value("${time222}")
-    public String fo333o;
-    @Value("${spring.mail.username}")
-    public String email;
-
-
-    @Override
-    public void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                //* Добавляет {@link CorsFilter} для использования. Если Боб по имени corsFilter является
-                //	 * при условии, что используется {@link CorsFilter}. Иначе если corsConfigurationSource является
-                //	 * определено, то используется {@link CorsConfiguration}. В противном случае, если Spring MVC является
-                //	 * на пути к классу используется {@link HandlerMappingIntrospector}.
-
-                //добовляет три заголовка
-                //Vary: Origin
-                //Vary: Access-Control-Request-Method
-                //Vary: Access-Control-Request-Headers
-
-//                .cors().and()
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/", "/api/auth/**")
-                .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/subreddit")
-                .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/posts/")
-                .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/posts/**")
-                .permitAll()
-
-                //для свагера
-                .antMatchers("/v2/api-docs",
-                        "/configuration/ui",
-                        "/swagger-resources/**",
-                        "/configuration/security",
-                        "/swagger-ui.html",
-                        "/webjars/**")
-                .permitAll()
-
-                .anyRequest()
-                .authenticated();
-
-        httpSecurity.addFilterBefore(jwtAuthenticationFilter,
-                UsernamePasswordAuthenticationFilter.class);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + email);
-    }
-
-    //для создания авторизации
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder.userDetailsService(userDetailsService)

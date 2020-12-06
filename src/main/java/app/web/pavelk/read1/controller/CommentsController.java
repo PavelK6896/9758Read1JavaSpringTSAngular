@@ -16,12 +16,10 @@ public class CommentsController {
 
     private final CommentService commentService;
 
-
     @PostMapping
     public ResponseEntity<Void> createComment(@RequestBody CommentsDto commentsDto) {
         return commentService.save(commentsDto);
     }
-
 
     @GetMapping("/by-post/{postId}")
     public ResponseEntity<List<CommentsDto>> getAllCommentsForPost(@PathVariable Long postId) {
