@@ -4,6 +4,7 @@ import app.web.pavelk.read1.dto.AuthenticationResponse;
 import app.web.pavelk.read1.dto.LoginRequest;
 import app.web.pavelk.read1.dto.RefreshTokenRequest;
 import app.web.pavelk.read1.dto.RegisterRequest;
+import app.web.pavelk.read1.exceptions.InvalidTokenException;
 import app.web.pavelk.read1.exceptions.SpringRedditException;
 import app.web.pavelk.read1.exceptions.UserAlreadyExists;
 import app.web.pavelk.read1.dto.NotificationEmail;
@@ -90,8 +91,8 @@ public class AuthService {
 
     public ResponseEntity<String> verifyAccount(String token) {
         log.info("verifyAccount");
-        Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
-        fetchUserAndEnable(verificationToken.orElseThrow(() -> new SpringRedditException("Invalid Token")));
+        fetchUserAndEnable(verificationTokenRepository.findByToken(token)
+                .orElseThrow(() -> new InvalidTokenException("Invalid verification Token")));
         return ResponseEntity.status(OK).body("Account Activated Successfully");
     }
 
@@ -140,9 +141,7 @@ public class AuthService {
     public ResponseEntity<AuthenticationResponse> refreshToken(RefreshTokenRequest refreshTokenRequest) {
         log.info("refreshTokens");
         refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
-
         String token = jwtProvider.generateTokenWithUserName(refreshTokenRequest.getUsername());
-
         return ResponseEntity.status(OK).body(AuthenticationResponse.builder()
                 .authenticationToken(token)
                 .refreshToken(refreshTokenRequest.getRefreshToken())

@@ -2,12 +2,14 @@ package test.app.web.pavelk.read1.controller;
 
 import app.web.pavelk.read1.Read1;
 import app.web.pavelk.read1.dto.LoginRequest;
+import app.web.pavelk.read1.dto.RefreshTokenRequest;
 import app.web.pavelk.read1.dto.RegisterRequest;
+import app.web.pavelk.read1.model.RefreshToken;
 import app.web.pavelk.read1.model.User;
 import app.web.pavelk.read1.model.VerificationToken;
+import app.web.pavelk.read1.repository.RefreshTokenRepository;
 import app.web.pavelk.read1.repository.UserRepository;
 import app.web.pavelk.read1.repository.VerificationTokenRepository;
-import app.web.pavelk.read1.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Instant;
+import java.util.UUID;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -39,15 +43,16 @@ public class AuthControllerTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private AuthService authService;
-
-    @Autowired
     private VerificationTokenRepository verificationTokenRepository;
+
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private RefreshTokenRepository refreshTokenRepository;
 
 
     @Test
@@ -103,8 +108,9 @@ public class AuthControllerTest {
         mockMvc.perform(
                 get("/api/auth/accountVerification/ljljljljlkjlk"))
                 .andDo(print())
-                .andExpect(status().isInternalServerError())
-                .andExpect(content().string("Invalid Token"));
+                .andExpect(status().is(403))
+                .andExpect(content().string("Invalid verification Token"));
+
     }
 
     @Test
@@ -167,4 +173,66 @@ public class AuthControllerTest {
                 .andExpect(content().string("Bad credentials"));
     }
 
+    @Test
+    public void refreshToken1Right() throws Exception {
+
+        String string = UUID.randomUUID().toString();
+        String username = "asdasdas";
+        refreshTokenRepository.save(RefreshToken.builder()
+                .createdDate(Instant.now()).token(string).build());
+        RefreshTokenRequest refreshTokenRequest = RefreshTokenRequest.builder()
+                .refreshToken(string).username(username).build();
+
+        mockMvc.perform(
+                post("/api/auth/refresh/token")
+                        .content(objectMapper.writeValueAsString(refreshTokenRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().is(200))
+                .andExpect(jsonPath("$.username", is(username)))
+                .andExpect(jsonPath("$.authenticationToken").exists())
+                .andExpect(jsonPath("$.authenticationToken").isString())
+                .andExpect(jsonPath("$.refreshToken").exists())
+                .andExpect(jsonPath("$.expiresAt").exists());
+    }
+
+    @Test
+    public void refreshToken2Wrong() throws Exception {
+
+        String string = UUID.randomUUID().toString();
+        String username = "asdsadsad";
+        RefreshTokenRequest refreshTokenRequest = RefreshTokenRequest.builder()
+                .refreshToken(string).username(username).build();
+
+        mockMvc.perform(
+                post("/api/auth/refresh/token")
+                        .content(objectMapper.writeValueAsString(refreshTokenRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().is(403))
+                .andExpect(content().string("Invalid refresh Token"));
+    }
+
+
+    @Test
+    public void logout1Right() throws Exception {
+
+        String string = UUID.randomUUID().toString();
+        String username = "asdasdas";
+        refreshTokenRepository.save(RefreshToken.builder()
+                .createdDate(Instant.now()).token(string).build());
+        RefreshTokenRequest refreshTokenRequest = RefreshTokenRequest.builder()
+                .refreshToken(string).username(username).build();
+
+        mockMvc.perform(
+                post("/api/auth/logout")
+                        .content(objectMapper.writeValueAsString(refreshTokenRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().is(200))
+                .andExpect(content().string("Refresh Token Deleted Successfully!"));
+
+        assertThat(refreshTokenRepository.findByToken(string)).isEmpty();
+
+    }
 }

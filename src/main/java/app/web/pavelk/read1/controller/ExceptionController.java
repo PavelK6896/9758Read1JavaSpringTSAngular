@@ -1,6 +1,7 @@
 package app.web.pavelk.read1.controller;
 
 
+import app.web.pavelk.read1.exceptions.InvalidTokenException;
 import app.web.pavelk.read1.exceptions.SpringRedditException;
 import app.web.pavelk.read1.exceptions.UserAlreadyExists;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,12 @@ public class ExceptionController {
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<String> exception4(Exception e) {
         log.error(e.getMessage() + " Неверный логин или пароль");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+    }
+
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<String> exception5(Exception e) {
+        log.error(e.getMessage() + " невалидный токен");
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
     }
 }
