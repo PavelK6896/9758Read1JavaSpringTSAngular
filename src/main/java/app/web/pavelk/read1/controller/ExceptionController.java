@@ -6,6 +6,7 @@ import app.web.pavelk.read1.exceptions.UserAlreadyExists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.util.NestedServletException;
@@ -31,5 +32,11 @@ public class ExceptionController {
     public ResponseEntity<String> exception3(Exception e) {
         log.error(e.getMessage() + " Ошибка");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<String> exception4(Exception e) {
+        log.error(e.getMessage() + " Неверный логин или пароль");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
     }
 }

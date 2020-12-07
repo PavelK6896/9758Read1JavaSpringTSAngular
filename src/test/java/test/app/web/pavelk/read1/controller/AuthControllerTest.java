@@ -1,5 +1,7 @@
-package app.web.pavelk.read1.controller;
+package test.app.web.pavelk.read1.controller;
 
+import app.web.pavelk.read1.Read1;
+import app.web.pavelk.read1.dto.LoginRequest;
 import app.web.pavelk.read1.dto.RegisterRequest;
 import app.web.pavelk.read1.model.User;
 import app.web.pavelk.read1.model.VerificationToken;
@@ -12,25 +14,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.Instant;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@SpringBootTest
+@SpringBootTest(classes = Read1.class)
 @ActiveProfiles("test")
 @AutoConfigureMockMvc(addFilters = false)
 public class AuthControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -42,9 +46,12 @@ public class AuthControllerTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 
     @Test
-    public void signUp() throws Exception {
+    public void signUp1Right() throws Exception {
 
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setEmail("sanolo2837@1heizi.com");
@@ -61,7 +68,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void signUp2() throws Exception {
+    public void signUp2Wrong() throws Exception {
 
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setEmail("sanolo2837@1heizi.com");
@@ -76,7 +83,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void accountVerification1() throws Exception {
+    public void accountVerification1Right() throws Exception {
 
         User user = userRepository.save(User.builder().created(Instant.now()).email("a@a.ru")
                 .username("a").password("1").id(1l).build());
@@ -92,7 +99,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void accountVerification2() throws Exception {
+    public void accountVerification2Wrong() throws Exception {
         mockMvc.perform(
                 get("/api/auth/accountVerification/ljljljljlkjlk"))
                 .andDo(print())
@@ -100,5 +107,64 @@ public class AuthControllerTest {
                 .andExpect(content().string("Invalid Token"));
     }
 
+    @Test
+    public void login1AllRight() throws Exception {
+        String password = "dsd$%#@$sfSDF";
+        String username = "aasfdasf423";
+
+        User user = userRepository.save(User.builder().created(Instant.now()).email("a@pvhfha.ru")
+                .username(username).password(passwordEncoder.encode(password)).enabled(true).build());
+        LoginRequest loginRequest = LoginRequest.builder().username(username).password(password).build();
+        boolean matches = passwordEncoder.matches(password, user.getPassword());
+        System.out.println("login1AllRight " + matches);
+
+        mockMvc.perform(
+                post("/api/auth/login")
+                        .content(objectMapper.writeValueAsString(loginRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.username", is(username)))
+                .andExpect(jsonPath("$.authenticationToken").exists())
+                .andExpect(jsonPath("$.authenticationToken").isString())
+                .andExpect(jsonPath("$.refreshToken").exists())
+                .andExpect(jsonPath("$.expiresAt").exists());
+    }
+
+    @Test
+    public void login2WrongPassword() throws Exception {
+        String password = "dsd$%#@wqerwerew";
+        String username = "safsdfs";
+
+        User user = userRepository.save(User.builder().created(Instant.now()).email("a@pvhfha.ru")
+                .username(username).password(passwordEncoder.encode("password")).enabled(true).build());
+        LoginRequest loginRequest = LoginRequest.builder().username(username).password(password).build();
+        boolean matches = passwordEncoder.matches(password, user.getPassword());
+        System.out.println("login2WrongPassword " + matches);
+
+        mockMvc.perform(
+                post("/api/auth/login")
+                        .content(objectMapper.writeValueAsString(loginRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().is(403))
+                .andExpect(content().string("Bad credentials"));
+    }
+
+    @Test
+    public void login3WrongPassword() throws Exception {
+        String password = "trewt43";
+        String username = "dsfsd";
+
+        LoginRequest loginRequest = LoginRequest.builder().username(username).password(password).build();
+
+        mockMvc.perform(
+                post("/api/auth/login")
+                        .content(objectMapper.writeValueAsString(loginRequest))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().is(403))
+                .andExpect(content().string("Bad credentials"));
+    }
 
 }

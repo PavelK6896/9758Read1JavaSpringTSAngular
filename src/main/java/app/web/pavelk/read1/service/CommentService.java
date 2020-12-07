@@ -2,10 +2,10 @@ package app.web.pavelk.read1.service;
 
 
 import app.web.pavelk.read1.dto.CommentsDto;
+import app.web.pavelk.read1.dto.NotificationEmail;
 import app.web.pavelk.read1.exceptions.PostNotFoundException;
 import app.web.pavelk.read1.mapper.CommentMapper;
 import app.web.pavelk.read1.model.Comment;
-import app.web.pavelk.read1.dto.NotificationEmail;
 import app.web.pavelk.read1.model.Post;
 import app.web.pavelk.read1.model.User;
 import app.web.pavelk.read1.repository.CommentRepository;

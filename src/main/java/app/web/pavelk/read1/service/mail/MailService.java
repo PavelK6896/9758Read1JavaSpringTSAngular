@@ -1,8 +1,7 @@
 package app.web.pavelk.read1.service.mail;
 
-import app.web.pavelk.read1.exceptions.SpringRedditException;
 import app.web.pavelk.read1.dto.NotificationEmail;
-import lombok.AllArgsConstructor;
+import app.web.pavelk.read1.exceptions.SpringRedditException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,7 +37,7 @@ public class MailService {
                     "\">";
             mimeMessageHelper.setText(
                     "<html><body>" + stringStyle + "Read 1.</div><div>"
-                    + notificationEmail.getBody() + "</div></body></html>", true);
+                            + notificationEmail.getBody() + "</div></body></html>", true);
         };
 
         try {
