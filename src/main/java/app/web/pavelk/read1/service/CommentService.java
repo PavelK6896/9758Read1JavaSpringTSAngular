@@ -13,6 +13,7 @@ import app.web.pavelk.read1.repository.PostRepository;
 import app.web.pavelk.read1.repository.UserRepository;
 import app.web.pavelk.read1.service.mail.MailService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,10 +26,10 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class CommentService {
-    private static final String POST_URL = "";
+    private String POST_URL = "";
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final AuthService authService;
@@ -36,15 +37,18 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final MailService mailService;
 
-    public ResponseEntity<Void> save(CommentsDto commentsDto) {
+    public ResponseEntity<Void> createComment(CommentsDto commentsDto) {
         log.info("createComment");
         Post post = postRepository.findById(commentsDto.getPostId())
-                .orElseThrow(() -> new PostNotFoundException(commentsDto.getPostId().toString()));
-        Comment comment = commentMapper.map(commentsDto, post, authService.getCurrentUser());
-        commentRepository.save(comment);
+                .orElseThrow(() -> new PostNotFoundException("No post" + commentsDto.getPostId().toString()));
+        User currentUser = authService.getCurrentUser();
+        commentRepository.save(commentMapper.map(commentsDto, post, currentUser));
 
-        String message = authService.getCurrentUser().getUsername() + " posted a comment on your post." + POST_URL;
-        sendCommentNotification(message, post.getUser());
+        if (post.getUrl() != null)
+            POST_URL = post.getUrl();
+
+        String stringMessageMail = currentUser.getUsername() + " posted a comment on your post." + POST_URL;
+        sendCommentNotification(stringMessageMail, post.getUser());
         return ResponseEntity.status(CREATED).build();
     }
 

@@ -40,6 +40,7 @@ public class PostService {
         log.info("save");
         Subreddit subreddit = subredditRepository.findByName(postRequest.getSubredditName())
                 .orElseThrow(() -> new SubredditNotFoundException(postRequest.getSubredditName()));
+
         postRepository.save(postMapper.map(postRequest, subreddit, authService.getCurrentUser()));
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

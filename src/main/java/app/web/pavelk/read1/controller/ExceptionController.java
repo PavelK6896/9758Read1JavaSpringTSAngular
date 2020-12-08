@@ -2,12 +2,14 @@ package app.web.pavelk.read1.controller;
 
 
 import app.web.pavelk.read1.exceptions.InvalidTokenException;
+import app.web.pavelk.read1.exceptions.PostNotFoundException;
 import app.web.pavelk.read1.exceptions.SpringRedditException;
 import app.web.pavelk.read1.exceptions.UserAlreadyExists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.util.NestedServletException;
@@ -45,5 +47,17 @@ public class ExceptionController {
     public ResponseEntity<String> exception5(Exception e) {
         log.error(e.getMessage() + " невалидный токен");
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
+    }
+
+    @ExceptionHandler(PostNotFoundException.class)
+    public ResponseEntity<String> exception6(Exception e) {
+        log.error(e.getMessage() + " пост не найден");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<String> exception7(Exception e) {
+        log.error(e.getMessage() + " пользователь не найден");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 }
