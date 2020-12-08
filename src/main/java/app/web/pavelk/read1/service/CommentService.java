@@ -5,14 +5,12 @@ import app.web.pavelk.read1.dto.CommentsDto;
 import app.web.pavelk.read1.dto.NotificationEmail;
 import app.web.pavelk.read1.exceptions.PostNotFoundException;
 import app.web.pavelk.read1.mapper.CommentMapper;
-import app.web.pavelk.read1.model.Comment;
 import app.web.pavelk.read1.model.Post;
 import app.web.pavelk.read1.model.User;
 import app.web.pavelk.read1.repository.CommentRepository;
 import app.web.pavelk.read1.repository.PostRepository;
 import app.web.pavelk.read1.repository.UserRepository;
 import app.web.pavelk.read1.service.mail.MailService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +38,7 @@ public class CommentService {
     public ResponseEntity<Void> createComment(CommentsDto commentsDto) {
         log.info("createComment");
         Post post = postRepository.findById(commentsDto.getPostId())
-                .orElseThrow(() -> new PostNotFoundException("No post" + commentsDto.getPostId().toString()));
+                .orElseThrow(() -> new PostNotFoundException("No post " + commentsDto.getPostId().toString()));
         User currentUser = authService.getCurrentUser();
         commentRepository.save(commentMapper.map(commentsDto, post, currentUser));
 
@@ -58,7 +56,7 @@ public class CommentService {
 
     public ResponseEntity<List<CommentsDto>> getAllCommentsForPost(Long postId) {
         log.info("getAllCommentsForPost");
-        Post post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException(postId.toString()));
+        Post post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException("Not found post " + postId.toString()));
         return ResponseEntity.status(OK).body(
                 commentRepository.findByPost(post).stream()
                         .map(commentMapper::mapToDto).collect(toList()));
@@ -67,7 +65,7 @@ public class CommentService {
     public ResponseEntity<List<CommentsDto>> getAllCommentsForUser(String userName) {
         log.info("getAllCommentsForUser");
         User user = userRepository.findByUsername(userName)
-                .orElseThrow(() -> new UsernameNotFoundException(userName));
+                .orElseThrow(() -> new UsernameNotFoundException("User name not found " + userName));
         System.out.println("--getAllCommentsForUser");
         return ResponseEntity.status(OK)
                 .body(commentRepository.findAllByUser(user)

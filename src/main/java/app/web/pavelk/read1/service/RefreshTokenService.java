@@ -2,7 +2,6 @@ package app.web.pavelk.read1.service;
 
 
 import app.web.pavelk.read1.exceptions.InvalidTokenException;
-import app.web.pavelk.read1.exceptions.SpringRedditException;
 import app.web.pavelk.read1.model.RefreshToken;
 import app.web.pavelk.read1.repository.RefreshTokenRepository;
 import lombok.AllArgsConstructor;

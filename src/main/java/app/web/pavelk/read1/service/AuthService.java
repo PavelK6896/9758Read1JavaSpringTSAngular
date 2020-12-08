@@ -1,13 +1,9 @@
 package app.web.pavelk.read1.service;
 
-import app.web.pavelk.read1.dto.AuthenticationResponse;
-import app.web.pavelk.read1.dto.LoginRequest;
-import app.web.pavelk.read1.dto.RefreshTokenRequest;
-import app.web.pavelk.read1.dto.RegisterRequest;
+import app.web.pavelk.read1.dto.*;
 import app.web.pavelk.read1.exceptions.InvalidTokenException;
 import app.web.pavelk.read1.exceptions.SpringRedditException;
 import app.web.pavelk.read1.exceptions.UserAlreadyExists;
-import app.web.pavelk.read1.dto.NotificationEmail;
 import app.web.pavelk.read1.model.User;
 import app.web.pavelk.read1.model.VerificationToken;
 import app.web.pavelk.read1.repository.UserRepository;
@@ -52,13 +48,13 @@ public class AuthService {
         log.info("signUp");
         User setUser;
         Optional<User> byUsername = userRepository.findByUsername(registerRequest.getUsername());
-        if(byUsername.isPresent()){
-            if (byUsername.get().isEnabled()){
+        if (byUsername.isPresent()) {
+            if (byUsername.get().isEnabled()) {
                 throw new UserAlreadyExists("Such a user already exists");
-            }else {
+            } else {
                 setUser = byUsername.get();
             }
-        }else {
+        } else {
             setUser = new User();
         }
 
