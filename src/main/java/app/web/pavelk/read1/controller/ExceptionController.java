@@ -1,10 +1,7 @@
 package app.web.pavelk.read1.controller;
 
 
-import app.web.pavelk.read1.exceptions.InvalidTokenException;
-import app.web.pavelk.read1.exceptions.PostNotFoundException;
-import app.web.pavelk.read1.exceptions.SpringRedditException;
-import app.web.pavelk.read1.exceptions.UserAlreadyExists;
+import app.web.pavelk.read1.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,6 +54,18 @@ public class ExceptionController {
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<String> exception7(Exception e) {
         log.error(e.getMessage() + " пользователь не найден");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    @ExceptionHandler(SubredditNotFoundException.class)
+    public ResponseEntity<String> exception8(Exception e) {
+        log.error(e.getMessage() + " Подразделение не найдено");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    public ResponseEntity<String> exception9(Exception e) {
+        log.error(e.getMessage() + " данные не найдены");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 }

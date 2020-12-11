@@ -55,8 +55,8 @@ public class CommentsControllerTest {
     @Autowired
     private SubredditRepository subredditRepository;
 
-    private final String username1 = "aasfdasf423";
-    private final String username2 = "sadasdasd";
+    private final String username1 = "createComment1Right";
+    private final String username2 = "createComment3WrongUsernameNotFoundException";
 
     @Test
     @WithMockUser(username = username1)

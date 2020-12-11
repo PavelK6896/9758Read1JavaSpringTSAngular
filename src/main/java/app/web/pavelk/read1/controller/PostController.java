@@ -19,7 +19,7 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<Void> createPost(@RequestBody PostRequest postRequest) {
-        return postService.save(postRequest);
+        return postService.createPost(postRequest);
     }
 
     @GetMapping
@@ -33,12 +33,12 @@ public class PostController {
     }
 
     @GetMapping("by-subreddit/{id}")
-    public ResponseEntity<List<PostResponse>> getPostsBySubreddit(Long id) {
+    public ResponseEntity<List<PostResponse>> getPostsBySubreddit(@PathVariable Long id) {
         return postService.getPostsBySubreddit(id);
     }
 
     @GetMapping("by-user/{name}")
-    public ResponseEntity<List<PostResponse>> getPostsByUsername(String username) {
-        return postService.getPostsByUsername(username);
+    public ResponseEntity<List<PostResponse>> getPostsByUsername(@PathVariable String name) {
+        return postService.getPostsByUsername(name);
     }
 }

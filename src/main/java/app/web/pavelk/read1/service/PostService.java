@@ -36,10 +36,10 @@ public class PostService {
     private final AuthService authService;
     private final PostMapper postMapper;
 
-    public ResponseEntity<Void> save(PostRequest postRequest) {
-        log.info("save");
+    public ResponseEntity<Void> createPost(PostRequest postRequest) {
+        log.info("createPost");
         Subreddit subreddit = subredditRepository.findByName(postRequest.getSubredditName())
-                .orElseThrow(() -> new SubredditNotFoundException(postRequest.getSubredditName()));
+                .orElseThrow(() -> new SubredditNotFoundException("The division is not found " +  postRequest.getSubredditName()));
 
         postRepository.save(postMapper.map(postRequest, subreddit, authService.getCurrentUser()));
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -49,7 +49,7 @@ public class PostService {
     public ResponseEntity<PostResponse> getPost(Long id) {
         log.info("getPost");
         Post post = postRepository.findById(id)
-                .orElseThrow(() -> new PostNotFoundException(id.toString()));
+                .orElseThrow(() -> new PostNotFoundException("Post not found id " + id.toString()));
         return ResponseEntity.status(HttpStatus.OK).body(postMapper.mapToDto(post));
     }
 
@@ -66,7 +66,7 @@ public class PostService {
     public ResponseEntity<List<PostResponse>> getPostsBySubreddit(Long subredditId) {
         log.info("getPostsBySubreddit");
         Subreddit subreddit = subredditRepository.findById(subredditId)
-                .orElseThrow(() -> new SubredditNotFoundException(subredditId.toString()));
+                .orElseThrow(() -> new SubredditNotFoundException("Subreddit not id " + subredditId.toString()));
         List<Post> posts = postRepository.findAllBySubreddit(subreddit);
         return ResponseEntity.status(HttpStatus.OK).body(posts.stream().map(postMapper::mapToDto).collect(toList()));
     }
@@ -75,7 +75,7 @@ public class PostService {
     public ResponseEntity<List<PostResponse>> getPostsByUsername(String username) {
         log.info("getPostsBySubreddit");
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
+                .orElseThrow(() -> new UsernameNotFoundException("Username Not Found " + username));
         return ResponseEntity.status(HttpStatus.OK).body(postRepository.findByUser(user)
                 .stream()
                 .map(postMapper::mapToDto)
