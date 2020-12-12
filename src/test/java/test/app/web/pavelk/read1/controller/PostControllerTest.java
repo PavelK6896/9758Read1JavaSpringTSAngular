@@ -56,6 +56,14 @@ public class PostControllerTest {
     @Autowired
     private SubredditRepository subredditRepository;
 
+    private void clearBase() {
+        commentRepository.deleteAll();
+        postRepository.deleteAll();
+        subredditRepository.deleteAll();
+        userRepository.deleteAll();
+    }
+
+
     final String username1 = "createPost1Right";
 
     @Test
@@ -87,13 +95,6 @@ public class PostControllerTest {
 
         clearBase();
 
-    }
-
-    private void clearBase() {
-        commentRepository.deleteAll();
-        postRepository.deleteAll();
-        subredditRepository.deleteAll();
-        userRepository.deleteAll();
     }
 
 

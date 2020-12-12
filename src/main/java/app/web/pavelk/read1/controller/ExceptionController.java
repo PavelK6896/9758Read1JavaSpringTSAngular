@@ -68,4 +68,10 @@ public class ExceptionController {
         log.error(e.getMessage() + " данные не найдены");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
+
+    @ExceptionHandler(VoteException.class)
+    public ResponseEntity<String> exception10(Exception e) {
+        log.error(e.getMessage() + " уже проголосовали");
+        return ResponseEntity.status(HttpStatus.GONE).body(e.getMessage());
+    }
 }

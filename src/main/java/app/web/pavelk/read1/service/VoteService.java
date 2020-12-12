@@ -4,6 +4,7 @@ package app.web.pavelk.read1.service;
 import app.web.pavelk.read1.dto.VoteDto;
 import app.web.pavelk.read1.exceptions.PostNotFoundException;
 import app.web.pavelk.read1.exceptions.SpringRedditException;
+import app.web.pavelk.read1.exceptions.VoteException;
 import app.web.pavelk.read1.model.Post;
 import app.web.pavelk.read1.model.Vote;
 import app.web.pavelk.read1.repository.PostRepository;
@@ -39,12 +40,8 @@ public class VoteService {
         Optional<Vote> voteByPostAndUser = voteRepository
                 .findTopByPostAndUserOrderByVoteIdDesc(post, authService.getCurrentUser());
 
-
-        if (voteByPostAndUser.isPresent() &&
-                voteByPostAndUser.get().getVoteType()
-                        .equals(voteDto.getVoteType())) {
-            throw new SpringRedditException("You have already "
-                    + voteDto.getVoteType() + "'d for this post");
+        if (voteByPostAndUser.isPresent() && voteByPostAndUser.get().getVoteType().equals(voteDto.getVoteType())) {
+            throw new VoteException("You have already " + voteDto.getVoteType() + "'d for this post");
         }
 
         if (UP_VOTE.equals(voteDto.getVoteType())) {
@@ -53,11 +50,10 @@ public class VoteService {
             post.setVoteCount(post.getVoteCount() - 1);
         }
 
-
         voteRepository.save(mapToVote(voteDto, post));
         postRepository.save(post);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.ACCEPTED).build();
     }
 
     private Vote mapToVote(VoteDto voteDto, Post post) {

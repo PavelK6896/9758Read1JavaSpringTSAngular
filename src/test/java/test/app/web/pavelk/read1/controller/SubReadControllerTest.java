@@ -35,6 +35,10 @@ public class SubReadControllerTest {
     @Autowired
     private SubredditRepository subredditRepository;
 
+    private void clearBase() {
+        subredditRepository.deleteAll();
+    }
+
     @Test
     public void createSubreddit1Right() throws Exception {
         Long id = 1l;
@@ -48,10 +52,6 @@ public class SubReadControllerTest {
                 .andDo(print())
                 .andExpect(status().is(201));
         clearBase();
-    }
-
-    private void clearBase() {
-        subredditRepository.deleteAll();
     }
 
     @Test
