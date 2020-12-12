@@ -70,6 +70,14 @@ public class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string("User Registration Successful"));
+
+        clearBase();
+    }
+
+    private void clearBase() {
+        verificationTokenRepository.deleteAll();
+        refreshTokenRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
@@ -85,6 +93,8 @@ public class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().isInternalServerError())
                 .andExpect(content().string("rawPassword cannot be null"));
+        clearBase();
+
     }
 
     @Test
@@ -101,6 +111,7 @@ public class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string("Account Activated Successfully"));
+        clearBase();
     }
 
     @Test
@@ -110,7 +121,7 @@ public class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().is(403))
                 .andExpect(content().string("Invalid verification Token"));
-
+        clearBase();
     }
 
     @Test
@@ -135,6 +146,7 @@ public class AuthControllerTest {
                 .andExpect(jsonPath("$.authenticationToken").isString())
                 .andExpect(jsonPath("$.refreshToken").exists())
                 .andExpect(jsonPath("$.expiresAt").exists());
+        clearBase();
     }
 
     @Test
@@ -155,6 +167,7 @@ public class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().is(403))
                 .andExpect(content().string("Bad credentials"));
+        clearBase();
     }
 
     @Test
@@ -171,6 +184,8 @@ public class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().is(403))
                 .andExpect(content().string("Bad credentials"));
+        clearBase();
+
     }
 
     @Test
@@ -194,6 +209,7 @@ public class AuthControllerTest {
                 .andExpect(jsonPath("$.authenticationToken").isString())
                 .andExpect(jsonPath("$.refreshToken").exists())
                 .andExpect(jsonPath("$.expiresAt").exists());
+        clearBase();
     }
 
     @Test
@@ -211,6 +227,7 @@ public class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().is(403))
                 .andExpect(content().string("Invalid refresh Token"));
+        clearBase();
     }
 
 
@@ -233,6 +250,8 @@ public class AuthControllerTest {
                 .andExpect(content().string("Refresh Token Deleted Successfully!"));
 
         assertThat(refreshTokenRepository.findByToken(string)).isEmpty();
+
+        clearBase();
 
     }
 }

@@ -3,6 +3,7 @@ package app.web.pavelk.read1.service;
 
 import app.web.pavelk.read1.dto.SubredditDto;
 import app.web.pavelk.read1.exceptions.SpringRedditException;
+import app.web.pavelk.read1.exceptions.SubredditNotFoundException;
 import app.web.pavelk.read1.mapper.SubredditMapper;
 import app.web.pavelk.read1.model.Subreddit;
 import app.web.pavelk.read1.repository.SubredditRepository;
@@ -28,7 +29,24 @@ public class SubReadService {
     @Transactional
     public ResponseEntity<SubredditDto> save(SubredditDto subredditDto) {
         log.info("createSubreddit");
+
+
+
+
         Subreddit save = subredditRepository.save(subredditMapper.mapDtoToSubreddit(subredditDto));
+
+        System.out.println(save);
+        System.out.println(save);
+        System.out.println(save);
+        System.out.println(save);
+        System.out.println(save);
+        System.out.println(save);
+        System.out.println(save);
+        System.out.println(save);
+        System.out.println(save);
+        System.out.println(save);
+
+
         subredditDto.setId(save.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(subredditDto);
     }
@@ -45,7 +63,7 @@ public class SubReadService {
     public ResponseEntity<SubredditDto> getSubreddit(Long id) {
         log.info("getSubreddit");
         Subreddit subreddit = subredditRepository.findById(id)
-                .orElseThrow(() -> new SpringRedditException("No subreddit found with ID - " + id));
+                .orElseThrow(() -> new SubredditNotFoundException("No subreddit found with ID - " + id));
         return ResponseEntity.status(HttpStatus.OK).body(subredditMapper.mapSubredditToDto(subreddit));
     }
 }

@@ -1,12 +1,11 @@
 package app.web.pavelk.read1.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+
 import java.time.Instant;
 import java.util.List;
 
@@ -24,8 +23,10 @@ public class Subreddit {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    @NonNull
     @NotBlank(message = "Community name is required")
     private String name;
+
 
     @NotBlank(message = "Description is required")
     private String description;

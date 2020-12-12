@@ -41,10 +41,10 @@ public class CommentsControllerTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private UserRepository userRepository;
 
     @Autowired
     private CommentRepository commentRepository;
@@ -83,6 +83,16 @@ public class CommentsControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(201));
+
+        ClearBase();
+
+    }
+
+    private void ClearBase() {
+        commentRepository.deleteAll();
+        postRepository.deleteAll();
+        subredditRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
@@ -101,6 +111,7 @@ public class CommentsControllerTest {
                 .andDo(print())
                 .andExpect(status().is(404))
                 .andExpect(content().string("No post " + postId));
+        ClearBase();
 
     }
 
@@ -124,6 +135,7 @@ public class CommentsControllerTest {
                 .andDo(print())
                 .andExpect(status().is(404))
                 .andExpect(content().string("User name not found " + username2));
+        ClearBase();
     }
 
 
@@ -152,6 +164,7 @@ public class CommentsControllerTest {
                 .andDo(print())
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$", hasSize(2)));
+        ClearBase();
     }
 
     @Test
@@ -161,6 +174,7 @@ public class CommentsControllerTest {
                 .andDo(print())
                 .andExpect(status().is(404))
                 .andExpect(content().string("Not found post " + postId));
+        ClearBase();
 
     }
 
@@ -189,6 +203,7 @@ public class CommentsControllerTest {
                 .andDo(print())
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$", hasSize(2)));
+        ClearBase();
     }
 
     @Test
@@ -200,6 +215,7 @@ public class CommentsControllerTest {
                 .andDo(print())
                 .andExpect(status().is(404))
                 .andExpect(content().string("User name not found " + username1));
+        ClearBase();
 
     }
 

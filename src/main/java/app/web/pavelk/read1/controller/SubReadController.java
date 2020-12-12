@@ -4,8 +4,10 @@ import app.web.pavelk.read1.dto.SubredditDto;
 import app.web.pavelk.read1.service.SubReadService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -16,7 +18,7 @@ public class SubReadController {
     private final SubReadService subReadService;
 
     @PostMapping
-    public ResponseEntity<SubredditDto> createSubreddit(@RequestBody SubredditDto subredditDto) {
+    public ResponseEntity<SubredditDto> createSubreddit(@Validated @RequestBody SubredditDto subredditDto) {
         return subReadService.save(subredditDto);
     }
 

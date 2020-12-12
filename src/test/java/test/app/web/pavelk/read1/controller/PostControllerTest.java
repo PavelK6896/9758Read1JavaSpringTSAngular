@@ -42,10 +42,10 @@ public class PostControllerTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private UserRepository userRepository;
 
     @Autowired
     private PostRepository postRepository;
@@ -83,6 +83,17 @@ public class PostControllerTest {
                 .andExpect(status().is(201));
 
         assertThat(postRepository.findById(postId)).isEmpty();
+
+
+        clearBase();
+
+    }
+
+    private void clearBase() {
+        commentRepository.deleteAll();
+        postRepository.deleteAll();
+        subredditRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
 
@@ -102,6 +113,7 @@ public class PostControllerTest {
                 .andDo(print())
                 .andExpect(status().is(404))
                 .andExpect(content().string("The division is not found " + subredditName));
+        clearBase();
     }
 
     @Test
@@ -124,6 +136,7 @@ public class PostControllerTest {
                 .andExpect(status().is(404));
 
         subredditRepository.delete(subreddit);
+        clearBase();
 
     }
 
@@ -133,9 +146,6 @@ public class PostControllerTest {
     @WithMockUser(username = username2)
     public void getAllPosts1Right() throws Exception {
 
-        commentRepository.deleteAll();
-        postRepository.deleteAll();
-        subredditRepository.deleteAll();
 
         String password1 = "dsd$%#@sdfs";
         Long postId1 = 104l;
@@ -167,6 +177,7 @@ public class PostControllerTest {
                 .andExpect(jsonPath("$[1].subredditName", is("name1")))
                 .andExpect(jsonPath("$[0].id", is(post1.getPostId().intValue())))
                 .andExpect(jsonPath("$[1].id", is(post2.getPostId().intValue())));
+        clearBase();
     }
 
     @Test
@@ -179,6 +190,7 @@ public class PostControllerTest {
                 get("/api/posts/"))
                 .andDo(print())
                 .andExpect(status().is(404));
+        clearBase();
     }
 
     final String username3 = "getPost1Right";
@@ -207,6 +219,7 @@ public class PostControllerTest {
                 .andExpect(jsonPath("$.id", is(post.getPostId().intValue())))
                 .andExpect(jsonPath("$.userName", is(username3)))
                 .andExpect(jsonPath("$.subredditName", is("subreddit1")));
+        clearBase();
 
     }
 
@@ -218,6 +231,7 @@ public class PostControllerTest {
                 .andDo(print())
                 .andExpect(status().is(404))
                 .andExpect(content().string("Post not found id " + postId));
+        clearBase();
     }
 
 
@@ -246,6 +260,7 @@ public class PostControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].postName", is("post")));
+        clearBase();
     }
 
 
@@ -288,6 +303,7 @@ public class PostControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].postName", is("getPostsByUsername1RightP")))
                 .andExpect(jsonPath("$[0].description", is("getPostsByUsername1RightD")));
+        clearBase();
     }
 
 
@@ -299,7 +315,6 @@ public class PostControllerTest {
                 .andDo(print())
                 .andExpect(status().is(404))
                 .andExpect(content().string("Username Not Found " + username7));
-
     }
 
 
