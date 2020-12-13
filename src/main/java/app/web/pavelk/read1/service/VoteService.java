@@ -3,7 +3,6 @@ package app.web.pavelk.read1.service;
 
 import app.web.pavelk.read1.dto.VoteDto;
 import app.web.pavelk.read1.exceptions.PostNotFoundException;
-import app.web.pavelk.read1.exceptions.SpringRedditException;
 import app.web.pavelk.read1.exceptions.VoteException;
 import app.web.pavelk.read1.model.Post;
 import app.web.pavelk.read1.model.Vote;

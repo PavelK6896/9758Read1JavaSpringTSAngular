@@ -39,7 +39,7 @@ public class PostService {
     public ResponseEntity<Void> createPost(PostRequest postRequest) {
         log.info("createPost");
         Subreddit subreddit = subredditRepository.findByName(postRequest.getSubredditName())
-                .orElseThrow(() -> new SubredditNotFoundException("The division is not found " +  postRequest.getSubredditName()));
+                .orElseThrow(() -> new SubredditNotFoundException("The division is not found " + postRequest.getSubredditName()));
 
         postRepository.save(postMapper.map(postRequest, subreddit, authService.getCurrentUser()));
         return ResponseEntity.status(HttpStatus.CREATED).build();

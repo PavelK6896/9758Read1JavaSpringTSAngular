@@ -4,23 +4,23 @@ import {SubredditService} from "../subreddit.service";
 import {throwError} from "rxjs";
 
 @Component({
-  selector: 'app-list-subreddits',
-  templateUrl: './list-subreddits.component.html',
-  styleUrls: ['./list-subreddits.component.css']
+    selector: 'app-list-subreddits',
+    templateUrl: './list-subreddits.component.html',
+    styleUrls: ['./list-subreddits.component.css']
 })
 export class ListSubredditsComponent implements OnInit {
 
-  //получает масив сабскрайберов
-  subreddits: Array<SubredditModel>;
+    //получает масив сабскрайберов
+    subreddits: Array<SubredditModel>;
 
-  constructor(private subredditService: SubredditService) {
-  }
+    constructor(private subredditService: SubredditService) {
+    }
 
-  ngOnInit() {
-    this.subredditService.getAllSubreddits().subscribe(data => {
-      this.subreddits = data;
-    }, error => {
-      throwError(error);
-    })
-  }
+    ngOnInit() {
+        this.subredditService.getAllSubreddits().subscribe(data => {
+            this.subreddits = data;
+        }, error => {
+            throwError(error);
+        })
+    }
 }

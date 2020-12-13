@@ -4,7 +4,10 @@ package test.app.web.pavelk.read1.controller;
 import app.web.pavelk.read1.Read1;
 import app.web.pavelk.read1.dto.VoteDto;
 import app.web.pavelk.read1.model.*;
-import app.web.pavelk.read1.repository.*;
+import app.web.pavelk.read1.repository.PostRepository;
+import app.web.pavelk.read1.repository.SubredditRepository;
+import app.web.pavelk.read1.repository.UserRepository;
+import app.web.pavelk.read1.repository.VoteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,7 +120,6 @@ public class VoteControllerTest {
 
         clearBase();
     }
-
 
 
 }

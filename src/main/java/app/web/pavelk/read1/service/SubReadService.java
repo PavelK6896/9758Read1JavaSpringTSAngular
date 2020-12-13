@@ -2,7 +2,6 @@ package app.web.pavelk.read1.service;
 
 
 import app.web.pavelk.read1.dto.SubredditDto;
-import app.web.pavelk.read1.exceptions.SpringRedditException;
 import app.web.pavelk.read1.exceptions.SubredditNotFoundException;
 import app.web.pavelk.read1.mapper.SubredditMapper;
 import app.web.pavelk.read1.model.Subreddit;
@@ -29,8 +28,6 @@ public class SubReadService {
     @Transactional
     public ResponseEntity<SubredditDto> save(SubredditDto subredditDto) {
         log.info("createSubreddit");
-
-
 
 
         Subreddit save = subredditRepository.save(subredditMapper.mapDtoToSubreddit(subredditDto));

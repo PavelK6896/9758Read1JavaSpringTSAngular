@@ -4,24 +4,20 @@ import {PostService} from "../shared/post.service";
 
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
 
-  posts: Array<PostModel> = [];
+    posts: Array<PostModel> = [];
 
-  constructor(private postService: PostService) {
+    constructor(private postService: PostService) {    }
 
-    //получает все посты выводит на страницу
-    this.postService.getAllPosts().subscribe(post => {
-      this.posts = post;
-    });
-  }
-
-  ngOnInit(): void {
-  }
-
+    ngOnInit(): void {
+        this.postService.getAllPosts().subscribe(p => {
+            this.posts = p;
+        });
+    }
 
 }

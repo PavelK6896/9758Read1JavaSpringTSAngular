@@ -5,26 +5,26 @@ import {PostModel} from "./post-model";
 import {CreatePostPayload} from "../post/create-post/create-post.payload";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class PostService { // для постов
 
-  constructor(private http: HttpClient) {
-  }
+    constructor(private http: HttpClient) {
+    }
 
-  getAllPosts(): Observable<Array<PostModel>> {
-    return this.http.get<Array<PostModel>>('http://localhost:8080/api/posts/');
-  }
+    getAllPosts(): Observable<Array<PostModel>> {
+        return this.http.get<Array<PostModel>>('http://localhost:8080/api/posts/');
+    }
 
-  createPost(postPayload: CreatePostPayload): Observable<any> {
-    return this.http.post('http://localhost:8080/api/posts/', postPayload);
-  }
+    createPost(postPayload: CreatePostPayload): Observable<any> {
+        return this.http.post('http://localhost:8080/api/posts/', postPayload);
+    }
 
-  getPost(id: number): Observable<PostModel> {
-    return this.http.get<PostModel>('http://localhost:8080/api/posts/' + id);
-  }
+    getPost(id: number): Observable<PostModel> {
+        return this.http.get<PostModel>('http://localhost:8080/api/posts/' + id);
+    }
 
-  getAllPostsByUser(name: string): Observable<PostModel[]> {
-    return this.http.get<PostModel[]>('http://localhost:8080/api/posts/by-user/' + name);
-  }
+    getAllPostsByUser(name: string): Observable<PostModel[]> {
+        return this.http.get<PostModel[]>('http://localhost:8080/api/posts/by-user/' + name);
+    }
 }
