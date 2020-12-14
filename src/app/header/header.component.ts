@@ -16,12 +16,6 @@ export class HeaderComponent implements OnInit { // верхнее меню
     }
 
     ngOnInit() {
-        localStorage.setItem("hefsadfasf111", "dsfsfsdfsdfd");
-        localStorage.setItem("sad123122222222222", "dsfsfsdfsdfd");
-        localStorage.setItem("adasd3333333333", "dsfsfsdfsdfd");
-        sessionStorage.setItem("ads111111", "sadasdasda");
-        sessionStorage.setItem("asdas122222222222", "sadasdasda");
-
         this.authService.loggedIn.subscribe((data: boolean) => this.isLoggedIn = data);
         this.authService.username.subscribe((data: string) => this.username = data);
         this.isLoggedIn = this.authService.isLoggedIn();
