@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 
 @AllArgsConstructor
@@ -14,6 +16,9 @@ import javax.validation.constraints.NotBlank;
 @Builder
 public class RefreshTokenRequest {
     @NotBlank
+    @NotNull
+    @Size(min = 2)
     private String refreshToken;
+    @NotNull
     private String username;
 }

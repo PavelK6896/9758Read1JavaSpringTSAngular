@@ -19,12 +19,14 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.time.Instant;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -60,8 +62,8 @@ public class AuthControllerTest {
 
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setEmail("sanolo2837@1heizi.com");
-        registerRequest.setUsername("name123");
-        registerRequest.setPassword("name123");
+        registerRequest.setUsername("name123ddas");
+        registerRequest.setPassword("as!@AS123");
 
         mockMvc.perform(
                 post("/api/auth/signUp")
@@ -91,8 +93,9 @@ public class AuthControllerTest {
                         .content(objectMapper.writeValueAsString(registerRequest))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isInternalServerError())
-                .andExpect(content().string("rawPassword cannot be null"));
+                .andExpect(status().is(400))
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException));
+
         clearBase();
 
     }

@@ -102,6 +102,13 @@
             <version>0.10.5</version>
         </dependency>
 
+        <!--        validator-->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>6.2.0.CR1</version>
+        </dependency>
+
         <!--        mapstruct-->
         <dependency>
             <groupId>org.mapstruct</groupId>
