@@ -55,7 +55,7 @@ describe('HeaderComponent', () => {
 
 
     //провека кнопки профиля
-    it('HeaderComponent 3', () => {
+    it('HeaderComponent 3 goToUserProfile right', () => {
 
         let userName = 'user1'
         component.isLoggedIn = true
@@ -63,11 +63,9 @@ describe('HeaderComponent', () => {
         fixture.detectChanges()
 
         let goToUserProfile = fixture.debugElement.query(By.css('#goToUserProfile'))
-        console.log('****************', goToUserProfile)
 
         let router = fixture.debugElement.injector.get(Router)
         let spy = spyOn(router, 'navigateByUrl')
-        console.log('-------------------')
 
         //прожимем кнопку
         goToUserProfile.triggerEventHandler('click', null)
@@ -85,13 +83,13 @@ describe('HeaderComponent', () => {
         fixture.detectChanges()
 
         let logout = fixture.debugElement.query(By.css('#logout'))
-        console.log('****************', logout)
 
-        console.log('spyOn spyOn')
         let router = fixture.debugElement.injector.get(Router)
         let spy = spyOn(router, 'navigateByUrl')
 
+        //получаем сервис
         let authService = fixture.debugElement.injector.get(AuthService)
+        //мокаем метод сервиса
         let authServiceSpy = spyOn(authService, 'logout')
 
         //прожимем кнопку
@@ -104,7 +102,6 @@ describe('HeaderComponent', () => {
         expect(authServiceSpy).toHaveBeenCalledWith();
         //вызван 1 раз
         expect(authServiceSpy.calls.count()).toBe(1)
-        console.log('==============================')
     });
 
 });
