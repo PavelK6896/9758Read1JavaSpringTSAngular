@@ -15,7 +15,7 @@ class RouterStub {
     }
 }
 
-describe('HeaderComponent', () => {
+describe('HeaderComponent 2', () => {
     let component: HeaderComponent;
     let fixture: ComponentFixture<HeaderComponent>;
 
@@ -37,13 +37,13 @@ describe('HeaderComponent', () => {
     });
 
 
-    it('HeaderComponent 1', () => {
+    it(' 1 init', () => {
         expect(component).toBeTruthy();
     });
 
 
     //проверка изменения имени
-    it('HeaderComponent 2', () => {
+    it(' 2 username', () => {
 
         //изменения в шаблоне
         component.isLoggedIn = true
@@ -55,7 +55,7 @@ describe('HeaderComponent', () => {
 
 
     //провека кнопки профиля
-    it('HeaderComponent 3 goToUserProfile right', () => {
+    it(' 3 goToUserProfile right', () => {
 
         let userName = 'user1'
         component.isLoggedIn = true
@@ -75,7 +75,7 @@ describe('HeaderComponent', () => {
     });
 
     //проверка кнопок меню
-    it('HeaderComponent 4', () => {
+    it(' 4 logout', () => {
 
         let userName = 'user1'
         component.isLoggedIn = true

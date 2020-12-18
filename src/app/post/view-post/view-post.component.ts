@@ -14,6 +14,8 @@ import {CommentService} from "../../comment/comment.service";
 })
 export class ViewPostComponent implements OnInit {
 
+    loadingPost: boolean = false;
+    loadingComment: boolean = false;
     postId: number;
     post: PostModel;
     commentForm: FormGroup;
@@ -23,9 +25,9 @@ export class ViewPostComponent implements OnInit {
     constructor(private postService: PostService, private activateRoute: ActivatedRoute,
                 private commentService: CommentService, private router: Router) {
         this.postId = this.activateRoute.snapshot.params.id;
-
         this.commentForm = new FormGroup({
-            text: new FormControl('', Validators.required)
+            text: new FormControl('',
+                [Validators.required, Validators.minLength(1), Validators.maxLength(250)])
         });
         this.commentPayload = {
             text: '',
@@ -40,6 +42,9 @@ export class ViewPostComponent implements OnInit {
 
     postComment() {
         this.commentPayload.text = this.commentForm.get('text').value;
+        if (this.commentPayload.text.trim().length == 0) {
+            return
+        }
         this.commentService.postComment(this.commentPayload).subscribe(data => {
             this.commentForm.get('text').setValue('');
             this.getCommentsForPost();
@@ -49,16 +54,22 @@ export class ViewPostComponent implements OnInit {
     }
 
     private getPostById() {
-        this.postService.getPost(this.postId).subscribe(data => {
+        this.loadingPost = false;
+        this.postService.getPostById(this.postId).subscribe(data => {
             this.post = data;
+            this.loadingPost = true;
         }, error => {
             throwError(error);
         });
+
+
     }
 
     private getCommentsForPost() {
+        this.loadingComment = false
         this.commentService.getAllCommentsForPost(this.postId).subscribe(data => {
             this.comments = data;
+            this.loadingComment = true
         }, error => {
             throwError(error);
         });

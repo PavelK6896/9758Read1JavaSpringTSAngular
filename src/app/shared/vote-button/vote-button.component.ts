@@ -52,7 +52,18 @@ export class VoteButtonComponent implements OnInit {
     }
 
     private vote() {
+
+
+        console.log(this.post.userName)
+        console.log("22222222222")
+        console.log(this.post)
+        console.log(this.post.id)
+        console.log(this.post.id)
+        console.log(this.post.id)
+
+
         this.votePayload.postId = this.post.id;
+
         this.voteService.vote(this.votePayload).subscribe(() => {
             this.updateVoteDetails();
         }, error => {
@@ -62,9 +73,15 @@ export class VoteButtonComponent implements OnInit {
     }
 
     private updateVoteDetails() {
-        this.postService.getPost(this.post.id).subscribe(post => {
+
+        console.log("dddddddddd")
+        console.log(this.post)
+        console.log(this.post)
+        this.postService.getPostById(this.post.id).subscribe(post => {
             this.post = post;
         });
+
+
     }
 
 }

@@ -11,3 +11,5 @@ export class PostModel {
     upVote: boolean;
     downVote: boolean;
 }
+
+

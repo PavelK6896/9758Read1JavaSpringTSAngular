@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container" *ngIf="loadingPost; else loadingC ">
     <div class="row">
         <hr/>
         <div class="col-md-9">
             <div class="row post">
                 <div class="col-md-1">
-                    <app-vote-button [post]="post"></app-vote-button>
+                    <app-vote-button [post]="this.post"></app-vote-button>
                 </div>
                 <div class="col-md-11">
           <span>
@@ -26,21 +26,31 @@
                                 <textarea class="form-control" [formControlName]="'text'"
                                           placeholder="Your Thoughts?"></textarea>
                             </div>
-                            <button type="submit" class="login float-right">Comment</button>
+
+                            <button
+                                    type="submit"
+                                    class="login float-right"
+                            >Comment
+                            </button>
+
                         </form>
                     </div>
-                    <div style="margin-top: 60px;" *ngFor="let comment of comments">
-                        <div class="comment">
-                            <div class="username">
-                                <a routerLink="/user/comment.username">{{comment.userName}}</a>
+
+                    <div *ngIf="loadingComment; else loadingC">
+                        <div *ngFor="let comment of comments">
+                            <div class="comment">
+                                <div class="username">
+                                    <a routerLink="/user/comment.username">{{comment.username}}</a>
+                                </div>
+                                <div>
+                                    <p>{{comment.duration}}</p>
+                                </div>
+                                <b>{{comment.text}}</b>
                             </div>
-                            <div>
-                                <p>{{comment.duration}}</p>
-                            </div>
-                            <b>{{comment.text}}</b>
+                            <hr/>
                         </div>
-                        <hr/>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -50,3 +60,8 @@
         </div>
     </div>
 </div>
+
+
+<ng-template #loadingC>
+    <p class="text-center">loading...</p>
+</ng-template>

@@ -7,7 +7,7 @@ import {PostModel} from "../shared/post-model";
 import {of} from "rxjs";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 
-describe('HomeComponent', () => {
+describe('HomeComponent 3', () => {
     let component: HomeComponent;
     let fixture: ComponentFixture<HomeComponent>;
     let postService: PostService;
@@ -28,11 +28,11 @@ describe('HomeComponent', () => {
         fixture.detectChanges();
     });
 
-    it('HomeComponent 1 ', () => {
+    it(' 1 init ', () => {
         expect(component).toBeTruthy();
     });
 
-    it('HomeComponent 2 ', () => {
+    it(' 2 getAllPosts ', () => {
 
         let postModel1: PostModel = {
             id: 1,
@@ -70,6 +70,7 @@ describe('HomeComponent', () => {
         // fixture.detectChanges()
         expect(component.posts).toEqual(postsTest)
 
+        //проверям наличие компонентов
         const compiled = fixture.debugElement.nativeElement;
         expect(compiled.querySelector('app-post-tile')).not.toBe(null);
         expect(compiled.querySelector('app-side-bar')).not.toBe(null);

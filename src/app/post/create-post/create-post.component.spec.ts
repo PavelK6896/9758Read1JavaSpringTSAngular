@@ -19,7 +19,7 @@ class RouterStub {
 }
 
 
-describe('CreatePostComponent', () => {
+describe('CreatePostComponent 4', () => {
     let component: CreatePostComponent;
     let fixture: ComponentFixture<CreatePostComponent>;
     let postService: PostService
@@ -40,12 +40,13 @@ describe('CreatePostComponent', () => {
         fixture.detectChanges();
     });
 
-    it('CreatePostComponent 1', () => {
+    it(' 1 init ', () => {
         expect(component).toBeTruthy();
         expect(component).toBeDefined();
     });
 
-    it('CreatePostComponent 2 discardPost right', () => {
+    //тест кнопки
+    it(' 2 discardPost right', () => {
         //получаем кнопку
         let discardPost = fixture.debugElement.query(By.css('#discardPost'))
         //получаем роутер по интерфейсу
@@ -60,7 +61,7 @@ describe('CreatePostComponent', () => {
         expect(spyRouter).toHaveBeenCalledWith('')
     });
 
-    it('CreatePostComponent 3 createPost right', () => {
+    it(' 3 createPost right', () => {
         //получаем кнопку
         let createPost: DebugElement = fixture.debugElement.query(By.css('#createPost'))
         let form: DebugElement = fixture.debugElement.query(By.css('form'));
