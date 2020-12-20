@@ -15,7 +15,7 @@ input.ng-invalid.ng-touched {
     border: 1px solid red;
 }
 
-.login,
+.loginButton,
 .sign-up {
     background-color: #0079D3;
     border-color: #0079D3;

@@ -11,9 +11,6 @@ import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {By} from "@angular/platform-browser";
 
 class RouterStub {
-    navigate(path: string[]) {
-    }
-
     navigateByUrl(url: string) {
     }
 }
@@ -52,10 +49,7 @@ describe('ViewPostComponent 5', () => {
             declarations: [ViewPostComponent],
             providers: [PostService, CommentService,
                 {provide: Router, useClass: RouterStub},
-                {
-                    provide: ActivatedRoute,
-                    useClass: ActivatedRouteStub
-                },
+                {provide: ActivatedRoute, useClass: ActivatedRouteStub},
             ],
             imports: [HttpClientModule],
             schemas: [NO_ERRORS_SCHEMA]
@@ -77,6 +71,10 @@ describe('ViewPostComponent 5', () => {
     });
 
     it('2 content ', () => {
+
+        component.loadingPost = true
+        component.loadingComment = true
+        fixture.detectChanges();
 
         //проверка вставленого слова
         let postUrl = fixture.debugElement.query(By.css('.post-url')).nativeElement.innerText

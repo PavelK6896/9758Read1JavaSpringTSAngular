@@ -30,7 +30,7 @@ export class AuthService {
 
     //сохроняем даные пользователя
     login(loginRequestPayload: LoginRequestPayload): Observable<boolean> {
-        return this.httpClient.post<LoginResponse>('http://localhost:8080/api/auth/login',
+        let booleanObservable = this.httpClient.post<LoginResponse>('http://localhost:8080/api/auth/login',
             loginRequestPayload).pipe(map(data => {
 
 
@@ -44,6 +44,7 @@ export class AuthService {
             this.username.emit(data.username);
             return true;
         }));
+        return booleanObservable;
     }
 
 

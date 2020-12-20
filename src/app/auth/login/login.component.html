@@ -5,7 +5,7 @@
             <div class="card">
                 <div class="card-header" style="text-align: center"><h4>Login</h4></div>
                 <div class="card-body">
-                    <form [formGroup]="loginForm" (ngSubmit)="login()">
+                    <form [formGroup]="loginForm">
                         <div class="form-group row">
                             <label for="user_name" class="col-md-4 col-form-label text-md-right">Username</label>
                             <div class="col-md-6">
@@ -33,7 +33,7 @@
 
                         <div class="col-md-6 offset-md-4">
                             <div class="d-flex flex-column align-content-end justify-content-end align-items-end">
-                                <button type="submit" class="login">Log In</button>
+                                <button type="submit" (click)="login()" class="loginButton">Log In</button>
                                 <br/>
                                 <div>New User? <a routerLink="/sign-up">Sign Up</a></div>
                             </div>

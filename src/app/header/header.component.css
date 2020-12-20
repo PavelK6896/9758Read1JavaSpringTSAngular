@@ -18,7 +18,7 @@ header {
     text-decoration: none;
 }
 
-.login, .sign-up {
+.loginButton, .sign-up {
     background-color: transparent;
     border-color: #0079D3;
     color: #0079D3;
