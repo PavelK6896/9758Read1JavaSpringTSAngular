@@ -31,13 +31,13 @@ export class SignupComponent implements OnInit {
         });
     }
 
-    signup() {
+    signUp() {
 
         this.signupRequestPayload.email = this.signupForm.get('email').value;
         this.signupRequestPayload.username = this.signupForm.get('username').value;
         this.signupRequestPayload.password = this.signupForm.get('password').value;
 
-        this.authService.signup(this.signupRequestPayload)
+        this.authService.signUp(this.signupRequestPayload)
             .subscribe(data => {
                 console.log(data)
                 this.router.navigate(['/login'], //редирект на логин

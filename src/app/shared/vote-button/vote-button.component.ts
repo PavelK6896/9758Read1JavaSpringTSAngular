@@ -32,7 +32,7 @@ export class VoteButtonComponent implements OnInit {
             voteType: undefined,
             postId: undefined
         }
-        this.authService.loggedIn.subscribe((data: boolean) => this.isLoggedIn = data);
+        this.authService.loggedInEmitter.subscribe((data: boolean) => this.isLoggedIn = data);
     }
 
     ngOnInit(): void {

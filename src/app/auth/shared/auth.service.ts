@@ -11,9 +11,10 @@ import {map, tap} from "rxjs/operators";
 })
 export class AuthService {
 
-    //@Output () - функция декоратора, маркирующая свойство как путь для данных, чтобы отправиться от ребенка на родитель.
-    @Output() loggedIn: EventEmitter<boolean> = new EventEmitter();
-    @Output() username: EventEmitter<string> = new EventEmitter();
+    //@Output () - функция декоратора, маркирующая свойство как путь для данных,
+    // чтобы отправиться от ребенка на родитель.
+    @Output() loggedInEmitter: EventEmitter<boolean> = new EventEmitter();
+    @Output() usernameEmitter: EventEmitter<string> = new EventEmitter();
 
     refreshTokenPayload = {
         refreshToken: this.getRefreshToken(),
@@ -23,28 +24,25 @@ export class AuthService {
     constructor(private httpClient: HttpClient) {
     }
 
-    signup(signupRequestPayload: SignupRequestPayload): Observable<any> {
+    signUp(signUpRequestPayload: SignupRequestPayload): Observable<any> {
         return this.httpClient.post('http://localhost:8080/api/auth/signUp',
-            signupRequestPayload, {responseType: 'text'});
+            signUpRequestPayload, {responseType: 'text'});
     }
 
     //сохроняем даные пользователя
     login(loginRequestPayload: LoginRequestPayload): Observable<boolean> {
-        let booleanObservable = this.httpClient.post<LoginResponse>('http://localhost:8080/api/auth/login',
+        return this.httpClient.post<LoginResponse>('http://localhost:8080/api/auth/login',
             loginRequestPayload).pipe(map(data => {
 
-
-            console.log("login", data)
             localStorage.setItem('authenticationToken', data.authenticationToken);
             localStorage.setItem('username', data.username);
             localStorage.setItem('refreshToken', data.refreshToken);
             localStorage.setItem('expiresAt', data.expiresAt.toString());
 
-            this.loggedIn.emit(true);
-            this.username.emit(data.username);
+            this.loggedInEmitter.emit(true);
+            this.usernameEmitter.emit(data.username);
             return true;
         }));
-        return booleanObservable;
     }
 
 
@@ -66,7 +64,7 @@ export class AuthService {
         this.httpClient.post('http://localhost:8080/api/auth/logout', this.refreshTokenPayload,
             {responseType: 'text'})
             .subscribe(data => {
-                console.log(data);
+
             }, error => {
                 throwError(error);
             })
