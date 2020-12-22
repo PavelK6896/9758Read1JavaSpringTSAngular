@@ -12,11 +12,11 @@ import {ToastrService} from "ngx-toastr";
 })
 export class SignupComponent implements OnInit {
 
-    signupRequestPayload: SignupRequestPayload;
-    signupForm: FormGroup; // форма для регистрации
+    signUpRequestPayload: SignupRequestPayload;
+    signUpForm: FormGroup; // форма для регистрации
 
-    constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) {
-        this.signupRequestPayload = {
+    constructor(private authService: AuthService, private router: Router, private toastrService: ToastrService) {
+        this.signUpRequestPayload = {
             username: '',
             email: '',
             password: ''
@@ -24,7 +24,7 @@ export class SignupComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.signupForm = new FormGroup({ // форма со встроиной валидацией
+        this.signUpForm = new FormGroup({
             username: new FormControl('', Validators.required),
             email: new FormControl('', [Validators.required, Validators.email]),
             password: new FormControl('', Validators.required),
@@ -33,19 +33,16 @@ export class SignupComponent implements OnInit {
 
     signUp() {
 
-        this.signupRequestPayload.email = this.signupForm.get('email').value;
-        this.signupRequestPayload.username = this.signupForm.get('username').value;
-        this.signupRequestPayload.password = this.signupForm.get('password').value;
+        this.signUpRequestPayload.email = this.signUpForm.get('email').value;
+        this.signUpRequestPayload.username = this.signUpForm.get('username').value;
+        this.signUpRequestPayload.password = this.signUpForm.get('password').value;
 
-        this.authService.signUp(this.signupRequestPayload)
+        this.authService.signUp(this.signUpRequestPayload)
             .subscribe(data => {
-                console.log(data)
-                this.router.navigate(['/login'], //редирект на логин
-                    {queryParams: {registered: 'true'}});
+                this.toastrService.success('success');
+                this.router.navigate(['/login'], {queryParams: {registered: 'true'}});
             }, error => {
-                console.log(error);
-                this.toastr.error('Registration Failed! Please try again'); //анимация
-                //Регистрация Не Удалась! Пожалуйста, попробуйте еще раз
+                this.toastrService.error('Registration Failed! Please try again');
             });
     }
 

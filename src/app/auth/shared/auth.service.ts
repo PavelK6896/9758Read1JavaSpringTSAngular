@@ -51,11 +51,16 @@ export class AuthService {
             this.refreshTokenPayload)
             //труба//кран
             .pipe(tap(response => {
+
+                    console.log("----------------------------------------")
+                    console.log("----------------------------------------")
+                    console.log("----------------------------------------")
                     localStorage.removeItem('authenticationToken');
                     localStorage.removeItem('expiresAt');
                     //обновляем токен
                     localStorage.setItem('authenticationToken', response.authenticationToken);
                     localStorage.setItem('expiresAt', response.expiresAt.toString());
+
                 }
             ));
     }

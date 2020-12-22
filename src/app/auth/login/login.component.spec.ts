@@ -31,7 +31,7 @@ class ToastrServiceSub {
     }
 }
 
-describe('LoginComponent', () => {
+describe('LoginComponent 10 ', () => {
     let component: LoginComponent;
     let fixture: ComponentFixture<LoginComponent>;
 
@@ -72,11 +72,13 @@ describe('LoginComponent', () => {
             password: new FormControl('dd', Validators.required)
         });
         fixture.detectChanges();
-        let auth = TestBed.get(AuthService)
+
+        let auth = TestBed.inject(AuthService)
         let spyAuth = spyOn(auth, 'login').and.returnValue(of(true))
         let loginButton = fixture.debugElement.query(By.css('.loginButton'))
         let router = fixture.debugElement.injector.get(Router)
         let spyRouter = spyOn(router, 'navigateByUrl')
+
         fixture.detectChanges();
         loginButton.triggerEventHandler('click', null)
         expect(spyAuth).toHaveBeenCalledWith({username: 'dd', password: 'dd'})
