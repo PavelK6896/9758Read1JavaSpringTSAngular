@@ -46,7 +46,7 @@ export class AuthService {
     }
 
 
-    refreshToken() {
+    refreshToken(): Observable<any> {
         return this.httpClient.post<LoginResponse>('http://localhost:8080/api/auth/refresh/token',
             this.refreshTokenPayload)
             //труба//кран

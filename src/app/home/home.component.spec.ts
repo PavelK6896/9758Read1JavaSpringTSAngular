@@ -6,6 +6,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {PostModel} from "../shared/post-model";
 import {of} from "rxjs";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('HomeComponent 3', () => {
     let component: HomeComponent;
@@ -16,7 +17,7 @@ describe('HomeComponent 3', () => {
         await TestBed.configureTestingModule({
             declarations: [HomeComponent],
             providers: [PostService],
-            imports: [HttpClientModule],
+            imports: [HttpClientTestingModule],
             schemas: [NO_ERRORS_SCHEMA]
         })
             .compileComponents();
@@ -41,7 +42,7 @@ describe('HomeComponent 3', () => {
             description: "d",
             voteCount: 1,
             userName: "user",
-            subredditName: "sub",
+            subReadName: "sub",
             commentCount: 1,
             duration: "dur",
             upVote: false,
@@ -55,7 +56,7 @@ describe('HomeComponent 3', () => {
             description: "d2",
             voteCount: 1,
             userName: "user",
-            subredditName: "sub",
+            subReadName: "sub",
             commentCount: 1,
             duration: "dur",
             upVote: false,

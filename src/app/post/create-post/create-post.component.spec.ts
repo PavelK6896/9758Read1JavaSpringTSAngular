@@ -8,7 +8,8 @@ import {By} from "@angular/platform-browser";
 import {PostService} from "../../shared/post.service";
 import {CreatePostPayload} from "./create-post.payload";
 import {of} from "rxjs";
-import {DebugElement} from "@angular/core";
+import {DebugElement, NO_ERRORS_SCHEMA} from "@angular/core";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 class RouterStub {
     navigate(path: string[]) {
@@ -29,7 +30,8 @@ describe('CreatePostComponent 4', () => {
             declarations: [CreatePostComponent],
             providers: [PostService, SubredditService,
                 {provide: Router, useClass: RouterStub}],
-            imports: [HttpClientModule]
+            imports: [HttpClientTestingModule],
+            schemas: [NO_ERRORS_SCHEMA]
         })
             .compileComponents();
     });
@@ -62,44 +64,27 @@ describe('CreatePostComponent 4', () => {
     });
 
     it(' 3 createPost right', () => {
-        //получаем кнопку
-        let createPost: DebugElement = fixture.debugElement.query(By.css('#createPost'))
-        let form: DebugElement = fixture.debugElement.query(By.css('form'));
-
-        //получаем роутер по интерфейсу
-        let router = fixture.debugElement.injector.get(Router)
-        //мокае роутер
-        let spyOnRouter = spyOn(router, 'navigateByUrl')
-        //получаем сервис
-        let postService = fixture.debugElement.injector.get(PostService)
-        //мокаем метод сервиса
-
         let postPayload1: CreatePostPayload = {
             postName: "name",
-            subredditName: "sub",
+            subReadName: "sub",
             url: "url",
             description: "d"
         }
+        let router = TestBed.inject(Router)
+        let postService = TestBed.inject(PostService)
+        let createPost = fixture.debugElement.query(By.css('#createPost'))
 
-        let spyOnPostService = spyOn(postService, 'createPost')
-        spyOnPostService.and.returnValue(of(postPayload1))
 
-        //--
-        //click button
+        let spyPostService = spyOn(postService, 'createPost')
+        spyPostService.and.returnValue(of(postPayload1))
+        let spyRouter = spyOn(router, 'navigateByUrl')
+
         createPost.triggerEventHandler('click', null)
-        // form.triggerEventHandler('submit', null)
-        // fixture.detectChanges();
-        // component.createPost()
 
-        //--
-        //чекаем роутер
-        expect(spyOnRouter).toHaveBeenCalledWith('')
-        //чек сервис вызван
-        expect(spyOnPostService).toHaveBeenCalled();
-        //вызван с пораметрами
-        expect(spyOnPostService).toHaveBeenCalledWith(component.postPayload);
-        //вызван 1 раз
-        expect(spyOnPostService.calls.count()).toBe(1)
+        expect(spyRouter).toHaveBeenCalledWith('')
+        expect(spyPostService).toHaveBeenCalled();
+        expect(spyPostService).toHaveBeenCalledWith(component.postPayload);
+        expect(spyPostService.calls.count()).toBe(1)
 
     });
 

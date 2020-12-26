@@ -1,6 +1,6 @@
 export class CreatePostPayload { // для создания поста
     postName: string;
-    subredditName?: string;
+    subReadName?: string;
     url?: string;
     description: string;
 }

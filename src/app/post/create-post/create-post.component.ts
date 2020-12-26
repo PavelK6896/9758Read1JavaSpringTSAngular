@@ -1,54 +1,70 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SubredditModel} from "../../subreddit/subreddit-response";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {CreatePostPayload} from "./create-post.payload";
 import {Router} from "@angular/router";
 import {PostService} from "../../shared/post.service";
 import {SubredditService} from "../../subreddit/subreddit.service";
-import {throwError} from "rxjs";
+import {Subscription, throwError} from "rxjs";
 
 @Component({
     selector: 'app-create-post',
     templateUrl: './create-post.component.html',
     styleUrls: ['./create-post.component.css']
 })
-export class CreatePostComponent implements OnInit {
+export class CreatePostComponent implements OnInit, OnDestroy {
 
     createPostForm: FormGroup;
     postPayload: CreatePostPayload;
-    subreddits: Array<SubredditModel>;
+    subRead: Array<SubredditModel>;
 
-    constructor(private router: Router, private postService: PostService,
+    getAllSubReadSub: Subscription
+    createPostSub: Subscription
+
+    constructor(private router: Router,
+                private postService: PostService,
                 private subredditService: SubredditService) {
+    }
+
+    ngOnInit() {
         this.postPayload = {
             postName: '',
             url: '',
             description: '',
-            subredditName: ''
+            subReadName: ''
         }
-    }
 
-    ngOnInit() {
         this.createPostForm = new FormGroup({
             postName: new FormControl('', Validators.required),
-            subredditName: new FormControl('', Validators.required),
+            subReadName: new FormControl('', Validators.required),
             url: new FormControl('', Validators.required),
             description: new FormControl('', Validators.required),
         });
-        this.subredditService.getAllSubreddits().subscribe((data) => {
-            this.subreddits = data;
+
+        this.getAllSubReadSub = this.subredditService.getAllSubreddits().subscribe((data) => {
+            this.subRead = data;
         }, error => {
             throwError(error);
         });
+
+    }
+
+    ngOnDestroy(): void {
+        if (this.getAllSubReadSub) {
+            this.getAllSubReadSub.unsubscribe()
+        }
+        if (this.createPostSub) {
+            this.createPostSub.unsubscribe()
+        }
     }
 
     createPost() {
         this.postPayload.postName = this.createPostForm.get('postName').value;
-        this.postPayload.subredditName = this.createPostForm.get('subredditName').value;
+        this.postPayload.subReadName = this.createPostForm.get('subReadName').value;
         this.postPayload.url = this.createPostForm.get('url').value;
         this.postPayload.description = this.createPostForm.get('description').value;
 
-        this.postService.createPost(this.postPayload).subscribe((data) => {
+        this.createPostSub = this.postService.createPost(this.postPayload).subscribe((data) => {
             this.router.navigateByUrl('');
         }, error => {
             throwError(error);
@@ -58,4 +74,6 @@ export class CreatePostComponent implements OnInit {
     discardPost() {
         this.router.navigateByUrl('');
     }
+
+
 }

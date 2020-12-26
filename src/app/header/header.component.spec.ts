@@ -5,6 +5,8 @@ import {AuthService} from "../auth/shared/auth.service";
 import {Router} from "@angular/router";
 import {HttpClientModule} from "@angular/common/http";
 import {By} from "@angular/platform-browser";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 
 class RouterStub {
@@ -25,7 +27,8 @@ describe('HeaderComponent 2', () => {
             providers: [AuthService,
                 {provide: Router, useClass: RouterStub}
             ],
-            imports: [HttpClientModule]
+            imports: [HttpClientTestingModule],
+            schemas: [NO_ERRORS_SCHEMA]
         })
             .compileComponents();
     });

@@ -8,6 +8,8 @@ import {ToastrService} from "ngx-toastr";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {of} from "rxjs";
 import {By} from "@angular/platform-browser";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 class RouterStub {
     navigate(commands: any[], extras?: NavigationExtras) {
@@ -34,7 +36,8 @@ describe('SignupComponent 12', () => {
                 {provide: Router, useClass: RouterStub},
                 {provide: ToastrService, useClass: ToastrServiceSub},
             ],
-            imports: [HttpClientModule]
+            imports: [HttpClientTestingModule],
+            schemas: [NO_ERRORS_SCHEMA]
         })
             .compileComponents();
     });

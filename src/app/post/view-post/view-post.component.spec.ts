@@ -9,6 +9,7 @@ import {of} from "rxjs";
 import {PostModel} from "../../shared/post-model";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {By} from "@angular/platform-browser";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 class RouterStub {
     navigateByUrl(url: string) {
@@ -36,7 +37,7 @@ describe('ViewPostComponent 5', () => {
         description: "d",
         voteCount: 1,
         userName: "user",
-        subredditName: "subredditName1",
+        subReadName: "subReadName1",
         commentCount: 1,
         duration: "dur",
         upVote: false,
@@ -51,7 +52,7 @@ describe('ViewPostComponent 5', () => {
                 {provide: Router, useClass: RouterStub},
                 {provide: ActivatedRoute, useClass: ActivatedRouteStub},
             ],
-            imports: [HttpClientModule],
+            imports: [HttpClientTestingModule],
             schemas: [NO_ERRORS_SCHEMA]
         })
             .compileComponents();
@@ -78,7 +79,7 @@ describe('ViewPostComponent 5', () => {
 
         //проверка вставленого слова
         let postUrl = fixture.debugElement.query(By.css('.post-url')).nativeElement.innerText
-        expect(postUrl).toBe(postModel1.subredditName)
+        expect(postUrl).toBe(postModel1.subReadName)
 
         //проверка вставленого слова
         let username = fixture.debugElement.query(By.css('.username')).nativeElement.innerText
