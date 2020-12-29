@@ -11,14 +11,14 @@ export class CommentService {
     constructor(private httpClient: HttpClient) {
     }
 
+    postComment(commentPayload: CommentPayload): Observable<[]> {
+        console.log("postComment")
+        return this.httpClient.post<any>('http://localhost:8080/api/comments/', commentPayload);
+    }
+
     getAllCommentsForPost(postId: number): Observable<CommentPayload[]> {
         console.log("getAllCommentsForPost")
         return this.httpClient.get<CommentPayload[]>('http://localhost:8080/api/comments/by-post/' + postId);
-    }
-
-    postComment(commentPayload: CommentPayload): Observable<any> {
-        console.log("postComment")
-        return this.httpClient.post<any>('http://localhost:8080/api/comments/', commentPayload);
     }
 
     getAllCommentsByUser(name: string): Observable<CommentPayload[]> {
