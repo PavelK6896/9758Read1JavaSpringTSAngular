@@ -52,6 +52,12 @@ export class TokenInterceptor implements HttpInterceptor {//Перехватчи
 
     }
 
+    //добавить токен в заголовки
+    addToken(req: HttpRequest<any>, jwtToken: any) {
+        return req.clone({
+            headers: req.headers.set('Authorization', 'Bearer ' + jwtToken)
+        });
+    }
 
     //справляться
     private handleAuthErrors(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -81,14 +87,6 @@ export class TokenInterceptor implements HttpInterceptor {//Перехватчи
                 )
             );
         }
-    }
-
-
-    //добавить токен в заголовки
-    addToken(req: HttpRequest<any>, jwtToken: any) {
-        return req.clone({
-            headers: req.headers.set('Authorization', 'Bearer ' + jwtToken)
-        });
     }
 
 }

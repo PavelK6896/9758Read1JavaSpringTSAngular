@@ -3,7 +3,6 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {LoginComponent} from './login.component';
 import {AuthService} from "../shared/auth.service";
 import {ActivatedRoute, Params, Router} from "@angular/router";
-import {HttpClientModule} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
 import {of, Subject} from "rxjs";
 import {By} from "@angular/platform-browser";
@@ -19,12 +18,12 @@ class RouterStub {
 class ActivatedRouteStub {
     private subject = new Subject<Params>();
 
-    push(params: Params) {
-        this.subject.next(params)
-    }
-
     get queryParams() {
         return this.subject.asObservable()
+    }
+
+    push(params: Params) {
+        this.subject.next(params)
     }
 }
 
@@ -33,7 +32,7 @@ class ToastrServiceSub {
     }
 }
 
-describe('LoginComponent 10 ', () => {
+describe('LoginComponent 2', () => {
     let component: LoginComponent;
     let fixture: ComponentFixture<LoginComponent>;
 

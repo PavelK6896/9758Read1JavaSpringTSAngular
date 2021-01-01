@@ -1,7 +1,7 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {SignupComponent} from './signup.component';
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {AuthService} from "../shared/auth.service";
 import {NavigationExtras, Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
@@ -25,7 +25,7 @@ class ToastrServiceSub {
     }
 }
 
-describe('SignupComponent 12', () => {
+describe('SignupComponent 4', () => {
     let component: SignupComponent;
     let fixture: ComponentFixture<SignupComponent>;
 
@@ -81,6 +81,5 @@ describe('SignupComponent 12', () => {
         expect(spyToastrService).toHaveBeenCalled()
         expect(spyAuth).toHaveBeenCalled()
         expect(spyRouter).toHaveBeenCalled()
-
     });
 });

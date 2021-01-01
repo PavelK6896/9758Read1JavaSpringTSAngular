@@ -3,7 +3,6 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {ViewPostComponent} from './view-post.component';
 import {PostService} from "../../shared/post.service";
 import {ActivatedRoute, ActivatedRouteSnapshot, Router} from "@angular/router";
-import {HttpClientModule} from "@angular/common/http";
 import {CommentService} from "../../comment/comment.service";
 import {of} from "rxjs";
 import {PostModel} from "../../shared/post-model";
@@ -26,7 +25,7 @@ class ActivatedRouteStub {
 }
 
 
-describe('ViewPostComponent 5', () => {
+describe('ViewPostComponent 11', () => {
     let component: ViewPostComponent;
     let fixture: ComponentFixture<ViewPostComponent>;
 

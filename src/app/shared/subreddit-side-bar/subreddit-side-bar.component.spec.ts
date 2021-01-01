@@ -2,7 +2,7 @@ import {ComponentFixture} from '@angular/core/testing';
 
 import {SubredditSideBarComponent} from './subreddit-side-bar.component';
 
-describe('SubredditSideBarComponent', () => {
+describe('SubReadSideBarComponent 14', () => {
     let component: SubredditSideBarComponent;
     let fixture: ComponentFixture<SubredditSideBarComponent>;
 

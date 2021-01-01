@@ -2,13 +2,12 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {HomeComponent} from './home.component';
 import {PostService} from "../shared/post.service";
-import {HttpClientModule} from "@angular/common/http";
 import {PostModel} from "../shared/post-model";
 import {of} from "rxjs";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
-describe('HomeComponent 3', () => {
+describe('HomeComponent 9', () => {
     let component: HomeComponent;
     let fixture: ComponentFixture<HomeComponent>;
     let postService: PostService;

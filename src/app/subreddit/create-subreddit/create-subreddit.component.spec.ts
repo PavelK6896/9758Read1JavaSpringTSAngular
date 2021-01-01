@@ -2,7 +2,7 @@ import {ComponentFixture} from '@angular/core/testing';
 
 import {CreateSubredditComponent} from './create-subreddit.component';
 
-describe('CreateSubredditComponent', () => {
+describe('CreateSubReadComponent 18', () => {
     let component: CreateSubredditComponent;
     let fixture: ComponentFixture<CreateSubredditComponent>;
 

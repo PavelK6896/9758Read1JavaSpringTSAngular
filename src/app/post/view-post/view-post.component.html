@@ -1,4 +1,4 @@
-<div class="container" *ngIf="loadingPost; else loadingC ">
+<div *ngIf="loadingPost; else loadingC " class="container">
     <div class="row">
         <hr/>
         <div class="col-md-9">
@@ -16,20 +16,20 @@
             </span>
           </span>
                     <hr/>
-                    <a routerLink="post.url" class="post-title">{{post.postName}}</a>
+                    <a class="post-title" routerLink="post.url">{{post.postName}}</a>
                     <div>
-                        <p class="post-text" [innerHtml]="post.description"></p>
+                        <p [innerHtml]="post.description" class="post-text"></p>
                     </div>
                     <div class="post-comment">
-                        <form [formGroup]="commentForm" (ngSubmit)="postComment()">
+                        <form (ngSubmit)="postComment()" [formGroup]="commentForm">
                             <div class="form-group">
-                                <textarea class="form-control" [formControlName]="'text'"
+                                <textarea [formControlName]="'text'" class="form-control"
                                           placeholder="Your Thoughts?"></textarea>
                             </div>
 
                             <button
-                                    type="submit"
                                     class="loginButton float-right"
+                                    type="submit"
                             >Comment
                             </button>
 

@@ -9,7 +9,7 @@ class RouterStub {
     }
 }
 
-describe('AuthGuard 14', () => {
+describe('AuthGuard 6', () => {
     let guard: AuthGuard;
 
     beforeEach(() => {

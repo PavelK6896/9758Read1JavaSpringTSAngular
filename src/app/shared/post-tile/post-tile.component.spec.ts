@@ -1,13 +1,10 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {PostTileComponent} from './post-tile.component';
-import {PostService} from "../post.service";
-import {SubredditService} from "../../subreddit/subreddit.service";
 import {Router} from "@angular/router";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {By} from "@angular/platform-browser";
-import {of} from "rxjs";
 import {PostModel} from "../post-model";
 
 class RouterStub {
@@ -18,36 +15,35 @@ class RouterStub {
     }
 }
 
-describe('PostTileComponent 14 ', () => {
+describe('PostTileComponent 12', () => {
     let component: PostTileComponent;
     let fixture: ComponentFixture<PostTileComponent>;
 
     beforeEach(async () => {
-      await TestBed.configureTestingModule({
-        declarations: [PostTileComponent],
-          providers: [
-              {provide: Router, useClass: RouterStub}
-              ],
-          imports: [HttpClientTestingModule],
-          schemas: [NO_ERRORS_SCHEMA]
-      })
-        .compileComponents();
+        await TestBed.configureTestingModule({
+            declarations: [PostTileComponent],
+            providers: [
+                {provide: Router, useClass: RouterStub}
+            ],
+            imports: [HttpClientTestingModule],
+            schemas: [NO_ERRORS_SCHEMA]
+        })
+            .compileComponents();
     });
 
     beforeEach(() => {
-      fixture = TestBed.createComponent(PostTileComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
+        fixture = TestBed.createComponent(PostTileComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
     });
 
     it('1 ', () => {
-      expect(component).toBeTruthy();
+        expect(component).toBeTruthy();
     });
-
 
     it('2 ', () => {
 
-       let newP:PostModel =  {
+        let newP: PostModel = {
             id: 55,
             postName: "string",
             url: "string",

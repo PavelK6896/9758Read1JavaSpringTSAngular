@@ -3,12 +3,11 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {CreatePostComponent} from './create-post.component';
 import {Router} from "@angular/router";
 import {SubredditService} from "../../subreddit/subreddit.service";
-import {HttpClientModule} from "@angular/common/http";
 import {By} from "@angular/platform-browser";
 import {PostService} from "../../shared/post.service";
 import {CreatePostPayload} from "./create-post.payload";
 import {of} from "rxjs";
-import {DebugElement, NO_ERRORS_SCHEMA} from "@angular/core";
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 class RouterStub {
@@ -19,8 +18,7 @@ class RouterStub {
     }
 }
 
-
-describe('CreatePostComponent 4', () => {
+describe('CreatePostComponent 10', () => {
     let component: CreatePostComponent;
     let fixture: ComponentFixture<CreatePostComponent>;
     let postService: PostService
@@ -48,7 +46,7 @@ describe('CreatePostComponent 4', () => {
     });
 
     //тест кнопки
-    it(' 2 discardPost right', () => {
+    it(' 2 discardPost right button test', () => {
         //получаем кнопку
         let discardPost = fixture.debugElement.query(By.css('#discardPost'))
         //получаем роутер по интерфейсу
@@ -74,7 +72,6 @@ describe('CreatePostComponent 4', () => {
         let postService = TestBed.inject(PostService)
         let createPost = fixture.debugElement.query(By.css('#createPost'))
 
-
         let spyPostService = spyOn(postService, 'createPost')
         spyPostService.and.returnValue(of(postPayload1))
         let spyRouter = spyOn(router, 'navigateByUrl')
@@ -87,6 +84,4 @@ describe('CreatePostComponent 4', () => {
         expect(spyPostService.calls.count()).toBe(1)
 
     });
-
-
 });

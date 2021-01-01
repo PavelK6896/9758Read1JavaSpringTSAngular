@@ -3,7 +3,6 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {HeaderComponent} from './header.component';
 import {AuthService} from "../auth/shared/auth.service";
 import {Router} from "@angular/router";
-import {HttpClientModule} from "@angular/common/http";
 import {By} from "@angular/platform-browser";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
@@ -17,7 +16,7 @@ class RouterStub {
     }
 }
 
-describe('HeaderComponent 2', () => {
+describe('HeaderComponent 8', () => {
     let component: HeaderComponent;
     let fixture: ComponentFixture<HeaderComponent>;
 
@@ -44,9 +43,7 @@ describe('HeaderComponent 2', () => {
         expect(component).toBeTruthy();
     });
 
-
-    //проверка изменения имени
-    it(' 2 username', () => {
+    it(' 2 checking for name changes', () => {
 
         //изменения в шаблоне
         component.isLoggedIn = true
@@ -56,8 +53,6 @@ describe('HeaderComponent 2', () => {
         expect(debugElement.nativeElement.textContent).toContain('user1')
     });
 
-
-    //провека кнопки профиля
     it(' 3 goToUserProfile right', () => {
 
         let userName = 'user1'
@@ -77,7 +72,6 @@ describe('HeaderComponent 2', () => {
 
     });
 
-    //проверка кнопок меню
     it(' 4 logout', () => {
 
         let userName = 'user1'
@@ -106,5 +100,4 @@ describe('HeaderComponent 2', () => {
         //вызван 1 раз
         expect(authServiceSpy.calls.count()).toBe(1)
     });
-
 });

@@ -32,11 +32,11 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.name = this.activatedRoute.snapshot.params.name;
 
-        this.postsSub =  this.postService.getAllPostsByUser(this.name).subscribe(data => {
+        this.postsSub = this.postService.getAllPostsByUser(this.name).subscribe(data => {
             this.posts = data;
             this.postLength = data.length;
         });
-        this.commentsSub =  this.commentService.getAllCommentsByUser(this.name).subscribe(data => {
+        this.commentsSub = this.commentService.getAllCommentsByUser(this.name).subscribe(data => {
             this.comments = data;
             this.commentLength = data.length;
         });

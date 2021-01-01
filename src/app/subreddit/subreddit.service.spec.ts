@@ -1,6 +1,6 @@
 import {SubredditService} from './subreddit.service';
 
-describe('SubredditService', () => {
+describe('SubReadService 20', () => {
     let service: SubredditService;
 
     // beforeEach(() => {

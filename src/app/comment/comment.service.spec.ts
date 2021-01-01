@@ -4,7 +4,7 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {of} from "rxjs";
 import {CommentPayload} from "./comment.payload";
 
-describe('CommentService 15', () => {
+describe('CommentService 7', () => {
     let service: CommentService;
 
     beforeEach(() => {
@@ -33,6 +33,4 @@ describe('CommentService 15', () => {
         service.getAllCommentsByUser("")
         expect(getAllCommentsByUser).toHaveBeenCalled()
     });
-
-
 });
