@@ -45,7 +45,6 @@ describe('CreatePostComponent 10', () => {
         expect(component).toBeDefined();
     });
 
-    //тест кнопки
     it(' 2 discardPost right button test', () => {
         //получаем кнопку
         let discardPost = fixture.debugElement.query(By.css('#discardPost'))

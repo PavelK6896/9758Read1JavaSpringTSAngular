@@ -12,6 +12,7 @@ export class VoteService {
     }
 
     vote(votePayload: VotePayload): Observable<any> {
+        console.log('vote')
         return this.http.post('http://localhost:8080/api/votes/', votePayload);
     }
 

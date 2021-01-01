@@ -10,17 +10,17 @@ import {throwError} from "rxjs";
 })
 export class ListSubredditsComponent implements OnInit {
 
-    //получает масив сабскрайберов
     subreddits: Array<SubredditModel>;
 
     constructor(private subredditService: SubredditService) {
     }
 
     ngOnInit() {
-        this.subredditService.getAllSubreddits().subscribe(data => {
-            this.subreddits = data;
-        }, error => {
-            throwError(error);
-        })
+        this.subredditService.getAllSubreddits()
+            .subscribe(data => {
+                this.subreddits = data;
+            }, error => {
+                throwError(error);
+            })
     }
 }

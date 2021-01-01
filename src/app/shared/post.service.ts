@@ -7,7 +7,7 @@ import {CreatePostPayload} from "../post/create-post/create-post.payload";
 @Injectable({
     providedIn: 'root'
 })
-export class PostService { // для постов
+export class PostService {
 
     constructor(private http: HttpClient) {
     }

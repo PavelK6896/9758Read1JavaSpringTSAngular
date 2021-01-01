@@ -2,7 +2,9 @@
     <div style="color: black; font-weight: bold">Browse Subreddits</div>
     <hr/>
     <span *ngFor="let subreddit of subreddits">
-        <span class="subreddit-text"><a href="/view-subreddit/{{subreddit.id}}">{{subreddit.name}}</a></span>
+        <span class="subreddit-text">
+            <a href="/view-subreddit/{{subreddit.id}}">{{subreddit.name}}</a>
+        </span>
         <hr/>
     </span>
     <div *ngIf="displayViewAll" style="text-align: center">

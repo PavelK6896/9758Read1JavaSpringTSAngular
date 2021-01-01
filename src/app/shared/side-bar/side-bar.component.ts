@@ -6,8 +6,7 @@ import {Router} from "@angular/router";
     templateUrl: './side-bar.component.html',
     styleUrls: ['./side-bar.component.css']
 })
-export class SideBarComponent implements OnInit {//Сторона
-
+export class SideBarComponent implements OnInit {
 
     constructor(private router: Router) {
     }
@@ -19,7 +18,7 @@ export class SideBarComponent implements OnInit {//Сторона
         this.router.navigateByUrl('/create-post');
     }
 
-    goToCreateSubreddit() {
+    goToCreateSubRead() {
         this.router.navigateByUrl('/create-subreddit');
     }
 

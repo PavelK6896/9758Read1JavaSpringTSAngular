@@ -20,68 +20,55 @@ export class VoteButtonComponent implements OnInit {
     votePayload: VotePayload;
     faArrowUp = faArrowUp;
     faArrowDown = faArrowDown;
-    upvoteColor: string;
-    downvoteColor: string;
+
+    upVoteColor: string;
+    downVoteColor: string;
     isLoggedIn: boolean;
 
     constructor(private voteService: VoteService,
                 private authService: AuthService,
-                private postService: PostService, private toastr: ToastrService) {
-
+                private postService: PostService,
+                private toastrService: ToastrService
+    ) {
         this.votePayload = {
             voteType: undefined,
             postId: undefined
         }
-        this.authService.loggedInEmitter.subscribe((data: boolean) => this.isLoggedIn = data);
     }
 
     ngOnInit(): void {
+        this.authService.loggedInEmitter
+            .subscribe((data: boolean) => this.isLoggedIn = data);
         this.updateVoteDetails();
     }
 
-    upvotePost() {
+    upVotePost() {
         this.votePayload.voteType = VoteType.UP_VOTE;
         this.vote();
-        this.downvoteColor = '';
+        this.downVoteColor = '';
     }
 
-    downvotePost() {
+    downVotePost() {
         this.votePayload.voteType = VoteType.DOWN_VOTE;
         this.vote();
-        this.upvoteColor = '';
+        this.upVoteColor = '';
     }
 
     private vote() {
-
-
-        console.log(this.post.userName)
-        console.log("22222222222")
-        console.log(this.post)
-        console.log(this.post.id)
-        console.log(this.post.id)
-        console.log(this.post.id)
-
-
         this.votePayload.postId = this.post.id;
-
-        this.voteService.vote(this.votePayload).subscribe(() => {
-            this.updateVoteDetails();
-        }, error => {
-            this.toastr.error(error.error.message);
-            throwError(error);
-        });
+        this.voteService.vote(this.votePayload)
+            .subscribe(() => {
+                this.updateVoteDetails();
+            }, error => {
+                this.toastrService.error(error.error.message);
+                throwError(error);
+            });
     }
 
     private updateVoteDetails() {
-
-        console.log("dddddddddd")
-        console.log(this.post)
-        console.log(this.post)
-        this.postService.getPostById(this.post.id).subscribe(post => {
-            this.post = post;
-        });
-
-
+        this.postService.getPostById(this.post.id)
+            .subscribe(post => {
+                this.post = post;
+            });
     }
-
 }
