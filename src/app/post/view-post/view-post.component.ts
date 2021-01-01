@@ -45,33 +45,34 @@ export class ViewPostComponent implements OnInit {
         if (this.commentPayload.text.trim().length == 0) {
             return
         }
-        this.commentService.postComment(this.commentPayload).subscribe(data => {
-            this.commentForm.get('text').setValue('');
-            this.getCommentsForPost();
-        }, error => {
-            throwError(error);
-        })
+        this.commentService.postComment(this.commentPayload)
+            .subscribe(data => {
+                this.commentForm.get('text').setValue('');
+                this.getCommentsForPost();
+            }, error => {
+                throwError(error);
+            })
     }
 
     private getPostById() {
         this.loadingPost = false;
-        this.postService.getPostById(this.postId).subscribe(data => {
-            this.post = data;
-            this.loadingPost = true;
-        }, error => {
-            throwError(error);
-        });
-
-
+        this.postService.getPostById(this.postId)
+            .subscribe(data => {
+                this.post = data;
+                this.loadingPost = true;
+            }, error => {
+                throwError(error);
+            });
     }
 
     private getCommentsForPost() {
         this.loadingComment = false
-        this.commentService.getAllCommentsForPost(this.postId).subscribe(data => {
-            this.comments = data;
-            this.loadingComment = true
-        }, error => {
-            throwError(error);
-        });
+        this.commentService.getAllCommentsForPost(this.postId)
+            .subscribe(data => {
+                this.comments = data;
+                this.loadingComment = true
+            }, error => {
+                throwError(error);
+            });
     }
 }

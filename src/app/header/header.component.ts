@@ -7,7 +7,7 @@ import {AuthService} from "../auth/shared/auth.service";
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit { // верхнее меню
+export class HeaderComponent implements OnInit {
 
     isLoggedIn: boolean;
     username: string;

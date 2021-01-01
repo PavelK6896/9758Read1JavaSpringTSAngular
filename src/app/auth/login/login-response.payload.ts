@@ -1,4 +1,4 @@
-export interface LoginResponse { //принемает при входе в систему
+export interface LoginResponse {
     authenticationToken: string;
     refreshToken: string;
     expiresAt: Date;

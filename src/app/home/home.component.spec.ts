@@ -64,13 +64,10 @@ describe('HomeComponent 9', () => {
 
         const postsTest = [postModel1, postModel2];
         postService = fixture.debugElement.injector.get(PostService)
-        //мокаем метод
         spyOn(postService, 'getAllPosts').and.returnValue(of(postsTest))
         component.ngOnInit()
-        // fixture.detectChanges()
         expect(component.posts).toEqual(postsTest)
 
-        //проверям наличие компонентов
         const compiled = fixture.debugElement.nativeElement;
         expect(compiled.querySelector('app-post-tile')).not.toBe(null);
         expect(compiled.querySelector('app-side-bar')).not.toBe(null);

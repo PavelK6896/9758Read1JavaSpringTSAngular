@@ -1,4 +1,4 @@
-export interface SignupRequestPayload { //для формы регистрации
+export interface SignupRequestPayload {
     username: string;
     password: string;
     email: string;

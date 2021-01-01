@@ -19,13 +19,13 @@ describe('AuthGuard 6', () => {
                 {provide: Router, useClass: RouterStub}
             ],
             imports: [HttpClientTestingModule],
-        });
+        })
         guard = TestBed.inject(AuthGuard);
-    });
+    })
 
     it('1 init', () => {
         expect(guard).toBeTruthy();
-    });
+    })
 
     it('2 canActivate', () => {
 
@@ -33,12 +33,10 @@ describe('AuthGuard 6', () => {
         let authService = TestBed.inject(AuthService)
         let spyPostService = spyOn(authService, 'isLoggedIn').and.returnValue(false)
         let spyRouter = spyOn(router, 'navigateByUrl')
-
-        let canAct = guard.canActivate(null, null);
-
+        let canAct = guard.canActivate(null, null)
         expect(spyPostService).toHaveBeenCalled()
         expect(spyRouter).toHaveBeenCalled()
         expect(canAct).toBe(true)
 
-    });
-});
+    })
+})

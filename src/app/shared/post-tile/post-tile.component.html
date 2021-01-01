@@ -1,7 +1,5 @@
-<!-- Display Posts-->
 <div *ngFor="let post of posts" class="row post">
     <app-vote-button [post]="post"></app-vote-button>
-    <!-- Section to Display Post Information-->
     <div class="col-md-11">
     <span class="subreddit-info">
       <span class="subreddit-text"><a class="posturl" routerLink="">{{post.subReadName}}</a></span>
@@ -13,7 +11,6 @@
             <a class="postname" href="{{post.url}}">{{post.postName}}</a>
         </div>
         <div>
-            <!--      что бы отабразить html-->
             <p [innerHtml]="post.description" class="post-text"></p>
         </div>
         <hr/>

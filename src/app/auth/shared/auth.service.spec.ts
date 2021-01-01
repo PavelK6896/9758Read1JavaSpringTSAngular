@@ -35,7 +35,6 @@ describe('AuthService 3', () => {
         }).subscribe(data => {
             expect(data).toBe(true)
         })
-
         expect(localStorage.getItem("username")).toBe(data2.username)
         expect(localStorage.getItem("authenticationToken")).toBe(data2.authenticationToken)
         expect(localStorage.getItem("refreshToken")).toBe(data2.refreshToken)
@@ -55,11 +54,9 @@ describe('AuthService 3', () => {
         let httpClient = TestBed.inject(HttpClient);
         let spy = spyOn(httpClient, 'post');
         spy.and.returnValues(of(data2))
-
         service.signUp(data1).subscribe(data => {
             expect(data).toBe(data2)
         })
-
         expect(spy).toHaveBeenCalled()
     })
 
@@ -69,7 +66,6 @@ describe('AuthService 3', () => {
         let spy = spyOn(httpClient, 'post');
         spy.and.returnValues(of(data24))
         service.refreshToken()
-
         expect(spy).toHaveBeenCalled()
     });
 
@@ -78,7 +74,6 @@ describe('AuthService 3', () => {
         let httpClient = TestBed.inject(HttpClient);
         let spy = spyOn(httpClient, 'post');
         spy.and.returnValues(of(data2))
-
         service.logout()
         expect(spy).toHaveBeenCalled()
     });

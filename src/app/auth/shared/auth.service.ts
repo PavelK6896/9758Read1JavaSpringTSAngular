@@ -11,8 +11,6 @@ import {map, tap} from "rxjs/operators";
 })
 export class AuthService {
 
-    //@Output () - функция декоратора, маркирующая свойство как путь для данных,
-    // чтобы отправиться от ребенка на родитель.
     @Output() loggedInEmitter: EventEmitter<boolean> = new EventEmitter();
     @Output() usernameEmitter: EventEmitter<string> = new EventEmitter();
 
@@ -25,49 +23,37 @@ export class AuthService {
     }
 
     signUp(signUpRequestPayload: SignupRequestPayload): Observable<any> {
-        return this.httpClient.post('http://localhost:8080/api/auth/signUp',
-            signUpRequestPayload, {responseType: 'text'});
+        return this.httpClient
+            .post('http://localhost:8080/api/auth/signUp', signUpRequestPayload, {responseType: 'text'});
     }
 
-    //сохроняем даные пользователя
     login(loginRequestPayload: LoginRequestPayload): Observable<boolean> {
-        return this.httpClient.post<LoginResponse>('http://localhost:8080/api/auth/login',
-            loginRequestPayload).pipe(map(data => {
-
-            localStorage.setItem('authenticationToken', data.authenticationToken);
-            localStorage.setItem('username', data.username);
-            localStorage.setItem('refreshToken', data.refreshToken);
-            localStorage.setItem('expiresAt', data.expiresAt.toString());
-
-            this.loggedInEmitter.emit(true);
-            this.usernameEmitter.emit(data.username);
-            return true;
-        }));
+        return this.httpClient.post<LoginResponse>('http://localhost:8080/api/auth/login', loginRequestPayload)
+            .pipe(map(data => {
+                localStorage.setItem('authenticationToken', data.authenticationToken);
+                localStorage.setItem('username', data.username);
+                localStorage.setItem('refreshToken', data.refreshToken);
+                localStorage.setItem('expiresAt', data.expiresAt.toString());
+                this.loggedInEmitter.emit(true);
+                this.usernameEmitter.emit(data.username);
+                return true;
+            }));
     }
 
 
     refreshToken(): Observable<any> {
-        return this.httpClient.post<LoginResponse>('http://localhost:8080/api/auth/refresh/token',
-            this.refreshTokenPayload)
-            //труба//кран
+        return this.httpClient.post<LoginResponse>('http://localhost:8080/api/auth/refresh/token', this.refreshTokenPayload)
             .pipe(tap(response => {
-
-                    console.log("----------------------------------------")
-                    console.log("----------------------------------------")
-                    console.log("----------------------------------------")
                     localStorage.removeItem('authenticationToken');
                     localStorage.removeItem('expiresAt');
-                    //обновляем токен
                     localStorage.setItem('authenticationToken', response.authenticationToken);
                     localStorage.setItem('expiresAt', response.expiresAt.toString());
-
                 }
             ));
     }
 
     logout() {
-        this.httpClient.post('http://localhost:8080/api/auth/logout', this.refreshTokenPayload,
-            {responseType: 'text'})
+        this.httpClient.post('http://localhost:8080/api/auth/logout', this.refreshTokenPayload, {responseType: 'text'})
             .subscribe(data => {
 
             }, error => {

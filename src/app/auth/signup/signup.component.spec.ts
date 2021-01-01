@@ -13,7 +13,6 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 class RouterStub {
     navigate(commands: any[], extras?: NavigationExtras) {
-
     }
 }
 

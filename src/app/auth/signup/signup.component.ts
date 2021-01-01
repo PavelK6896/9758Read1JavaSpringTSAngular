@@ -13,7 +13,7 @@ import {ToastrService} from "ngx-toastr";
 export class SignupComponent implements OnInit {
 
     signUpRequestPayload: SignupRequestPayload;
-    signUpForm: FormGroup; // форма для регистрации
+    signUpForm: FormGroup;
 
     constructor(private authService: AuthService, private router: Router, private toastrService: ToastrService) {
         this.signUpRequestPayload = {

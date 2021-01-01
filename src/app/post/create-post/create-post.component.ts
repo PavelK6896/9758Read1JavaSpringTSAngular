@@ -41,11 +41,12 @@ export class CreatePostComponent implements OnInit, OnDestroy {
             description: new FormControl('', Validators.required),
         });
 
-        this.getAllSubReadSub = this.subredditService.getAllSubreddits().subscribe((data) => {
-            this.subRead = data;
-        }, error => {
-            throwError(error);
-        });
+        this.getAllSubReadSub = this.subredditService.getAllSubreddits()
+            .subscribe((data) => {
+                this.subRead = data;
+            }, error => {
+                throwError(error);
+            });
 
     }
 
@@ -64,11 +65,12 @@ export class CreatePostComponent implements OnInit, OnDestroy {
         this.postPayload.url = this.createPostForm.get('url').value;
         this.postPayload.description = this.createPostForm.get('description').value;
 
-        this.createPostSub = this.postService.createPost(this.postPayload).subscribe((data) => {
-            this.router.navigateByUrl('');
-        }, error => {
-            throwError(error);
-        })
+        this.createPostSub = this.postService.createPost(this.postPayload)
+            .subscribe((data) => {
+                this.router.navigateByUrl('');
+            }, error => {
+                throwError(error);
+            })
     }
 
     discardPost() {

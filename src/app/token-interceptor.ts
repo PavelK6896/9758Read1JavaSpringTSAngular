@@ -8,7 +8,7 @@ import {LoginResponse} from './auth/login/login-response.payload';
 @Injectable({
     providedIn: 'root'
 })
-export class TokenInterceptor implements HttpInterceptor {//Перехватчик
+export class TokenInterceptor implements HttpInterceptor {
 
     isTokenRefreshing = false;
     //Поведение
@@ -17,14 +17,9 @@ export class TokenInterceptor implements HttpInterceptor {//Перехватчи
     constructor(public authService: AuthService) {
     }
 
-
     //перехват
     intercept(req: HttpRequest<any>, next: HttpHandler):
         Observable<HttpEvent<any>> {
-
-        console.log("intercept ")
-
-        //
         if (req.url.indexOf('refresh') !== -1 || req.url.indexOf('login') !== -1) {
             return next.handle(req);
         }

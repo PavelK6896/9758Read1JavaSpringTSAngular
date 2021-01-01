@@ -46,17 +46,10 @@ describe('CreatePostComponent 10', () => {
     });
 
     it(' 2 discardPost right button test', () => {
-        //получаем кнопку
         let discardPost = fixture.debugElement.query(By.css('#discardPost'))
-        //получаем роутер по интерфейсу
         let router = fixture.debugElement.injector.get(Router)
-        //мокае роутер
         let spyRouter = spyOn(router, 'navigateByUrl')
-
-        //--
-        //прожимем кнопку
         discardPost.triggerEventHandler('click', null)
-        //чекаем роутер
         expect(spyRouter).toHaveBeenCalledWith('')
     });
 
@@ -70,17 +63,13 @@ describe('CreatePostComponent 10', () => {
         let router = TestBed.inject(Router)
         let postService = TestBed.inject(PostService)
         let createPost = fixture.debugElement.query(By.css('#createPost'))
-
         let spyPostService = spyOn(postService, 'createPost')
         spyPostService.and.returnValue(of(postPayload1))
         let spyRouter = spyOn(router, 'navigateByUrl')
-
         createPost.triggerEventHandler('click', null)
-
         expect(spyRouter).toHaveBeenCalledWith('')
         expect(spyPostService).toHaveBeenCalled();
         expect(spyPostService).toHaveBeenCalledWith(component.postPayload);
         expect(spyPostService.calls.count()).toBe(1)
-
     });
 });

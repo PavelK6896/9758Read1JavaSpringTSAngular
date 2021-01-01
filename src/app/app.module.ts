@@ -51,10 +51,8 @@ import {TokenInterceptor} from "./token-interceptor";
         BrowserAnimationsModule, // для анимации
         ToastrModule.forRoot(),  //для анимации тостар
         FontAwesomeModule, //иконки
-        EditorModule, // tiny
-        NgbModule //
-
-
+        EditorModule, //tiny
+        NgbModule
     ],
     providers: [
         {

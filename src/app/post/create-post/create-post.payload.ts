@@ -1,4 +1,4 @@
-export class CreatePostPayload { // для создания поста
+export class CreatePostPayload {
     postName: string;
     subReadName?: string;
     url?: string;

@@ -45,7 +45,6 @@ describe('HeaderComponent 8', () => {
 
     it(' 2 checking for name changes', () => {
 
-        //изменения в шаблоне
         component.isLoggedIn = true
         component.username = 'user1'
         fixture.detectChanges()
@@ -59,15 +58,10 @@ describe('HeaderComponent 8', () => {
         component.isLoggedIn = true
         component.username = userName
         fixture.detectChanges()
-
         let goToUserProfile = fixture.debugElement.query(By.css('#goToUserProfile'))
-
         let router = fixture.debugElement.injector.get(Router)
         let spy = spyOn(router, 'navigateByUrl')
-
-        //прожимем кнопку
         goToUserProfile.triggerEventHandler('click', null)
-        //сробатывает роутинг
         expect(spy).toHaveBeenCalledWith('/user-profile/' + userName)
 
     });
@@ -78,26 +72,16 @@ describe('HeaderComponent 8', () => {
         component.isLoggedIn = true
         component.username = userName
         fixture.detectChanges()
-
         let logout = fixture.debugElement.query(By.css('#logout'))
-
         let router = fixture.debugElement.injector.get(Router)
         let spy = spyOn(router, 'navigateByUrl')
-
-        //получаем сервис
         let authService = fixture.debugElement.injector.get(AuthService)
-        //мокаем метод сервиса
         let authServiceSpy = spyOn(authService, 'logout')
-
-        //прожимем кнопку
         logout.triggerEventHandler('click', null)
-        //сробатывает роутинг
         expect(spy).toHaveBeenCalledWith('')
         expect(component.isLoggedIn).toBeFalse()
-
         expect(authServiceSpy).toHaveBeenCalled();
         expect(authServiceSpy).toHaveBeenCalledWith();
-        //вызван 1 раз
         expect(authServiceSpy.calls.count()).toBe(1)
     });
 });

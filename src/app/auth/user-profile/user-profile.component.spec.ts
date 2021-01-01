@@ -57,11 +57,9 @@ describe('UserProfileComponent 5', () => {
         let postService = TestBed.inject(PostService)
         let spyPostService = spyOn(postService, 'getAllPostsByUser').and.returnValue(of([]))
         let spyCommentService = spyOn(commentService, 'getAllCommentsByUser').and.returnValue(of([]))
-
         component.ngOnInit()
         expect(spyPostService).toHaveBeenCalled()
         expect(spyCommentService).toHaveBeenCalled()
-
         expect(fixture.debugElement.nativeElement.querySelector('app-post-tile')).not.toBe(null);
     });
 });

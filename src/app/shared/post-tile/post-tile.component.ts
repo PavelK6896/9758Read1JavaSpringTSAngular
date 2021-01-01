@@ -11,9 +11,6 @@ import {PostModel} from "../post-model";
 export class PostTileComponent implements OnInit {
 
     faComments = faComments;
-    //Декоратор, который помечает поле класса как входное свойство и предоставляет метаданные конфигурации.
-    //Свойство input привязано к свойству DOM в шаблоне.
-    //Во время обнаружения изменений Angular автоматически обновляет свойство data значением свойства DOM.
     @Input() posts: PostModel[];
 
     constructor(private router: Router) {
@@ -25,5 +22,4 @@ export class PostTileComponent implements OnInit {
     goToPost(id: number): void {
         this.router.navigateByUrl('/view-post/' + id);
     }
-
 }

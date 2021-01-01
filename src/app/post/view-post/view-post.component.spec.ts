@@ -44,7 +44,6 @@ describe('ViewPostComponent 11', () => {
     }
 
     beforeEach(async () => {
-
         await TestBed.configureTestingModule({
             declarations: [ViewPostComponent],
             providers: [PostService, CommentService,
@@ -71,20 +70,13 @@ describe('ViewPostComponent 11', () => {
     });
 
     it('2 content ', () => {
-
         component.loadingPost = true
         component.loadingComment = true
         fixture.detectChanges();
-
-        //проверка вставленого слова
         let postUrl = fixture.debugElement.query(By.css('.post-url')).nativeElement.innerText
         expect(postUrl).toBe(postModel1.subReadName)
-
-        //проверка вставленого слова
         let username = fixture.debugElement.query(By.css('.username')).nativeElement.innerText
         expect(username).toBe(postModel1.userName)
-
-        //проверям наличие компонентов
         const compiled = fixture.debugElement.nativeElement;
         expect(compiled.querySelector('app-vote-button')).not.toBe(null);
         expect(compiled.querySelector('app-side-bar')).not.toBe(null);
