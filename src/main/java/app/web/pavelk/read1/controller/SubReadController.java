@@ -17,9 +17,6 @@ public class SubReadController {
 
     @PostMapping
     public ResponseEntity<SubredditDto> createSubreddit(@RequestBody SubredditDto subredditDto) {
-
-        System.out.println("*******************************");
-
         return subReadService.save(subredditDto);
     }
 
@@ -29,7 +26,7 @@ public class SubReadController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SubredditDto> getSubreddit(@PathVariable Long id) {
+    public ResponseEntity<SubredditDto> getSubreddit(@PathVariable Long id) throws InterruptedException {
         return subReadService.getSubreddit(id);
     }
 

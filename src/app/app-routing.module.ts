@@ -9,6 +9,7 @@ import {ListSubredditsComponent} from "./subreddit/list-subreddits/list-subreddi
 import {ViewPostComponent} from "./post/view-post/view-post.component";
 import {UserProfileComponent} from "./auth/user-profile/user-profile.component";
 import {AuthGuard} from "./auth/auth.guard";
+import {ViewSubredditComponent} from "./subreddit/view-subreddit/view-subreddit.component";
 
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
     {path: 'view-post/:id', component: ViewPostComponent},
     {path: 'user-profile/:name', component: UserProfileComponent, canActivate: [AuthGuard]},
     {path: 'list-subreddits', component: ListSubredditsComponent},
+    {path: 'view-subreddit/:id', component: ViewSubredditComponent},
     {path: 'create-post', component: CreatePostComponent, canActivate: [AuthGuard]},
     {path: 'create-subreddit', component: CreateSubredditComponent, canActivate: [AuthGuard]},
     {path: 'sign-up', component: SignupComponent},
