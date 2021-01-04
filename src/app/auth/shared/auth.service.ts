@@ -5,6 +5,7 @@ import {SignupRequestPayload} from "../signup/singup-request.payload";
 import {LoginRequestPayload} from "../login/login-request.payload";
 import {LoginResponse} from "../login/login-response.payload";
 import {map, tap} from "rxjs/operators";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
@@ -24,11 +25,11 @@ export class AuthService {
 
     signUp(signUpRequestPayload: SignupRequestPayload): Observable<any> {
         return this.httpClient
-            .post('http://localhost:8080/api/auth/signUp', signUpRequestPayload, {responseType: 'text'});
+            .post(environment.URL +'/api/auth/signUp', signUpRequestPayload, {responseType: 'text'});
     }
 
     login(loginRequestPayload: LoginRequestPayload): Observable<boolean> {
-        return this.httpClient.post<LoginResponse>('http://localhost:8080/api/auth/login', loginRequestPayload)
+        return this.httpClient.post<LoginResponse>(environment.URL +'/api/auth/login', loginRequestPayload)
             .pipe(map(data => {
                 localStorage.setItem('authenticationToken', data.authenticationToken);
                 localStorage.setItem('username', data.username);
@@ -42,7 +43,7 @@ export class AuthService {
 
 
     refreshToken(): Observable<any> {
-        return this.httpClient.post<LoginResponse>('http://localhost:8080/api/auth/refresh/token', this.refreshTokenPayload)
+        return this.httpClient.post<LoginResponse>(environment.URL +'/api/auth/refresh/token', this.refreshTokenPayload)
             .pipe(tap(response => {
                     localStorage.removeItem('authenticationToken');
                     localStorage.removeItem('expiresAt');
@@ -53,7 +54,7 @@ export class AuthService {
     }
 
     logout() {
-        this.httpClient.post('http://localhost:8080/api/auth/logout', this.refreshTokenPayload, {responseType: 'text'})
+        this.httpClient.post(environment.URL +'/api/auth/logout', this.refreshTokenPayload, {responseType: 'text'})
             .subscribe(data => {
 
             }, error => {

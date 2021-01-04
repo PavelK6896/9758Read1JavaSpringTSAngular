@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "build prod static file": "ng build --prod --build-optimizer=true --baseHref=/read1/ --deployUrl=/read1/",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

@@ -53,3 +53,4 @@ Thumbs.db
 /src/main/resources/application-dev.yaml
 /src/test/resources/application-test2.yaml
 /src/test/resources/application-test.yaml
+/src/main/resources/application-nginix.yaml

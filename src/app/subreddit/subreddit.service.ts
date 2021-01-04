@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {SubredditModel} from "./subreddit-response";
+import {environment} from "../../environments/environment";
 
 @Injectable({
     providedIn: 'root'
@@ -12,14 +13,14 @@ export class SubredditService {
     }
 
     getAllSubreddits(): Observable<Array<SubredditModel>> {
-        return this.http.get<Array<SubredditModel>>('http://localhost:8080/api/subreddit');
+        return this.http.get<Array<SubredditModel>>(environment.URL + '/api/subreddit');
     }
 
     getSubredditsId(subId: number): Observable<SubredditModel> {
-        return this.http.get<SubredditModel>('http://localhost:8080/api/subreddit/' + subId);
+        return this.http.get<SubredditModel>(environment.URL + '/api/subreddit/' + subId);
     }
 
     createSubreddit(subredditModel: SubredditModel): Observable<SubredditModel> {
-        return this.http.post<SubredditModel>('http://localhost:8080/api/subreddit', subredditModel);
+        return this.http.post<SubredditModel>(environment.URL + '/api/subreddit', subredditModel);
     }
 }
