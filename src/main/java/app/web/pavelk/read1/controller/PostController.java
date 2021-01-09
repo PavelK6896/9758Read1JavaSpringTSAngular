@@ -33,7 +33,7 @@ public class PostController {
     }
 
     @GetMapping("by-subreddit/{id}")
-    public ResponseEntity<List<PostResponse>> getPostsBySubreddit(@PathVariable Long id) throws InterruptedException {
+    public ResponseEntity<List<PostResponse>> getPostsBySubreddit(@PathVariable Long id){
         return postService.getPostsBySubreddit(id);
     }
 

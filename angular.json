@@ -7,25 +7,25 @@
       "projectType": "application",
       "schematics": {},
       "root": "",
-      "sourceRoot": "src",
+      "sourceRoot": "src/js",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/read1",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "index": "src/js/index.html",
+            "main": "src/js/main.ts",
+            "polyfills": "src/js/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src/js/favicon.ico",
+              "src/js/assets"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.css",
+              "src/js/styles.css",
               "node_modules/ngx-toastr/toastr.css"
             ],
             "scripts": []
@@ -34,8 +34,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "src/js/environments/environment.ts",
+                  "with": "src/js/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -81,16 +81,16 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "main": "src/js/test.ts",
+            "polyfills": "src/js/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src/js/favicon.ico",
+              "src/js/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/js/styles.css"
             ],
             "scripts": []
           }

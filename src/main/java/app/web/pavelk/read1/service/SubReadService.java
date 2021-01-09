@@ -29,20 +29,7 @@ public class SubReadService {
     public ResponseEntity<SubredditDto> save(SubredditDto subredditDto) {
         log.info("createSubreddit");
 
-
         Subreddit save = subredditRepository.save(subredditMapper.mapDtoToSubreddit(subredditDto));
-
-        System.out.println(save);
-        System.out.println(save);
-        System.out.println(save);
-        System.out.println(save);
-        System.out.println(save);
-        System.out.println(save);
-        System.out.println(save);
-        System.out.println(save);
-        System.out.println(save);
-        System.out.println(save);
-
 
         subredditDto.setId(save.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(subredditDto);

@@ -1,6 +1,6 @@
 server:
   servlet:
-    context-path:
+    context-path: /api/read1/
   port: 8080
 
 spring:

@@ -110,6 +110,7 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authenticate);
         String token = jwtProvider.generateToken(authenticate);
 
+
         return ResponseEntity.status(OK).body(
                 AuthenticationResponse.builder()
                         .authenticationToken(token)
