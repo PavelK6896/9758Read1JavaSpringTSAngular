@@ -27,6 +27,8 @@ export class CreatePostComponent implements OnInit, OnDestroy {
         logUtil("CreatePostComponent!")
     }
 
+
+
     ngOnInit() {
         this.postPayload = {
             postName: '',
@@ -39,7 +41,7 @@ export class CreatePostComponent implements OnInit, OnDestroy {
             postName: new FormControl('', Validators.required),
             subReadName: new FormControl('', Validators.required),
             url: new FormControl('', Validators.required),
-            description: new FormControl('', Validators.required),
+            description: new FormControl(null, Validators.required),
         });
 
         this.getAllSubReadSub = this.subredditService.getAllSubreddits()
@@ -68,12 +70,14 @@ export class CreatePostComponent implements OnInit, OnDestroy {
         this.postPayload.url = this.createPostForm.get('url').value;
         this.postPayload.description = this.createPostForm.get('description').value;
 
+        console.log("****************")
+        console.log("****************")
+        console.log(this.postPayload)
+
         this.createPostSub = this.postService.createPost(this.postPayload)
             .subscribe((data) => {
                 logUtil("createPost+ ", data)
                 this.router.navigateByUrl('');
-
-
 
 
             }, error => {

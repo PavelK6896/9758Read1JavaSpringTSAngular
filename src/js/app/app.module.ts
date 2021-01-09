@@ -6,7 +6,6 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToastrModule} from "ngx-toastr";
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
-import {EditorModule} from "@tinymce/tinymce-angular";
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {HeaderComponent} from "./component/header/header.component";
 import {SignupComponent} from "./page/auth/signup/signup.component";
@@ -24,6 +23,7 @@ import {ViewPostComponent} from "./page/post/view-post/view-post.component";
 import {ViewSubredditComponent} from "./page/subreddit/view-subreddit/view-subreddit.component";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {TokenInterceptor} from "./security/token-interceptor";
+import {QuillModule} from "ngx-quill";
 
 @NgModule({
     declarations: [
@@ -52,7 +52,8 @@ import {TokenInterceptor} from "./security/token-interceptor";
         BrowserAnimationsModule, // для анимации
         ToastrModule.forRoot(),  //для анимации тостар
         FontAwesomeModule, //иконки
-        EditorModule, //tiny
+        // EditorModule, //tiny
+        QuillModule.forRoot(),
         NgbModule
     ],
     providers: [
