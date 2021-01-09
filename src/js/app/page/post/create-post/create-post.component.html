@@ -10,7 +10,8 @@
 
                     <input [formControlName]="'url'" class="form-control mt-2" placeholder="URL" type="text">
 
-                    <select [formControlName]="'subredditName'" name="sub" class="form-control mt-2" >
+                    <select [formControlName]="'subReadName'" name="sub" class="form-control mt-2" >
+                        <option selected hidden>Choose here</option>
                         <option *ngFor="let subreddit of subRead">{{subreddit.name}}</option>
                     </select>
 
@@ -22,7 +23,7 @@
                     <div>
                         <div class="d-flex justify-content-around" style="margin-top: 5px;">
                             <button (click)="discardPost()" class="btnDiscard" id="discardPost">Discard</button>
-                            <button (click)="createPost()" class="btnCreatePost" id="createPost">Create</button>
+                            <button (click)="createPost()" class="btnCreatePost" id="createPost"   [disabled]="createPostForm.invalid">Create</button>
                         </div>
                     </div>
                 </div>

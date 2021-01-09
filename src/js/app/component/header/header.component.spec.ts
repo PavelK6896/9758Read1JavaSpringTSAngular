@@ -1,11 +1,11 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {HeaderComponent} from './header.component';
-import {AuthService} from "../auth/shared/auth.service";
 import {Router} from "@angular/router";
 import {By} from "@angular/platform-browser";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
+import {AuthService} from "../../service/auth.service";
 
 
 class RouterStub {

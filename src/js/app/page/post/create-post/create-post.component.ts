@@ -67,6 +67,9 @@ export class CreatePostComponent implements OnInit, OnDestroy {
     createPost() {
         this.postPayload.postName = this.createPostForm.get('postName').value;
         this.postPayload.subReadName = this.createPostForm.get('subReadName').value;
+        if( this.postPayload.subReadName === "" && this.subRead){
+            this.postPayload.subReadName = this.subRead[0].name
+        }
         this.postPayload.url = this.createPostForm.get('url').value;
         this.postPayload.description = this.createPostForm.get('description').value;
 

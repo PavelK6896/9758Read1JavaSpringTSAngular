@@ -81,7 +81,7 @@ public class PostControllerTest {
                 .description("d1").name(subredditName).user(user).build());
 
         PostRequest postRequest = PostRequest.builder().description("op")
-                .postId(postId).postName("name1").subredditName(subredditName).url("url").build();
+                .postId(postId).postName("name1").subReadName(subredditName).url("url").build();
 
         mockMvc.perform(
                 post("/api/posts/")
@@ -105,7 +105,7 @@ public class PostControllerTest {
         String subredditName = "nameSub2";
 
         PostRequest postRequest = PostRequest.builder().description("op")
-                .postId(postId).postName("name1").subredditName(subredditName).url("url").build();
+                .postId(postId).postName("name1").subReadName(subredditName).url("url").build();
 
         mockMvc.perform(
                 post("/api/posts/")
@@ -113,7 +113,7 @@ public class PostControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(404))
-                .andExpect(content().string("The division is not found " + subredditName));
+                .andExpect(content().string("The sub is not found " + subredditName));
         clearBase();
     }
 
@@ -127,7 +127,7 @@ public class PostControllerTest {
                 .description("d1").name(subredditName).user(null).build());
 
         PostRequest postRequest = PostRequest.builder().description("op")
-                .postId(postId).postName("name1").subredditName(subredditName).url("url").build();
+                .postId(postId).postName("name1").subReadName(subredditName).url("url").build();
 
         mockMvc.perform(
                 post("/api/posts/")

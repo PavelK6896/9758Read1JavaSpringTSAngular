@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/api/posts/")
+@RequestMapping("/api/posts")
 @AllArgsConstructor
 public class PostController {
 
@@ -19,6 +19,10 @@ public class PostController {
 
     @PostMapping
     public ResponseEntity<Void> createPost(@RequestBody PostRequest postRequest) {
+        System.out.println("---------------------//////////");
+        System.out.println("---------------------//////////");
+        System.out.println("---------------------//////////");
+        System.out.println("---------------------//////////");
         return postService.createPost(postRequest);
     }
 
