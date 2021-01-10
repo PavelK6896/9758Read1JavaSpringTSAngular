@@ -13,11 +13,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry corsRegistry) {
         corsRegistry.addMapping("/**")
                 .allowedOrigins("*")
-                .allowedMethods("*")
-                .maxAge(3600L)
-                .allowedHeaders("*")
-                .exposedHeaders("Authorization")
-                .allowCredentials(true);
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("*");
     }
 
     @Override
@@ -28,5 +25,4 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/webjars/**")
                 .addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
-
 }

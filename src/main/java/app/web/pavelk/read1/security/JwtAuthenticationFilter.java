@@ -1,5 +1,6 @@
 package app.web.pavelk.read1.security;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,12 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtProvider jwtProvider;
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final JwtProvider jwtProvider;
+    private final UserDetailsService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
@@ -31,7 +31,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String jwt = getJwtFromRequest(request);
 
-        System.out.println("jwt!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + jwt);
         if (StringUtils.hasText(jwt) && jwtProvider.validateToken(jwt)) {
             String username = jwtProvider.getUsernameFromJwt(jwt);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);

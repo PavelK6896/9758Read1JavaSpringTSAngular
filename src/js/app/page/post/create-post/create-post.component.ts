@@ -40,7 +40,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
         this.createPostForm = new FormGroup({
             postName: new FormControl('', Validators.required),
             subReadName: new FormControl('', Validators.required),
-            url: new FormControl('', Validators.required),
             description: new FormControl(null, Validators.required),
         });
 
@@ -70,7 +69,6 @@ export class CreatePostComponent implements OnInit, OnDestroy {
         if( this.postPayload.subReadName === "" && this.subRead){
             this.postPayload.subReadName = this.subRead[0].name
         }
-        this.postPayload.url = this.createPostForm.get('url').value;
         this.postPayload.description = this.createPostForm.get('description').value;
 
         console.log("****************")

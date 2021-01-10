@@ -48,9 +48,9 @@
 
                         <div class="col-md-6 offset-md-4">
                             <div class="d-flex flex-column align-content-end justify-content-end align-items-end">
-                                <button (click)="signUp()" class="sign-up" type="submit">Sign Up</button>
+                                <button (click)="signUp()" class="sign-up" type="submit" [disabled]="signUpForm.invalid">Sign up</button>
                                 <br/>
-                                <div>Existing user? <a routerLink="/login">Log In</a></div>
+                                <div>Existing user? <a routerLink="/login">Log in</a></div>
                             </div>
                         </div>
                     </form>

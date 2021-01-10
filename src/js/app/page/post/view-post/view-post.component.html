@@ -7,16 +7,13 @@
                     <app-vote-button [post]="this.post"></app-vote-button>
                 </div>
                 <div class="col-md-11">
-          <span>
-            <span class="subreddit-text"><a class="post-url" href="">{{post.subReadName}}</a></span>
-            <span> . Posted
-              <span> {{post.duration}} </span>
-              by
-              <a class="username" href="">{{post.userName}}</a>
-            </span>
-          </span>
+                    <div class="d-flex justify-content-between">
+                        <div class="subreddit-text"><a class="post-url" routerLink="">sub: {{post.subReadName}}-------</a></div>
+                        <div>Posted by <a class="username" routerLink="/user/{{post.userName}}">nik: {{post.userName}}</a></div>
+                        <div>{{post.duration | date:'H:m yyyy.MMM.d'}}</div>
+                    </div>
                     <hr/>
-                    <a class="post-title" routerLink="post.url">{{post.postName}}</a>
+                    <h4>{{post.postName}}</h4>
                     <div>
                         <p [innerHtml]="post.description" class="post-text"></p>
                     </div>
@@ -26,7 +23,6 @@
                                 <textarea [formControlName]="'text'" class="form-control"
                                           placeholder="Your Thoughts?"></textarea>
                             </div>
-
                             <button
                                     class="loginButton float-right"
                                     type="submit"
@@ -54,6 +50,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-md-3">
             <app-side-bar></app-side-bar>
             <app-subreddit-side-bar></app-subreddit-side-bar>

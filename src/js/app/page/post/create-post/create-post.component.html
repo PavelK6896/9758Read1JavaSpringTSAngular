@@ -8,8 +8,6 @@
                     <hr/>
                     <input [formControlName]="'postName'" class="form-control mt-2" placeholder="Title"        type="text">
 
-                    <input [formControlName]="'url'" class="form-control mt-2" placeholder="URL" type="text">
-
                     <select [formControlName]="'subReadName'" name="sub" class="form-control mt-2" >
                         <option selected hidden>Choose here</option>
                         <option *ngFor="let subreddit of subRead">{{subreddit.name}}</option>
