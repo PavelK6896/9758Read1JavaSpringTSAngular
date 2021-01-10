@@ -1,8 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {faComments} from '@fortawesome/free-solid-svg-icons';
-import {PostModel} from "../../../utill/class1";
+// import {PostModel} from "../../../utill/class1";
 import {logUtil} from "../../../utill/log1";
+import {PostResponseDto} from "../../../utill/interface1";
 
 @Component({
     selector: 'app-post-tile',
@@ -12,7 +13,7 @@ import {logUtil} from "../../../utill/log1";
 export class PostTileComponent implements OnInit {
 
     faComments = faComments;
-    @Input() posts: PostModel[];
+    @Input() posts: PostResponseDto[];
 
     constructor(private router: Router) {
         logUtil("PostTileComponent!")

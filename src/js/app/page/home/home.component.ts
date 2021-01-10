@@ -1,9 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 
 import {Subscription, throwError} from "rxjs";
-import {PostModel} from "../../utill/class1";
+// import {PostModel} from "../../utill/class1";
 import {PostService} from "../../service/post.service";
 import {logUtil} from "../../utill/log1";
+import {PostResponseDto} from "../../utill/interface1";
 
 
 @Component({
@@ -13,7 +14,7 @@ import {logUtil} from "../../utill/log1";
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-    posts: Array<PostModel> = [];
+    posts: PostResponseDto[] = [];
     getAllPostsSubscription: Subscription
 
     constructor(private postService: PostService) {
@@ -27,7 +28,9 @@ export class HomeComponent implements OnInit, OnDestroy {
                 this.posts = data;
             }, error => {
                 logUtil("getAllPosts- ", error)
-                throwError(error);
+                if(error.status != 404){
+                    throwError(error);
+                }
             });
     }
 

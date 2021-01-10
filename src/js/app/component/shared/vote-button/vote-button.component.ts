@@ -1,13 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ToastrService} from "ngx-toastr";
 import {throwError} from "rxjs";
 import {faArrowDown, faArrowUp} from '@fortawesome/free-solid-svg-icons';
-import {PostModel, VotePayload, VoteType} from "../../../utill/class1";
 import {VoteService} from "../../../service/vote.service";
-import {AuthService} from "../../../service/auth.service";
-import {PostService} from "../../../service/post.service";
 import {logUtil} from "../../../utill/log1";
-
+import {PostResponseDto, VoteDto, VoteType} from "../../../utill/interface1";
 
 @Component({
     selector: 'app-vote-button',
@@ -16,72 +12,45 @@ import {logUtil} from "../../../utill/log1";
 })
 export class VoteButtonComponent implements OnInit {
 
-    @Input() post: PostModel;
-    votePayload: VotePayload;
+    @Input() post: PostResponseDto;
+    voteDto: VoteDto;
     faArrowUp = faArrowUp;
     faArrowDown = faArrowDown;
-
-    upVoteColor: string;
-    downVoteColor: string;
+    up = 'UP_VOTE'
+    down = 'DOWN_VOTE'
     isLoggedIn: boolean;
 
-    constructor(private voteService: VoteService,
-                private authService: AuthService,
-                private postService: PostService,
-                private toastrService: ToastrService
-    ) {
+    constructor(private voteService: VoteService) {
         logUtil("VoteButtonComponent!")
-        this.votePayload = {
+        this.voteDto = {
             voteType: undefined,
             postId: undefined
         }
     }
 
     ngOnInit(): void {
-        this.authService.loggedInEmitter
-            .subscribe((data: boolean) => {
-                logUtil("loggedInEmitter+ ", data)
-                this.isLoggedIn = data
-            }, error => {
-                logUtil("loggedInEmitter- ", error)
-                throwError(error);
-            });
-        this.updateVoteDetails();
     }
 
     upVotePost() {
-        this.votePayload.voteType = VoteType.UP_VOTE;
+        this.voteDto.voteType = VoteType.UP_VOTE;
+        this.post.vote = this.up
         this.vote();
-        this.downVoteColor = '';
     }
 
     downVotePost() {
-        this.votePayload.voteType = VoteType.DOWN_VOTE;
+        this.voteDto.voteType = VoteType.DOWN_VOTE;
+        this.post.vote = this.down
         this.vote();
-        this.upVoteColor = '';
     }
 
     private vote() {
-        this.votePayload.postId = this.post.id;
-        this.voteService.vote(this.votePayload)
+        this.voteDto.postId = this.post.id;
+        this.voteService.vote(this.voteDto)
             .subscribe((data) => {
                 logUtil("vote+ ", data)
-                this.updateVoteDetails();
+                this.post.voteCount = data
             }, error => {
                 logUtil("vote- ", error)
-                this.toastrService.error(error.error.message);
-                throwError(error);
-            });
-    }
-
-    private updateVoteDetails() {
-        this.postService.getPostById(this.post.id)
-            .subscribe(data => {
-                logUtil("getPostById+ ", data)
-                this.post = data;
-            }, error => {
-                logUtil("getPostById- ", error)
-                this.toastrService.error(error.error.message);
                 throwError(error);
             });
     }

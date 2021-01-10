@@ -42,9 +42,6 @@ public class CommentService {
         User currentUser = authService.getCurrentUser();
         commentRepository.save(commentMapper.map(commentsDto, post, currentUser));
 
-        if (post.getUrl() != null)
-            POST_URL = post.getUrl();
-
         String stringMessageMail = currentUser.getUsername() + " posted a comment on your post." + POST_URL;
         sendCommentNotification(stringMessageMail, post.getUser());
         return ResponseEntity.status(CREATED).build();

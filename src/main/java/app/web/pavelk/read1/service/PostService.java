@@ -1,17 +1,15 @@
 package app.web.pavelk.read1.service;
 
 
-import app.web.pavelk.read1.dto.PostRequest;
-import app.web.pavelk.read1.dto.PostResponse;
+import app.web.pavelk.read1.dto.PostRequestDto;
+import app.web.pavelk.read1.dto.PostResponseDto;
 import app.web.pavelk.read1.exceptions.PostNotFoundException;
 import app.web.pavelk.read1.exceptions.SubredditNotFoundException;
-import app.web.pavelk.read1.mapper.PostMapper;
 import app.web.pavelk.read1.model.Post;
 import app.web.pavelk.read1.model.Subreddit;
 import app.web.pavelk.read1.model.User;
-import app.web.pavelk.read1.repository.PostRepository;
-import app.web.pavelk.read1.repository.SubredditRepository;
-import app.web.pavelk.read1.repository.UserRepository;
+import app.web.pavelk.read1.model.VoteType;
+import app.web.pavelk.read1.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,65 +18,86 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
-@Transactional
 public class PostService {
 
     private final PostRepository postRepository;
     private final SubredditRepository subredditRepository;
     private final UserRepository userRepository;
     private final AuthService authService;
-    private final PostMapper postMapper;
+    private final CommentRepository commentRepository;
+    private final VoteRepository voteRepository;
 
-    public ResponseEntity<Void> createPost(PostRequest postRequest) {
+    @Transactional
+    public ResponseEntity<Void> createPost(PostRequestDto postRequestDto) {
         log.info("createPost");
-        Subreddit subreddit = subredditRepository.findByName(postRequest.getSubReadName())//todo sub
-                .orElseThrow(() -> new SubredditNotFoundException("The sub is not found " + postRequest.getSubReadName()));
+        Subreddit subreddit = subredditRepository.findByName(postRequestDto.getSubReadName())
+                .orElseThrow(() -> new SubredditNotFoundException("The sub is not found " + postRequestDto.getSubReadName()));
 
-        postRepository.save(postMapper.map(postRequest, subreddit, authService.getCurrentUser()));
+        postRepository.save(Post.builder().postName(postRequestDto.getPostName()).description(postRequestDto.getDescription())
+                .createdDate(LocalDateTime.now()).user(authService.getCurrentUser()).subreddit(subreddit).build());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    private String getVote(Post post) {
+        if (authService.isLoggedIn()) {
+            return voteRepository.getTypeByUser(post, authService.getCurrentUser()).map(VoteType::toString).orElse(null);
+        }
+        return null;
+    }
+
+    private PostResponseDto getPostDto(Post post) {
+        return PostResponseDto.builder()
+                .id(post.getPostId())
+                .postName(post.getPostName())
+                .description(post.getDescription())
+                .userName(post.getUser().getUsername())
+                .subReadName(post.getSubreddit().getName())
+                .voteCount(voteRepository.getCount(post))
+                .commentCount(commentRepository.findByPost(post).size()) //todo оптимизировать запрос
+                .duration(post.getCreatedDate().toString())
+                .vote(getVote(post)).build();
+    }
+
     @Transactional(readOnly = true)
-    public ResponseEntity<PostResponse> getPost(Long id) {
+    public ResponseEntity<PostResponseDto> getPost(Long id) {
         log.info("getPost");
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostNotFoundException("Post not found id " + id.toString()));
-        return ResponseEntity.status(HttpStatus.OK).body(postMapper.mapToDto(post));
+        return ResponseEntity.status(HttpStatus.OK).body(getPostDto(post));
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<List<PostResponse>> getAllPosts() {
-        return ResponseEntity.status(HttpStatus.OK).body(
-                postRepository.findAll()
-                        .stream()
-                        .map(postMapper::mapToDto)
-                        .collect(toList()));
+    public ResponseEntity<List<PostResponseDto>> getAllPosts() {
+        //todo page!! делать Lazy
+        List<PostResponseDto> collect = postRepository.findAll().stream().map(this::getPostDto).collect(toList());
+        System.out.println(collect);
+        return ResponseEntity.status(HttpStatus.OK).body(collect);
     }
 
+
     @Transactional(readOnly = true)
-    public ResponseEntity<List<PostResponse>> getPostsBySubreddit(Long subredditId) {
+    public ResponseEntity<List<PostResponseDto>> getPostsBySubreddit(Long subredditId) {
         log.info("getPostsBySubreddit");
         Subreddit subreddit = subredditRepository.findById(subredditId)
                 .orElseThrow(() -> new SubredditNotFoundException("Subreddit not id " + subredditId.toString()));
-        List<Post> posts = postRepository.findAllBySubreddit(subreddit);
-        return ResponseEntity.status(HttpStatus.OK).body(posts.stream().map(postMapper::mapToDto).collect(toList()));
+        List<PostResponseDto> collect = postRepository.findAllBySubreddit(subreddit).stream().map(this::getPostDto).collect(toList());
+        return ResponseEntity.status(HttpStatus.OK).body(collect);
     }
 
     @Transactional(readOnly = true)
-    public ResponseEntity<List<PostResponse>> getPostsByUsername(String username) {
+    public ResponseEntity<List<PostResponseDto>> getPostsByUsername(String username) {
         log.info("getPostsBySubreddit");
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Username Not Found " + username));
-        return ResponseEntity.status(HttpStatus.OK).body(postRepository.findByUser(user)
-                .stream()
-                .map(postMapper::mapToDto)
-                .collect(toList()));
+        List<PostResponseDto> collect = postRepository.findByUser(user).stream().map(this::getPostDto).collect(toList());
+        return ResponseEntity.status(HttpStatus.OK).body(collect);
     }
 }

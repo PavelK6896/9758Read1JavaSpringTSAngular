@@ -57,7 +57,6 @@ create table IF NOT EXISTS post.post
     created_date timestamp,
     description  text,
     post_name    varchar(255),
-    url          varchar(255),
     vote_count   int4,
     subreddit_id int8,
     user_id      int8,
