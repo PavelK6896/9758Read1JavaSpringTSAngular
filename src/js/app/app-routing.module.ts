@@ -10,6 +10,7 @@ import {UserProfileComponent} from "./page/auth/user-profile/user-profile.compon
 import {SignupComponent} from "./page/auth/signup/signup.component";
 import {LoginComponent} from "./page/auth/login/login.component";
 import {AuthGuard} from "./security/auth.guard";
+import {UserViewPostComponent} from "./page/post/user-view-post/user-view-post.component";
 
 
 
@@ -24,7 +25,9 @@ const routes: Routes = [
 
     {path: 'user-profile/:name', component: UserProfileComponent, canActivate: [AuthGuard]},
     {path: 'sign-up', component: SignupComponent},
-    {path: 'login', component: LoginComponent}
+    {path: 'login', component: LoginComponent},
+
+    {path: 'user/:name', component: UserViewPostComponent}
 ];
 
 @NgModule({

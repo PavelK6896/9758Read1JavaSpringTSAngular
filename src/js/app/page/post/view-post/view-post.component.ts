@@ -1,24 +1,26 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {throwError} from "rxjs";
-import {CommentPayload, PostModel} from "../../../utill/class1";
+import {CommentPayload} from "../../../utill/class1";
 import {PostService} from "../../../service/post.service";
 import {CommentService} from "../../../service/comment.service";
 import {logUtil} from "../../../utill/log1";
+import {PostResponseDto} from "../../../utill/interface1";
 
 @Component({
     selector: 'app-view-post',
     templateUrl: './view-post.component.html',
-    styleUrls: ['./view-post.component.css']
+    styleUrls: ['./view-post.component.css'],
+    encapsulation: ViewEncapsulation.None,
 })
 export class ViewPostComponent implements OnInit {
 
     loadingPost: boolean = false;
     loadingComment: boolean = false;
     postId: number;
-    post: PostModel;
+    post: PostResponseDto;
     commentForm: FormGroup;
     commentPayload: CommentPayload;
     comments: CommentPayload[];

@@ -1,5 +1,5 @@
 <div class="container pt-5">
-    <div  class="pt-3 ">
+    <div class="pt-3 ">
         Welcome <b>{{name}}</b>.<br/> You have posted <b>{{postLength}}</b> time(s) and commented
         <b>{{commentLength}}</b> time(s).
         You can check your post and comment history below.
@@ -8,21 +8,34 @@
     <h5>
         Your Posts:
     </h5>
-    <app-post-tile [posts]="posts"></app-post-tile>
+
+    <div *ngIf="loadingPost; else loadingTemp">
+        <div *ngFor="let post of posts">
+            <app-post-tile [post]="post"></app-post-tile>
+        </div>
+    </div>
+
     <hr/>
     <div>
         Your Comments:
     </div>
-    <div *ngFor="let comment of comments">
-        <div class="comment">
-            <div class="username">
-                <a routerLink="/user/comment.username">{{comment.username}}</a>
+    <div *ngIf="loadingPost; else loadingTemp">
+        <div *ngFor="let comment of comments">
+            <div class="comment">
+                <div class="username">
+                    <a routerLink="/user/comment.username">{{comment.username}}</a>
+                </div>
+                <div>
+                    <p>{{comment.duration}}</p>
+                </div>
+                <b>{{comment.text}}</b>
             </div>
-            <div>
-                <p>{{comment.duration}}</p>
-            </div>
-            <b>{{comment.text}}</b>
+            <hr/>
         </div>
-        <hr/>
     </div>
 </div>
+
+
+<ng-template #loadingTemp>
+    <div class="loader-small"></div>
+</ng-template>

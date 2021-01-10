@@ -1,5 +1,3 @@
-
-
 export interface SignupRequestPayload {
     username: string;
     password: string;
@@ -20,24 +18,24 @@ export interface LoginRequestPayload {
 }
 
 
-
 export interface PostRequestDto {
-     subReadName: string
-     postName:string
-     description:string
+    subReadName: string
+    postName: string
+    description: string
 }
 
 
 export interface PostResponseDto {
-     id: number
-     postName: string
-     description: string
-     userName: string
-     subReadName: string
-     voteCount: number
-     commentCount: number
-     duration: string
-     vote: string
+    id: number
+    postName: string
+    description: string
+    userName: string
+    subReadName: string
+    subReadId: number
+    voteCount: number
+    commentCount: number
+    duration: string
+    vote: string
 }
 
 export interface VoteDto {

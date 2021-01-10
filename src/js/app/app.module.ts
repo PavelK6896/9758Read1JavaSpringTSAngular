@@ -24,6 +24,8 @@ import {ViewSubredditComponent} from "./page/subreddit/view-subreddit/view-subre
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {TokenInterceptor} from "./security/token-interceptor";
 import {QuillModule} from "ngx-quill";
+import { PostTopComponent } from './component/post/post-top/post-top.component';
+import { UserViewPostComponent } from './page/post/user-view-post/user-view-post.component';
 
 @NgModule({
     declarations: [
@@ -42,6 +44,8 @@ import {QuillModule} from "ngx-quill";
         ViewPostComponent,
         UserProfileComponent,
         ViewSubredditComponent,
+        PostTopComponent,
+        UserViewPostComponent,
 
     ],
     imports: [

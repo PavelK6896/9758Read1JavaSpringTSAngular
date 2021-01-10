@@ -1,10 +1,11 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription, throwError} from "rxjs";
 import {ActivatedRoute} from "@angular/router";
-import {PostModel, SubredditModel} from "../../../utill/class1";
+import { SubredditModel} from "../../../utill/class1";
 import {PostService} from "../../../service/post.service";
 import {SubredditService} from "../../../service/subreddit.service";
 import {logUtil} from "../../../utill/log1";
+import {PostResponseDto} from "../../../utill/interface1";
 
 
 
@@ -15,7 +16,7 @@ import {logUtil} from "../../../utill/log1";
 })
 export class ViewSubredditComponent implements OnInit, OnDestroy {
 
-    posts: PostModel[]
+    posts: PostResponseDto[]
     sub: SubredditModel
     postLength: number;
     subId: number;

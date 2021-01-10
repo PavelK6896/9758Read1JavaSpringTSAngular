@@ -26,7 +26,7 @@ public class SubReadController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SubredditDto> getSubreddit(@PathVariable Long id) throws InterruptedException {
+    public ResponseEntity<SubredditDto> getSubreddit(@PathVariable Long id) {
         return subReadService.getSubreddit(id);
     }
 

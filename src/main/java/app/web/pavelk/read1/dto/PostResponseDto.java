@@ -15,6 +15,7 @@ public class PostResponseDto {
     private String description;
     private String userName;
     private String subReadName;
+    private Long subReadId;
     private Integer voteCount;
     private Integer commentCount;
     private String duration;

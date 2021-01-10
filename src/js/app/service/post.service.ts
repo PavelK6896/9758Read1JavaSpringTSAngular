@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 // import {CreatePostPayload, PostModel} from "../utill/class1";
 import {url1} from "../utill/url1";
 import {PostRequestDto, PostResponseDto} from "../utill/interface1";
+import {CreatePostPayload} from "../utill/class1";
 
 @Injectable({
     providedIn: 'root'
@@ -18,7 +19,7 @@ export class PostService {
         return this.http.get<PostResponseDto[]>(url1.getAllPosts);
     }
 
-    createPost(postPayload: PostRequestDto): Observable<any> {
+    createPost(postPayload: CreatePostPayload): Observable<any> {
 
         return this.http.post(url1.createPost, postPayload);
     }

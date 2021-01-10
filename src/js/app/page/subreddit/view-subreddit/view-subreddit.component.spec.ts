@@ -8,7 +8,7 @@ import {of} from "rxjs";
 import {By} from "@angular/platform-browser";
 import {PostService} from "../../../service/post.service";
 import {SubredditService} from "../../../service/subreddit.service";
-import {PostModel, SubredditModel} from "../../../utill/class1";
+import { SubredditModel} from "../../../utill/class1";
 
 
 
@@ -49,37 +49,37 @@ describe('ViewSubredditComponent 21', () => {
     it('1', () => {
         expect(component).toBeTruthy();
     });
-
-    it('2', () => {
-
-        let postService = TestBed.inject(PostService)
-        let subredditService = TestBed.inject(SubredditService)
-        let spyPostService = spyOn(postService, 'getAllPostsBySub')
-
-        let posts = [new PostModel(1, 'n', 'u', 'd',
-            21, 'e', 's',
-            3, 'r', true, false),
-            new PostModel(2, 'n', 'u', 'd',
-                21, 'e', 's',
-                3, 'r', true, false)]
-        spyPostService.and.returnValue(of(posts))
-        let spySubredditService = spyOn(subredditService, 'getSubredditsId')
-
-        let subredditModel = new SubredditModel(1, 'name', "d", 22);
-        spySubredditService.and.returnValue(of(subredditModel))
-
-        component.ngOnInit()
-        component.loadingSub = true
-        component.loadingPost = true
-        fixture.detectChanges();
-
-        expect(spyPostService).toHaveBeenCalledWith(subId)
-        expect(spySubredditService).toHaveBeenCalledWith(subId)
-        expect(component.subId).toBe(subId)
-
-        let debugElement = fixture.debugElement.query(By.css('h5'));
-        expect(debugElement).not.toBe(null)
-        const compiled = fixture.debugElement.nativeElement;
-        expect(compiled.querySelector('app-post-tile')).not.toBe(null);
-    });
+    //
+    // it('2', () => {
+    //
+    //     let postService = TestBed.inject(PostService)
+    //     let subredditService = TestBed.inject(SubredditService)
+    //     let spyPostService = spyOn(postService, 'getAllPostsBySub')
+    //
+    //     let posts = [new PostModel(1, 'n', 'u', 'd',
+    //         21, 'e', 's',
+    //         3, 'r', true, false),
+    //         new PostModel(2, 'n', 'u', 'd',
+    //             21, 'e', 's',
+    //             3, 'r', true, false)]
+    //     spyPostService.and.returnValue(of(posts))
+    //     let spySubredditService = spyOn(subredditService, 'getSubredditsId')
+    //
+    //     let subredditModel = new SubredditModel(1, 'name', "d", 22);
+    //     spySubredditService.and.returnValue(of(subredditModel))
+    //
+    //     component.ngOnInit()
+    //     component.loadingSub = true
+    //     component.loadingPost = true
+    //     fixture.detectChanges();
+    //
+    //     expect(spyPostService).toHaveBeenCalledWith(subId)
+    //     expect(spySubredditService).toHaveBeenCalledWith(subId)
+    //     expect(component.subId).toBe(subId)
+    //
+    //     let debugElement = fixture.debugElement.query(By.css('h5'));
+    //     expect(debugElement).not.toBe(null)
+    //     const compiled = fixture.debugElement.nativeElement;
+    //     expect(compiled.querySelector('app-post-tile')).not.toBe(null);
+    // });
 });

@@ -7,7 +7,6 @@ import {of} from "rxjs";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {By} from "@angular/platform-browser";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
-import {PostModel} from "../../../utill/class1";
 import {PostService} from "../../../service/post.service";
 import {CommentService} from "../../../service/comment.service";
 
@@ -30,7 +29,7 @@ describe('ViewPostComponent 11', () => {
     let component: ViewPostComponent;
     let fixture: ComponentFixture<ViewPostComponent>;
 
-    let postModel1: PostModel = {
+    let postModel1 = {
         id: 1,
         postName: "name",
         url: "url",
@@ -60,7 +59,7 @@ describe('ViewPostComponent 11', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(ViewPostComponent);
         component = fixture.componentInstance;
-        component.post = postModel1
+        // component.post = postModel1
         fixture.detectChanges();
     });
 

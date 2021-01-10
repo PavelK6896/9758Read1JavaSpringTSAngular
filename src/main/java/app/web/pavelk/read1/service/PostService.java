@@ -60,6 +60,7 @@ public class PostService {
                 .description(post.getDescription())
                 .userName(post.getUser().getUsername())
                 .subReadName(post.getSubreddit().getName())
+                .subReadId(post.getSubreddit().getId())
                 .voteCount(voteRepository.getCount(post))
                 .commentCount(commentRepository.findByPost(post).size()) //todo оптимизировать запрос
                 .duration(post.getCreatedDate().toString())
