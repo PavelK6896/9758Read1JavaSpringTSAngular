@@ -1,9 +1,9 @@
 <div class="sidebar-view-subreddit">
     <div style="color: black; font-weight: bold; text-align: center">Browse sub</div>
     <hr/>
-    <span *ngFor="let subreddit of subreddits">
+    <span *ngFor="let s of subreddits">
         <span class="">
-            <a href="/view-subreddit/{{subreddit.id}}">{{subreddit.name}}</a>
+            <a routerLink="/view-subreddit/{{s.id}}">{{s.name}}</a>
         </span>
         <hr/>
     </span>

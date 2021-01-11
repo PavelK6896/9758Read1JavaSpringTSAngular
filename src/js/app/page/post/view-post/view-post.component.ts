@@ -8,6 +8,7 @@ import {PostService} from "../../../service/post.service";
 import {CommentService} from "../../../service/comment.service";
 import {logUtil} from "../../../utill/log1";
 import {PostResponseDto} from "../../../utill/interface1";
+import {AuthService} from "../../../service/auth.service";
 
 @Component({
     selector: 'app-view-post',
@@ -25,8 +26,11 @@ export class ViewPostComponent implements OnInit {
     commentPayload: CommentPayload;
     comments: CommentPayload[];
 
-    constructor(private postService: PostService, private activateRoute: ActivatedRoute,
-                private commentService: CommentService, private router: Router) {
+    constructor(private postService: PostService,
+                private activateRoute: ActivatedRoute,
+                private router: Router,
+                private commentService: CommentService,
+                private authService: AuthService) {
         logUtil("ViewPostComponent!")
         this.postId = this.activateRoute.snapshot.params.id;
         this.commentForm = new FormGroup({
@@ -45,6 +49,12 @@ export class ViewPostComponent implements OnInit {
     }
 
     postComment() {
+
+        if(!this.authService.isLoggedIn()){
+            this.router.navigateByUrl('login')
+            return;
+        }
+
         this.commentPayload.text = this.commentForm.get('text').value;
         if (this.commentPayload.text.trim().length == 0) {
             return

@@ -4,6 +4,8 @@ import {faArrowDown, faArrowUp} from '@fortawesome/free-solid-svg-icons';
 import {VoteService} from "../../../service/vote.service";
 import {logUtil} from "../../../utill/log1";
 import {PostResponseDto, VoteDto, VoteType} from "../../../utill/interface1";
+import {ActivatedRoute, Router} from "@angular/router";
+import {AuthService} from "../../../service/auth.service";
 
 @Component({
     selector: 'app-vote-button',
@@ -20,7 +22,10 @@ export class VoteButtonComponent implements OnInit {
     down = 'DOWN_VOTE'
     isLoggedIn: boolean;
 
-    constructor(private voteService: VoteService) {
+    constructor(private voteService: VoteService,
+                private authService: AuthService,
+                private router: Router
+                ) {
         logUtil("VoteButtonComponent!")
         this.voteDto = {
             voteType: undefined,
@@ -32,12 +37,20 @@ export class VoteButtonComponent implements OnInit {
     }
 
     upVotePost() {
+        if(!this.authService.isLoggedIn()){
+            this.router.navigateByUrl('login')
+            return;
+        }
         this.voteDto.voteType = VoteType.UP_VOTE;
         this.post.vote = this.up
         this.vote();
     }
 
     downVotePost() {
+        if(!this.authService.isLoggedIn()){
+            this.router.navigateByUrl('login')
+            return;
+        }
         this.voteDto.voteType = VoteType.DOWN_VOTE;
         this.post.vote = this.down
         this.vote();

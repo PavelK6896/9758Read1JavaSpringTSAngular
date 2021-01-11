@@ -20,7 +20,7 @@
                     <br/>
 
                     <div class="post-comment">
-                        <form (ngSubmit)="postComment()" [formGroup]="commentForm">
+                        <form  [formGroup]="commentForm">
                             <div class="form-group">
                                 <textarea [formControlName]="'text'" class="form-control"
                                           placeholder="Your thoughts?"></textarea>
@@ -28,6 +28,7 @@
                             <button
                                     class="loginButton float-right"
                                     type="submit"
+                                    (click)="postComment()"
                             >Comment
                             </button>
 

@@ -15,19 +15,20 @@ import {UserViewPostComponent} from "./page/post/user-view-post/user-view-post.c
 
 
 const routes: Routes = [
-    {path: '', component: HomeComponent},
+    {path: '',  component: HomeComponent},
     {path: 'view-post/:id', component: ViewPostComponent},
     {path: 'create-post', component: CreatePostComponent, canActivate: [AuthGuard]},
 
-    {path: 'list-subreddits', component: ListSubredditsComponent},
+    {path: 'list-subreddits',  component: ListSubredditsComponent},
     {path: 'view-subreddit/:id', component: ViewSubredditComponent},
-    {path: 'create-subreddit', component: CreateSubredditComponent, canActivate: [AuthGuard]},
+    {path: 'create-subreddit',  component: CreateSubredditComponent, canActivate: [AuthGuard]},
 
     {path: 'user-profile/:name', component: UserProfileComponent, canActivate: [AuthGuard]},
     {path: 'sign-up', component: SignupComponent},
     {path: 'login', component: LoginComponent},
 
-    {path: 'user/:name', component: UserViewPostComponent}
+    {path: 'user/:name', component: UserViewPostComponent},
+    { path: '**', redirectTo: '/'}
 ];
 
 @NgModule({

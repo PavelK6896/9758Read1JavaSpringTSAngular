@@ -12,7 +12,7 @@ import {logUtil} from "../../../utill/log1";
 })
 export class ListSubredditsComponent implements OnInit, OnDestroy {
 
-    subreddits: Array<SubredditModel>;
+    subreddits: SubredditModel[];
     getAllSubredditsSubscription: Subscription
 
     constructor(private subredditService: SubredditService) {
