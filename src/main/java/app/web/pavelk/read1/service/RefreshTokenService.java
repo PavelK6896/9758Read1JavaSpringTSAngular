@@ -15,10 +15,11 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.OK;
 
-@Service
-@AllArgsConstructor
-@Transactional
+
 @Slf4j
+@Service
+@Transactional
+@AllArgsConstructor
 public class RefreshTokenService {
 
     private final RefreshTokenRepository refreshTokenRepository;

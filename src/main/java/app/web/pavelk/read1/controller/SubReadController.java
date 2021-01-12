@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/subreddit")
 @AllArgsConstructor
+@RequestMapping("/api/subreddit")
 public class SubReadController {
 
     private final SubReadService subReadService;

@@ -11,10 +11,10 @@ import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "subreddit", schema = "post")
 public class Subreddit {
     @Id
@@ -24,7 +24,6 @@ public class Subreddit {
     @NonNull
     @NotBlank(message = "Community name is required")
     private String name;
-
 
     @NotBlank(message = "Description is required")
     private String description;

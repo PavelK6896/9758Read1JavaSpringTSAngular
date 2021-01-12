@@ -10,10 +10,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RefreshTokenRequest {
     @NotBlank
     @NotNull

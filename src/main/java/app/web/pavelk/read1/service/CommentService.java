@@ -10,9 +10,9 @@ import app.web.pavelk.read1.model.User;
 import app.web.pavelk.read1.repository.CommentRepository;
 import app.web.pavelk.read1.repository.PostRepository;
 import app.web.pavelk.read1.repository.UserRepository;
-import app.web.pavelk.read1.service.mail.MailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -23,9 +23,9 @@ import static java.util.stream.Collectors.toList;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class CommentService {
     private String POST_URL = "";
     private final PostRepository postRepository;
@@ -35,6 +35,9 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final MailService mailService;
 
+    @Value("${host-url}")
+    private String hostUrl;
+
     public ResponseEntity<Void> createComment(CommentsDto commentsDto) {
         log.info("createComment");
         Post post = postRepository.findById(commentsDto.getPostId())
@@ -42,18 +45,22 @@ public class CommentService {
         User currentUser = authService.getCurrentUser();
         commentRepository.save(commentMapper.map(commentsDto, post, currentUser));
 
-        String stringMessageMail = currentUser.getUsername() + " posted a comment on your post." + POST_URL;
+        String stringMessageMail = currentUser.getUsername() + " posted a comment on your post. "
+                + hostUrl + "/view-post/" + post.getPostId();
+
         sendCommentNotification(stringMessageMail, post.getUser());
         return ResponseEntity.status(CREATED).build();
     }
 
     private void sendCommentNotification(String message, User user) {
-        mailService.sendMail(new NotificationEmail(user.getUsername() + " Commented on your post", user.getEmail(), message));
+        mailService.sendMail(new NotificationEmail(user.getUsername()
+                + " Commented on your post", user.getEmail(), message));
     }
 
     public ResponseEntity<List<CommentsDto>> getAllCommentsForPost(Long postId) {
         log.info("getAllCommentsForPost");
-        Post post = postRepository.findById(postId).orElseThrow(() -> new PostNotFoundException("Not found post " + postId.toString()));
+        Post post = postRepository.findById(postId).orElseThrow(() ->
+                new PostNotFoundException("Not found post " + postId.toString()));
         return ResponseEntity.status(OK).body(
                 commentRepository.findByPost(post).stream()
                         .map(commentMapper::mapToDto).collect(toList()));
@@ -63,7 +70,6 @@ public class CommentService {
         log.info("getAllCommentsForUser");
         User user = userRepository.findByUsername(userName)
                 .orElseThrow(() -> new UsernameNotFoundException("User name not found " + userName));
-        System.out.println("--getAllCommentsForUser");
         return ResponseEntity.status(OK)
                 .body(commentRepository.findAllByUser(user)
                         .stream()

@@ -1,4 +1,4 @@
-package app.web.pavelk.read1.service.mail;
+package app.web.pavelk.read1.service;
 
 import app.web.pavelk.read1.dto.NotificationEmail;
 import app.web.pavelk.read1.exceptions.SpringRedditException;
@@ -12,9 +12,9 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class MailService {
 
     private final JavaMailSender javaMailSender;

@@ -31,7 +31,6 @@ export class TokenInterceptor implements HttpInterceptor {
                     catchError(error => {
                         logUtil("error",error )
                             if (error instanceof HttpErrorResponse && error.status === 403) {
-
                                 return this.handleAuthErrors(req, next);
                             } else {
                                 return throwError(error);
@@ -46,7 +45,7 @@ export class TokenInterceptor implements HttpInterceptor {
         let httpRequest = req.clone({
             headers: req.headers.set('Authorization', 'Bearer ' + jwtToken)
         });
-        logUtil("addToken",httpRequest.headers.get('Authorization') )
+        logUtil("addToken+ ", httpRequest.headers.get('Authorization'))
         return httpRequest;
     }
 
@@ -57,11 +56,14 @@ export class TokenInterceptor implements HttpInterceptor {
             this.refreshTokenSubject.next(null);
             return this.authService.refreshToken().pipe(
                 switchMap((refreshTokenResponse: LoginResponse) => {
+                    logUtil("refreshTokenResponse!pipe+2+ ", refreshTokenResponse)
                     this.isTokenRefreshing = false;
                     this.refreshTokenSubject.next(refreshTokenResponse.authenticationToken);
                     return next.handle(this.addToken(req, refreshTokenResponse.authenticationToken));
                 })
             )
+
+
         } else {
             return this.refreshTokenSubject.pipe(
                 filter(result => result !== null),

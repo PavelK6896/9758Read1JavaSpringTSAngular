@@ -12,7 +12,7 @@ spring:
       fail-on-empty-beans: false
 
   datasource:
-#    initialization-mode: always
+    initialization-mode: always
 
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/read2
@@ -29,7 +29,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQL9Dialect
 
 jwt:
-  expiration:
-    time: 80000000000000
+  expiration: 1
+
+#host-url: http://localhost:8080/read1
+host-url:  http://18.156.192.31/read1
 
 

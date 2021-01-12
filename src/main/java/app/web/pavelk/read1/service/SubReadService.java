@@ -17,9 +17,9 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class SubReadService {
 
     private final SubredditRepository subredditRepository;

@@ -6,6 +6,7 @@ import app.web.pavelk.read1.dto.SubredditDto;
 import app.web.pavelk.read1.model.Subreddit;
 import app.web.pavelk.read1.repository.SubredditRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,8 +22,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest(classes = Read1.class)
 @ActiveProfiles("test")
+@SpringBootTest(classes = Read1.class)
 @AutoConfigureMockMvc(addFilters = false)
 public class SubReadControllerTest {
 
@@ -35,6 +36,7 @@ public class SubReadControllerTest {
     @Autowired
     private SubredditRepository subredditRepository;
 
+    @BeforeEach
     private void clearBase() {
         subredditRepository.deleteAll();
     }
@@ -51,7 +53,6 @@ public class SubReadControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(201));
-        clearBase();
     }
 
     @Test
@@ -68,7 +69,6 @@ public class SubReadControllerTest {
                 .andExpect(status().is(404))
                 .andExpect(content().string("name is marked non-null but is null"));
 
-        clearBase();
     }
 
 
@@ -94,7 +94,6 @@ public class SubReadControllerTest {
                 .andExpect(jsonPath("$[1].description", is(description)))
                 .andExpect(jsonPath("$[0].id", is(subreddit1.getId().intValue())))
                 .andExpect(jsonPath("$[1].id", is(subreddit2.getId().intValue())));
-        clearBase();
     }
 
     @Test
@@ -120,7 +119,6 @@ public class SubReadControllerTest {
                 .andExpect(jsonPath("$.name", is(name1)))
                 .andExpect(jsonPath("$.description", is(description)))
                 .andExpect(jsonPath("$.id", is(subreddit1.getId().intValue())));
-        clearBase();
     }
 
     @Test

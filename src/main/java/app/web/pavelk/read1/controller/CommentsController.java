@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/comments")
 @AllArgsConstructor
+@RequestMapping("/api/comments")
 public class CommentsController {
 
     private final CommentService commentService;

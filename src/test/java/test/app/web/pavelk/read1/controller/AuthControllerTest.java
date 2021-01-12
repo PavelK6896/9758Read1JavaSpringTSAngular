@@ -11,6 +11,7 @@ import app.web.pavelk.read1.repository.RefreshTokenRepository;
 import app.web.pavelk.read1.repository.UserRepository;
 import app.web.pavelk.read1.repository.VerificationTokenRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -33,8 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
-@SpringBootTest(classes = Read1.class)
 @ActiveProfiles("test")
+@SpringBootTest(classes = Read1.class)
 @AutoConfigureMockMvc(addFilters = false)
 public class AuthControllerTest {
 
@@ -56,6 +57,12 @@ public class AuthControllerTest {
     @Autowired
     private RefreshTokenRepository refreshTokenRepository;
 
+    @BeforeEach
+    private void clearBase() {
+        verificationTokenRepository.deleteAll();
+        refreshTokenRepository.deleteAll();
+        userRepository.deleteAll();
+    }
 
     @Test
     public void signUp1Right() throws Exception {
@@ -72,15 +79,8 @@ public class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string("User Registration Successful"));
-
-        clearBase();
     }
 
-    private void clearBase() {
-        verificationTokenRepository.deleteAll();
-        refreshTokenRepository.deleteAll();
-        userRepository.deleteAll();
-    }
 
     @Test
     public void signUp2Wrong() throws Exception {
@@ -96,7 +96,6 @@ public class AuthControllerTest {
                 .andExpect(status().is(400))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException));
 
-        clearBase();
 
     }
 
@@ -114,7 +113,6 @@ public class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string("Account Activated Successfully"));
-        clearBase();
     }
 
     @Test
@@ -124,7 +122,6 @@ public class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().is(403))
                 .andExpect(content().string("Invalid verification Token"));
-        clearBase();
     }
 
     @Test
@@ -149,7 +146,6 @@ public class AuthControllerTest {
                 .andExpect(jsonPath("$.authenticationToken").isString())
                 .andExpect(jsonPath("$.refreshToken").exists())
                 .andExpect(jsonPath("$.expiresAt").exists());
-        clearBase();
     }
 
     @Test
@@ -170,7 +166,6 @@ public class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().is(403))
                 .andExpect(content().string("Bad credentials"));
-        clearBase();
     }
 
     @Test
@@ -187,7 +182,6 @@ public class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().is(403))
                 .andExpect(content().string("Bad credentials"));
-        clearBase();
 
     }
 
@@ -195,7 +189,12 @@ public class AuthControllerTest {
     public void refreshToken1Right() throws Exception {
 
         String string = UUID.randomUUID().toString();
+        String password = "trewt43";
         String username = "asdasdas";
+
+        User user = userRepository.save(User.builder().created(Instant.now()).email("a@pvhfha.ru")
+                .username(username).password(passwordEncoder.encode(password)).enabled(true).build());
+
         refreshTokenRepository.save(RefreshToken.builder()
                 .createdDate(Instant.now()).token(string).build());
         RefreshTokenRequest refreshTokenRequest = RefreshTokenRequest.builder()
@@ -212,7 +211,6 @@ public class AuthControllerTest {
                 .andExpect(jsonPath("$.authenticationToken").isString())
                 .andExpect(jsonPath("$.refreshToken").exists())
                 .andExpect(jsonPath("$.expiresAt").exists());
-        clearBase();
     }
 
     @Test
@@ -230,7 +228,6 @@ public class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().is(403))
                 .andExpect(content().string("Invalid refresh Token"));
-        clearBase();
     }
 
 
@@ -251,10 +248,6 @@ public class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().is(200))
                 .andExpect(content().string("Refresh Token Deleted Successfully!"));
-
         assertThat(refreshTokenRepository.findByToken(string)).isEmpty();
-
-        clearBase();
-
     }
 }

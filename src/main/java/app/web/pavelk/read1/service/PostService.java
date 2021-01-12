@@ -48,7 +48,8 @@ public class PostService {
 
     private String getVote(Post post) {
         if (authService.isLoggedIn()) {
-            return voteRepository.getTypeByUser(post, authService.getCurrentUser()).map(VoteType::toString).orElse(null);
+            return voteRepository.getTypeByUser(post, authService.getCurrentUser())
+                    .map(VoteType::toString).orElse(null);
         }
         return null;
     }

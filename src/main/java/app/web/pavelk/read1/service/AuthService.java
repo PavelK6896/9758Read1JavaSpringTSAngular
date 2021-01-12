@@ -9,9 +9,9 @@ import app.web.pavelk.read1.model.VerificationToken;
 import app.web.pavelk.read1.repository.UserRepository;
 import app.web.pavelk.read1.repository.VerificationTokenRepository;
 import app.web.pavelk.read1.security.JwtProvider;
-import app.web.pavelk.read1.service.mail.MailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,10 +29,11 @@ import java.util.UUID;
 
 import static org.springframework.http.HttpStatus.OK;
 
-@Service
-@RequiredArgsConstructor
-@Transactional
+
 @Slf4j
+@Service
+@Transactional
+@RequiredArgsConstructor
 public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
@@ -42,6 +43,10 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
     private final RefreshTokenService refreshTokenService;
+    private final UserDetailsServiceImpl userDetailsService;
+
+    @Value("${host-url}")
+    private String hostUrl;
 
     @Transactional
     public ResponseEntity<String> signUp(RegisterRequest registerRequest) {
@@ -69,7 +74,7 @@ public class AuthService {
         mailService.sendMail(new NotificationEmail("Please Activate your Account",
                 setUser.getEmail(), "Thank you for signing up to Spring Reddit, " +
                 "please click on the below url to activate your account : " +
-                "http://localhost:8080/api/auth/accountVerification/" + token));
+                hostUrl + "/api/auth/accountVerification/" + token));
 
         return ResponseEntity.status(OK).body("User Registration Successful");
     }
@@ -108,15 +113,14 @@ public class AuthService {
                 .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
                         loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authenticate);
-        String token = jwtProvider.generateToken(authenticate);
 
+        org.springframework.security.core.userdetails.User principal =
+                (org.springframework.security.core.userdetails.User) authenticate.getPrincipal();
 
-        return ResponseEntity.status(OK).body(
-                AuthenticationResponse.builder()
-                        .authenticationToken(token)
-                        .refreshToken(refreshTokenService.generateRefreshToken().getToken())
-                        .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
-                        .username(loginRequest.getUsername()).build());
+        AuthenticationResponse authenticationResponse = jwtProvider.generateToken(principal);
+        authenticationResponse.setRefreshToken(refreshTokenService.generateRefreshToken().getToken());
+
+        return ResponseEntity.status(OK).body(authenticationResponse);
     }
 
     @Transactional(readOnly = true)
@@ -135,16 +139,17 @@ public class AuthService {
         return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
     }
 
-
     public ResponseEntity<AuthenticationResponse> refreshToken(RefreshTokenRequest refreshTokenRequest) {
-        log.info("refreshTokens");
+        log.info("refreshTokens -------------------------- ******************************** ");
         refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
-        String token = jwtProvider.generateTokenWithUserName(refreshTokenRequest.getUsername());
-        return ResponseEntity.status(OK).body(AuthenticationResponse.builder()
-                .authenticationToken(token)
-                .refreshToken(refreshTokenRequest.getRefreshToken())
-                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
-                .username(refreshTokenRequest.getUsername())
-                .build());
+
+        org.springframework.security.core.userdetails.User principal =
+                (org.springframework.security.core.userdetails.User)
+                        userDetailsService.loadUserByUsername(refreshTokenRequest.getUsername());
+
+        AuthenticationResponse authenticationResponse = jwtProvider.generateToken(principal);
+        authenticationResponse.setRefreshToken(refreshTokenService.generateRefreshToken().getToken());
+
+        return ResponseEntity.status(OK).body(authenticationResponse);
     }
 }

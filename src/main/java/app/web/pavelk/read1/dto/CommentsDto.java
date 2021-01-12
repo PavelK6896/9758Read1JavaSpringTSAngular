@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
-@Builder
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class CommentsDto {

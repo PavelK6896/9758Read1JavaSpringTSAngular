@@ -45,6 +45,7 @@ export class AuthService {
     refreshToken(): Observable<any> {
         return this.httpClient.post<LoginResponse>(url1.refreshToken, this.refreshTokenPayload)
             .pipe(tap(response => {
+                    logUtil("refreshToken!pipe+1+ ", response)
                     localStorage.removeItem('authenticationToken');
                     localStorage.removeItem('expiresAt');
                     localStorage.setItem('authenticationToken', response.authenticationToken);

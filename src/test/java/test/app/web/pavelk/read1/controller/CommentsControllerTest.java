@@ -11,6 +11,7 @@ import app.web.pavelk.read1.repository.PostRepository;
 import app.web.pavelk.read1.repository.SubredditRepository;
 import app.web.pavelk.read1.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -29,34 +30,35 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest(classes = Read1.class)
 @ActiveProfiles("test")
+@SpringBootTest(classes = Read1.class)
 @AutoConfigureMockMvc(addFilters = false)
 public class CommentsControllerTest {
 
+    private final String username1 = "createComment1Right";
+    private final String username2 = "createComment3WrongUsernameNotFoundException";
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private ObjectMapper objectMapper;
-
     @Autowired
     private PasswordEncoder passwordEncoder;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private CommentRepository commentRepository;
-
     @Autowired
     private PostRepository postRepository;
-
     @Autowired
     private SubredditRepository subredditRepository;
 
-    private final String username1 = "createComment1Right";
-    private final String username2 = "createComment3WrongUsernameNotFoundException";
+    @BeforeEach
+    private void ClearBase() {
+        commentRepository.deleteAll();
+        postRepository.deleteAll();
+        subredditRepository.deleteAll();
+        userRepository.deleteAll();
+    }
 
     @Test
     @WithMockUser(username = username1)
@@ -83,16 +85,6 @@ public class CommentsControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(201));
-
-        ClearBase();
-
-    }
-
-    private void ClearBase() {
-        commentRepository.deleteAll();
-        postRepository.deleteAll();
-        subredditRepository.deleteAll();
-        userRepository.deleteAll();
     }
 
     @Test
@@ -111,8 +103,6 @@ public class CommentsControllerTest {
                 .andDo(print())
                 .andExpect(status().is(404))
                 .andExpect(content().string("No post " + postId));
-        ClearBase();
-
     }
 
     @Test
@@ -135,7 +125,6 @@ public class CommentsControllerTest {
                 .andDo(print())
                 .andExpect(status().is(404))
                 .andExpect(content().string("User name not found " + username2));
-        ClearBase();
     }
 
 
@@ -164,7 +153,6 @@ public class CommentsControllerTest {
                 .andDo(print())
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$", hasSize(2)));
-        ClearBase();
     }
 
     @Test
@@ -174,8 +162,6 @@ public class CommentsControllerTest {
                 .andDo(print())
                 .andExpect(status().is(404))
                 .andExpect(content().string("Not found post " + postId));
-        ClearBase();
-
     }
 
     @Test
@@ -203,7 +189,6 @@ public class CommentsControllerTest {
                 .andDo(print())
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$", hasSize(2)));
-        ClearBase();
     }
 
     @Test
@@ -215,8 +200,6 @@ public class CommentsControllerTest {
                 .andDo(print())
                 .andExpect(status().is(404))
                 .andExpect(content().string("User name not found " + username1));
-        ClearBase();
-
     }
 
 }

@@ -43,14 +43,12 @@ create table IF NOT EXISTS post.comment
     primary key (id)
 );
 
-
 create table IF NOT EXISTS post.post
 (
     post_id      bigserial not null,
     created_date timestamp,
     description  text,
     post_name    varchar(255),
-    url          varchar(255),
     vote_count   int4,
     subreddit_id int8,
     user_id      int8,

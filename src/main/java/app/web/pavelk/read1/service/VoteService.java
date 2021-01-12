@@ -17,10 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-
+@Slf4j
 @Service
 @AllArgsConstructor
-@Slf4j
 public class VoteService {
 
     private final VoteRepository voteRepository;

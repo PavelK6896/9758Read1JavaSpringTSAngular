@@ -13,11 +13,12 @@ import java.time.Instant;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
-@Builder
+
 @Data
+@Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Table(name = "users", schema = "client")
 public class User {
     @Id

@@ -1,12 +1,11 @@
 package app.web.pavelk.read1.security;
 
 
+import app.web.pavelk.read1.dto.AuthenticationResponse;
 import app.web.pavelk.read1.exceptions.SpringRedditException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -14,51 +13,45 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.*;
 import java.security.cert.CertificateException;
-import java.sql.Date;
-import java.time.Instant;
-
-import static io.jsonwebtoken.Jwts.parser;
-import static java.util.Date.from;
+import java.time.LocalDateTime;
 
 @Service
 public class JwtProvider {
 
     private KeyStore keyStore;
 
-    @Value("${jwt.expiration.time}")
-    private Long jwtExpirationInMillis;
+    @Value("${jwt.expiration}")
+    private Long exp;
 
     @PostConstruct
     public void init() {
         try {
-
             keyStore = KeyStore.getInstance("JKS");
             InputStream resourceAsStream = getClass().getResourceAsStream("/springblog.jks");
-
             keyStore.load(resourceAsStream, "secret".toCharArray());
         } catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException e) {
             throw new SpringRedditException("Exception occurred while loading keystore", e);
         }
     }
 
-    public String generateToken(Authentication authentication) {
-        User principal = (User) authentication.getPrincipal();
+    public AuthenticationResponse generateToken(org.springframework.security.core.userdetails.User principal) {
+        Claims claims = Jwts.claims().setSubject(principal.getUsername());
+        claims.put("role", principal.getAuthorities().toString());
 
-        return Jwts.builder()
-                .setSubject(principal.getUsername())
-                .setIssuedAt(from(Instant.now()))
-                .signWith(getPrivateKey())
-                .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
-                .compact();
-    }
+        LocalDateTime localDateTimeNow = LocalDateTime.now();
+        LocalDateTime localDateTimeNowPlus = localDateTimeNow.plusMinutes(exp);
 
-    public String generateTokenWithUserName(String username) {
-        return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(from(Instant.now()))
-                .signWith(getPrivateKey())
-                .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
-                .compact();
+        return AuthenticationResponse.builder()
+                .authenticationToken(
+                        Jwts.builder()
+                                .setClaims(claims)
+                                .setIssuedAt(java.sql.Timestamp.valueOf(localDateTimeNow))
+                                .signWith(getPrivateKey())
+                                .setExpiration(java.sql.Timestamp.valueOf(localDateTimeNowPlus))
+                                .compact()
+                )
+                .expiresAt(localDateTimeNowPlus)
+                .username(principal.getUsername()).build();
     }
 
     private PrivateKey getPrivateKey() {
@@ -69,12 +62,7 @@ public class JwtProvider {
         }
     }
 
-    public boolean validateToken(String jwt) {
-        parser().setSigningKey(getPublickey()).parseClaimsJws(jwt);
-        return true;
-    }
-
-    private PublicKey getPublickey() {
+    private PublicKey getPublicKey() {
         try {
             return keyStore.getCertificate("springblog").getPublicKey();
         } catch (KeyStoreException e) {
@@ -83,16 +71,11 @@ public class JwtProvider {
         }
     }
 
-    public String getUsernameFromJwt(String token) {
-        Claims claims = parser()
-                .setSigningKey(getPublickey())
+    public String getUsernameAndValidateJwt(String token) {
+        return Jwts.parser()
+                .setSigningKey(getPublicKey())
                 .parseClaimsJws(token)
-                .getBody();
-
-        return claims.getSubject();
-    }
-
-    public Long getJwtExpirationInMillis() {
-        return jwtExpirationInMillis;
+                .getBody()
+                .getSubject();
     }
 }
