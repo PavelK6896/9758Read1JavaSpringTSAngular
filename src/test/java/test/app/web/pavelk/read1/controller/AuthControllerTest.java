@@ -111,8 +111,8 @@ public class AuthControllerTest {
         mockMvc.perform(
                 get("/api/auth/accountVerification/4412ced7-1faf-49b4-a05a-d1cee3c526af"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string("Account Activated Successfully"));
+                .andExpect(status().is(302))
+                .andExpect(header().exists("Location"));
     }
 
     @Test

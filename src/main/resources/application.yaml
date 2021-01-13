@@ -33,5 +33,5 @@ jwt:
 
 #host-url: http://localhost:8080/read1
 host-url:  http://18.156.192.31/read1
-
+host: http://18.156.192.31
 

@@ -26,7 +26,7 @@ public class AuthController {
     }
 
     @GetMapping("accountVerification/{token}")
-    public ResponseEntity<String> verifyAccount(@PathVariable String token) {
+    public ResponseEntity<Void> verifyAccount(@PathVariable String token) {
         return authService.verifyAccount(token);
     }
 

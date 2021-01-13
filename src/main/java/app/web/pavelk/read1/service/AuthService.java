@@ -12,6 +12,8 @@ import app.web.pavelk.read1.security.JwtProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +29,7 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.springframework.http.HttpStatus.FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
 
@@ -45,8 +48,8 @@ public class AuthService {
     private final RefreshTokenService refreshTokenService;
     private final UserDetailsServiceImpl userDetailsService;
 
-    @Value("${host-url}")
-    private String hostUrl;
+    @Value("${host}")
+    private String host;
 
     @Transactional
     public ResponseEntity<String> signUp(RegisterRequest registerRequest) {
@@ -74,7 +77,7 @@ public class AuthService {
         mailService.sendMail(new NotificationEmail("Please Activate your Account",
                 setUser.getEmail(), "Thank you for signing up to Spring Reddit, " +
                 "please click on the below url to activate your account : " +
-                hostUrl + "/api/auth/accountVerification/" + token));
+                host + "/api/read1/api/auth/accountVerification/" + token));
 
         return ResponseEntity.status(OK).body("User Registration Successful");
     }
@@ -90,11 +93,11 @@ public class AuthService {
         return token;
     }
 
-    public ResponseEntity<String> verifyAccount(String token) {
+    public ResponseEntity<Void> verifyAccount(String token) {
         log.info("verifyAccount");
         fetchUserAndEnable(verificationTokenRepository.findByToken(token)
                 .orElseThrow(() -> new InvalidTokenException("Invalid verification Token")));
-        return ResponseEntity.status(OK).body("Account Activated Successfully");
+        return ResponseEntity.status(FOUND).header("Location", host + "/read1").build();
     }
 
     @Transactional
