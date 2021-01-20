@@ -4,8 +4,9 @@ import {PostTileComponent} from './post-tile.component';
 import {Router} from "@angular/router";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
+import {PostResponseDto} from "../../../utill/interface1";
 import {By} from "@angular/platform-browser";
-// import {PostModel} from "../../../utill/class1";
+
 
 class RouterStub {
     navigate(path: string[]) {
@@ -13,6 +14,19 @@ class RouterStub {
 
     navigateByUrl(url: string) {
     }
+}
+
+let p: PostResponseDto = {
+    id: 1,
+    postName: "string",
+    description: "string",
+    userName: "string",
+    subReadName: "string",
+    subReadId: 56,
+    voteCount: 45,
+    commentCount: 12,
+    duration: "string",
+    vote: "UP_VOTE",
 }
 
 describe('PostTileComponent 12', () => {
@@ -34,6 +48,8 @@ describe('PostTileComponent 12', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(PostTileComponent);
         component = fixture.componentInstance;
+
+        component.post = p
         fixture.detectChanges();
     });
 
@@ -41,31 +57,11 @@ describe('PostTileComponent 12', () => {
         expect(component).toBeTruthy();
     });
 
-    it('2 ', () => {
-        //
-        // let newP: PostModel = {
-        //     id: 55,
-        //     postName: "string",
-        //     url: "string",
-        //     description: "string",
-        //     voteCount: 1,
-        //     userName: "string",
-        //     subReadName: "string",
-        //     commentCount: 2,
-        //     duration: "string",
-        //     upVote: false,
-        //     downVote: false,
-        // }
-        // component.posts = [newP]
-        // fixture.detectChanges();
-        //
-        // let router = TestBed.inject(Router)
-        // let loginButton = fixture.debugElement.query(By.css('.loginButton'))
-        //
-        // let spyRouter = spyOn(router, 'navigateByUrl')
-        // loginButton.triggerEventHandler('click', null)
-        //
-        //
-        // expect(spyRouter).toHaveBeenCalledWith('/view-post/' + newP.id)
+    it('2 click loginButton', () => {
+        let router = TestBed.inject(Router)
+        let loginButton = fixture.debugElement.query(By.css('.loginButton'))
+        let spyRouter = spyOn(router, 'navigateByUrl')
+        loginButton.triggerEventHandler('click', null)
+        expect(spyRouter).toHaveBeenCalledWith('/view-post/' + p.id)
     });
 });

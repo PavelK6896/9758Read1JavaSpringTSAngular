@@ -4,8 +4,8 @@ import {SubredditSideBarComponent} from './subreddit-side-bar.component';
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {of} from "rxjs";
-import {SubredditService} from "../../../service/subreddit.service";
-import {SubredditModel} from "../../../utill/class1";
+import {SubredditService} from "../../service/subreddit.service";
+import {SubredditModel} from "../../utill/class1";
 
 describe('SubReadSideBarComponent 14', () => {
     let component: SubredditSideBarComponent;

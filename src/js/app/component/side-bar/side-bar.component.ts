@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {logUtil} from "../../../utill/log1";
+import {logUtil} from "../../utill/log1";
 
 @Component({
     selector: 'app-side-bar',

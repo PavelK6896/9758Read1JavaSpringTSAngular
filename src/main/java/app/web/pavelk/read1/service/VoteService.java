@@ -39,8 +39,8 @@ public class VoteService {
                 Vote vote1 = optionalVote.get();
                 vote1.setVoteType(voteDto.getVoteType());
                 voteRepository.save(vote1);
-            }else {
-               voteRepository.save(Vote.builder().post(post).user(currentUser).voteType(voteDto.getVoteType()).build());
+            } else {
+                voteRepository.save(Vote.builder().post(post).user(currentUser).voteType(voteDto.getVoteType()).build());
             }
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(voteRepository.getCount(post));
         } else {

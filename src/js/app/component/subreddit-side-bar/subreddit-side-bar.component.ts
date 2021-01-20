@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 
 import {throwError} from "rxjs";
-import {SubredditModel} from "../../../utill/class1";
-import {SubredditService} from "../../../service/subreddit.service";
-import {logUtil} from "../../../utill/log1";
+import {SubredditModel} from "../../utill/class1";
+import {SubredditService} from "../../service/subreddit.service";
+import {logUtil} from "../../utill/log1";
+
 
 @Component({
     selector: 'app-subreddit-side-bar',

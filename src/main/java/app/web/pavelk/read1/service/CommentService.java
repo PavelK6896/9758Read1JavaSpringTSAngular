@@ -27,14 +27,13 @@ import static org.springframework.http.HttpStatus.OK;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
-    private String POST_URL = "";
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final AuthService authService;
     private final CommentMapper commentMapper;
     private final CommentRepository commentRepository;
     private final MailService mailService;
-
+    private final String POST_URL = "";
     @Value("${host-url}")
     private String hostUrl;
 

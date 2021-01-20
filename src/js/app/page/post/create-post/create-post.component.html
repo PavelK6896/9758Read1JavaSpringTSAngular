@@ -1,21 +1,21 @@
 <div class="container">
-    <div class="row">
+    <div class="">
         <hr/>
-        <div class="create-post-container col-md-9">
+        <div class="">
             <form [formGroup]="createPostForm" class="post-form">
                 <div class="form-group">
                     <div class="create-post-heading">Create Post</div>
                     <hr/>
-                    <input [formControlName]="'postName'" class="form-control mt-2" placeholder="Title"        type="text">
+                    <input [formControlName]="'postName'" class="form-control mt-2" placeholder="Title" type="text">
 
-                    <select [formControlName]="'subReadName'" name="sub" class="form-control mt-2" >
+                    <select [formControlName]="'subReadName'" class="form-control mt-2" name="sub">
                         <option selected hidden>Choose here</option>
                         <option *ngFor="let subreddit of subRead">{{subreddit.name}}</option>
                     </select>
 
-                    <div class="form-control h-auto mt-4" >
+                    <div class="form-control h-auto">
                         <label>Текст поста </label>
-                        <quill-editor [styles]="{height: '100px'}" [formControlName]="'description'"></quill-editor>
+                        <quill-editor [formControlName]="'description'" [styles]="{height: '55vh'}"></quill-editor>
                     </div>
 
                     <div>

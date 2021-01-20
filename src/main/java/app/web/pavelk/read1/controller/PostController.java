@@ -33,7 +33,7 @@ public class PostController {
     }
 
     @GetMapping("by-subreddit/{id}")
-    public ResponseEntity<List<PostResponseDto>> getPostsBySubreddit(@PathVariable Long id){
+    public ResponseEntity<List<PostResponseDto>> getPostsBySubreddit(@PathVariable Long id) {
         return postService.getPostsBySubreddit(id);
     }
 

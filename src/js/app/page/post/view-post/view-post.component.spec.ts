@@ -9,6 +9,7 @@ import {By} from "@angular/platform-browser";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {PostService} from "../../../service/post.service";
 import {CommentService} from "../../../service/comment.service";
+import {PostResponseDto} from "../../../utill/interface1";
 
 class RouterStub {
     navigateByUrl(url: string) {
@@ -24,24 +25,24 @@ class ActivatedRouteStub {
     }
 }
 
+let p: PostResponseDto = {
+    id: 1,
+    postName: "string",
+    description: "string",
+    userName: "string",
+    subReadName: "string",
+    subReadId: 56,
+    voteCount: 45,
+    commentCount: 12,
+    duration: "string",
+    vote: "UP_VOTE",
+}
+
 
 describe('ViewPostComponent 11', () => {
     let component: ViewPostComponent;
     let fixture: ComponentFixture<ViewPostComponent>;
 
-    let postModel1 = {
-        id: 1,
-        postName: "name",
-        url: "url",
-        description: "d",
-        voteCount: 1,
-        userName: "user",
-        subReadName: "subReadName1",
-        commentCount: 1,
-        duration: "dur",
-        upVote: false,
-        downVote: false
-    }
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -59,7 +60,8 @@ describe('ViewPostComponent 11', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(ViewPostComponent);
         component = fixture.componentInstance;
-        // component.post = postModel1
+        component.post = p
+
         fixture.detectChanges();
     });
 
@@ -68,15 +70,13 @@ describe('ViewPostComponent 11', () => {
         expect(component).toBeTruthy();
         expect(component).toBeDefined();
     });
-
     it('2 content ', () => {
         component.loadingPost = true
         component.loadingComment = true
         fixture.detectChanges();
-        let postUrl = fixture.debugElement.query(By.css('.post-url')).nativeElement.innerText
-        expect(postUrl).toBe(postModel1.subReadName)
-        let username = fixture.debugElement.query(By.css('.username')).nativeElement.innerText
-        expect(username).toBe(postModel1.userName)
+
+        let username = fixture.debugElement.query(By.css('.post-text')).nativeElement.innerText
+        expect(username).toBe('Title: ' + p.userName)
         const compiled = fixture.debugElement.nativeElement;
         expect(compiled.querySelector('app-vote-button')).not.toBe(null);
         expect(compiled.querySelector('app-side-bar')).not.toBe(null);

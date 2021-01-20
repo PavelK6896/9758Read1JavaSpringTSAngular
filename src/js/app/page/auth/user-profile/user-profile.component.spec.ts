@@ -7,6 +7,7 @@ import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {CommentService} from "../../../service/comment.service";
 import {PostService} from "../../../service/post.service";
+import {PostResponseDto} from "../../../utill/interface1";
 
 class ActivatedRouteStub {
     snapshot: ActivatedRouteSnapshot;
@@ -60,6 +61,22 @@ describe('UserProfileComponent 5', () => {
         component.ngOnInit()
         expect(spyPostService).toHaveBeenCalled()
         expect(spyCommentService).toHaveBeenCalled()
+
+        let p: PostResponseDto = {
+            id: 1,
+            postName: "string",
+            description: "string",
+            userName: "string",
+            subReadName: "string",
+            subReadId: 56,
+            voteCount: 45,
+            commentCount: 12,
+            duration: "string",
+            vote: "UP_VOTE",
+        }
+        component.posts = [p]
+        component.loadingPost = true
+        fixture.detectChanges();
         expect(fixture.debugElement.nativeElement.querySelector('app-post-tile')).not.toBe(null);
     });
 });

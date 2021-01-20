@@ -1,11 +1,11 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {throwError} from "rxjs";
 import {faArrowDown, faArrowUp} from '@fortawesome/free-solid-svg-icons';
-import {VoteService} from "../../../service/vote.service";
-import {logUtil} from "../../../utill/log1";
-import {PostResponseDto, VoteDto, VoteType} from "../../../utill/interface1";
-import {ActivatedRoute, Router} from "@angular/router";
-import {AuthService} from "../../../service/auth.service";
+import {Router} from "@angular/router";
+import {PostResponseDto, VoteDto, VoteType} from "../../utill/interface1";
+import {VoteService} from "../../service/vote.service";
+import {AuthService} from "../../service/auth.service";
+import {logUtil} from "../../utill/log1";
 
 @Component({
     selector: 'app-vote-button',

@@ -31,7 +31,7 @@ describe('SideBarComponent 13', () => {
         fixture.detectChanges();
     });
 
-    it('1', () => {
+    it('1 fun', () => {
         expect(component).toBeTruthy();
         let router = TestBed.inject(Router);
         let spyRouter1 = spyOn(router, 'navigateByUrl')

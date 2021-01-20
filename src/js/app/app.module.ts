@@ -11,10 +11,6 @@ import {HeaderComponent} from "./component/header/header.component";
 import {SignupComponent} from "./page/auth/signup/signup.component";
 import {LoginComponent} from "./page/auth/login/login.component";
 import {HomeComponent} from "./page/home/home.component";
-import {PostTileComponent} from "./component/shared/post-tile/post-tile.component";
-import {VoteButtonComponent} from "./component/shared/vote-button/vote-button.component";
-import {SideBarComponent} from "./component/shared/side-bar/side-bar.component";
-import {SubredditSideBarComponent} from "./component/shared/subreddit-side-bar/subreddit-side-bar.component";
 import {CreateSubredditComponent} from "./page/subreddit/create-subreddit/create-subreddit.component";
 import {CreatePostComponent} from "./page/post/create-post/create-post.component";
 import {ListSubredditsComponent} from "./page/subreddit/list-subreddits/list-subreddits.component";
@@ -24,8 +20,13 @@ import {ViewSubredditComponent} from "./page/subreddit/view-subreddit/view-subre
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {TokenInterceptor} from "./security/token-interceptor";
 import {QuillModule} from "ngx-quill";
-import { PostTopComponent } from './component/post/post-top/post-top.component';
-import { UserViewPostComponent } from './page/post/user-view-post/user-view-post.component';
+import {PostTopComponent} from './component/post/post-top/post-top.component';
+import {UserViewPostComponent} from './page/post/user-view-post/user-view-post.component';
+import {quillModules} from "./utill/quill1";
+import {VoteButtonComponent} from "./component/vote-button/vote-button.component";
+import {SideBarComponent} from "./component/side-bar/side-bar.component";
+import {SubredditSideBarComponent} from "./component/subreddit-side-bar/subreddit-side-bar.component";
+import {PostTileComponent} from "./component/post/post-tile/post-tile.component";
 
 @NgModule({
     declarations: [
@@ -57,7 +58,7 @@ import { UserViewPostComponent } from './page/post/user-view-post/user-view-post
         ToastrModule.forRoot(),  //для анимации тостар
         FontAwesomeModule, //иконки
         // EditorModule, //tiny
-        QuillModule.forRoot(),
+        QuillModule.forRoot({modules: quillModules}),
         NgbModule
     ],
     providers: [
