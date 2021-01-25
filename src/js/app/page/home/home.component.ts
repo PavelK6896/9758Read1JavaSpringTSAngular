@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 
 import {Subscription, throwError} from "rxjs";
-// import {PostModel} from "../../utill/class1";
 import {PostService} from "../../service/post.service";
 import {logUtil} from "../../utill/log1";
 import {PostResponseDto} from "../../utill/interface1";

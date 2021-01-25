@@ -6,6 +6,7 @@ import {ActivatedRoute, ActivatedRouteSnapshot} from "@angular/router";
 import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {of} from "rxjs";
+import {PostResponseDto} from "../../../utill/interface1";
 
 class ActivatedRouteStub {
     snapshot: ActivatedRouteSnapshot;
@@ -40,5 +41,35 @@ describe('UserViewPostComponent 101', () => {
 
     it('1 should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('2', () => {
+
+        let p: PostResponseDto = {
+            id: 1,
+            postName: "string",
+            description: "string",
+            userName: "string",
+            subReadName: "string",
+            subReadId: 56,
+            voteCount: 45,
+            commentCount: 12,
+            duration: "string",
+            vote: "UP_VOTE",
+        }
+
+        const postsTest = [p];
+        let postService = TestBed.inject(PostService)
+        spyOn(postService, 'getAllPostsByUser').and.returnValue(of(postsTest))
+
+
+        component.ngOnInit()
+        expect(component.posts).toEqual(postsTest)
+
+        component.loadingPost = true
+        fixture.detectChanges();
+
+        const compiled = fixture.debugElement.nativeElement;
+        expect(compiled.querySelector('app-post-tile')).not.toBe(null);
     });
 });
