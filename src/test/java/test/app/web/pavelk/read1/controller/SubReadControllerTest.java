@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @SpringBootTest(classes = Read1.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class SubReadControllerTest {
+class SubReadControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -42,7 +42,7 @@ public class SubReadControllerTest {
     }
 
     @Test
-    public void createSubreddit1Right() throws Exception {
+    void createSubreddit1Right() throws Exception {
         Long id = 1l;
         String name = "createSubreddit1RightN";
         String description = "createSubreddit1RightD";
@@ -56,7 +56,7 @@ public class SubReadControllerTest {
     }
 
     @Test
-    public void createSubreddit2Wrong() throws Exception {
+    void createSubreddit2Wrong() throws Exception {
         Long id = 1l;
         String description = "createSubreddit2WrongD";
         SubredditDto subredditDto = SubredditDto.builder().id(id).name(null).description(description).numberOfPosts(1).build();
@@ -73,7 +73,7 @@ public class SubReadControllerTest {
 
 
     @Test
-    public void getAllSubreddits1Right() throws Exception {
+    void getAllSubreddits1Right() throws Exception {
 
         String name1 = "getAllSubreddits1Right1";
         String name2 = "getAllSubreddits1Right2";
@@ -97,7 +97,7 @@ public class SubReadControllerTest {
     }
 
     @Test
-    public void getAllSubreddits2Wrong() throws Exception {
+    void getAllSubreddits2Wrong() throws Exception {
         mockMvc.perform(
                 get("/api/subreddit"))
                 .andDo(print())
@@ -107,7 +107,7 @@ public class SubReadControllerTest {
     }
 
     @Test
-    public void getSubredditRight1() throws Exception {
+    void getSubredditRight1() throws Exception {
 
         String name1 = "getSubreddit1Right";
         String description = "getSubreddit1RightD";
@@ -122,7 +122,7 @@ public class SubReadControllerTest {
     }
 
     @Test
-    public void getSubredditWrong2() throws Exception {
+    void getSubredditWrong2() throws Exception {
         Long id = 2626l;
         mockMvc.perform(
                 get("/api/subreddit/" + id))

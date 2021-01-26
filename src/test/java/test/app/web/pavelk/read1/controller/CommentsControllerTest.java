@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @SpringBootTest(classes = Read1.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class CommentsControllerTest {
+class CommentsControllerTest {
 
     private final String username1 = "createComment1Right";
     private final String username2 = "createComment3WrongUsernameNotFoundException";
@@ -62,7 +62,7 @@ public class CommentsControllerTest {
 
     @Test
     @WithMockUser(username = username1)
-    public void createComment1Right() throws Exception {
+    void createComment1Right() throws Exception {
 
         String password1 = "dsd$%#@sdfs";
         Long postId = 1l;
@@ -88,7 +88,7 @@ public class CommentsControllerTest {
     }
 
     @Test
-    public void createComment2WrongPostNotFoundException() throws Exception {
+    void createComment2WrongPostNotFoundException() throws Exception {
 
         String username1 = "createComment2WrongPostNotFoundException";
         Long postId = 2l;
@@ -107,7 +107,7 @@ public class CommentsControllerTest {
 
     @Test
     @WithMockUser(username = username2)
-    public void createComment3WrongUsernameNotFoundException() throws Exception {
+    void createComment3WrongUsernameNotFoundException() throws Exception {
 
         Subreddit subreddit = subredditRepository.save(Subreddit.builder()
                 .description("d1").name("name1").user(null).build());
@@ -129,7 +129,7 @@ public class CommentsControllerTest {
 
 
     @Test
-    public void getAllCommentsForPost1Right() throws Exception {
+    void getAllCommentsForPost1Right() throws Exception {
 
         String password1 = "dsd$%#@reterter";
         String username1 = "getAllCommentsForPost1Right";
@@ -156,7 +156,7 @@ public class CommentsControllerTest {
     }
 
     @Test
-    public void getAllCommentsForPost2Wrong() throws Exception {
+    void getAllCommentsForPost2Wrong() throws Exception {
         Long postId = 13l;
         mockMvc.perform(get("/api/comments/by-post/" + postId))
                 .andDo(print())
@@ -165,7 +165,7 @@ public class CommentsControllerTest {
     }
 
     @Test
-    public void getAllCommentsForUser1Right() throws Exception {
+    void getAllCommentsForUser1Right() throws Exception {
 
         String password1 = "sdfsdfsdfsdf";
         String username1 = "getAllCommentsForUser1Right";
@@ -192,7 +192,7 @@ public class CommentsControllerTest {
     }
 
     @Test
-    public void getAllCommentsForUser2Wrong() throws Exception {
+    void getAllCommentsForUser2Wrong() throws Exception {
 
         String username1 = "getAllCommentsForUser2Wrong";
 

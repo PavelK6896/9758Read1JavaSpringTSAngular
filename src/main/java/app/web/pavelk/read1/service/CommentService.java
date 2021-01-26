@@ -33,7 +33,6 @@ public class CommentService {
     private final CommentMapper commentMapper;
     private final CommentRepository commentRepository;
     private final MailService mailService;
-    private final String POST_URL = "";
     @Value("${host-url}")
     private String hostUrl;
 

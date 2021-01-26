@@ -19,17 +19,7 @@ public class CorsFilterResponse implements Filter {
         HttpServletRequest request2 = (HttpServletRequest) request;
         HttpServletResponse response2 = (HttpServletResponse) response;
 
-        response2.setHeader("EXemPLE----!!555555555555!!------------", "HEeADERs");
-//        response2.setHeader("Access-Control-Allow-Origin", "*");
-//        response2.setHeader("Access-Control-Allow-Credentials", "true");
-//        response2.setHeader("Access-Control-Allow-Methods",
-//                "ACL, CANCELUPLOAD, CHECKIN, CHECKOUT, COPY, " +
-//                        "DELETE, GET, HEAD, LOCK, MKCALENDAR, MKCOL, MOVE, OPTIONS, POST, " +
-//                        "PROPFIND, PROPPATCH, PUT, REPORT, SEARCH, UNCHECKOUT, UNLOCK, UPDATE, VERSION-CONTROL");
-//
-//        response2.setHeader("Access-Control-Max-Age", "3600");
-//        response2.setHeader("Access-Control-Allow-Headers",
-//                "Origin, X-Requested-With, Content-Type, Accept, Key, Authorization");
+        response2.setHeader("Access-Control-Allow-Origin", "*");
 
         chain.doFilter(request2, response2);
     }

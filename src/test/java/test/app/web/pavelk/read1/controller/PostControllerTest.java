@@ -34,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @SpringBootTest(classes = Read1.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class PostControllerTest {
+class PostControllerTest {
 
     final String username1 = "createPost1Right";
     final String username2 = "getAllPosts1Right";
@@ -66,7 +66,7 @@ public class PostControllerTest {
 
     @Test
     @WithMockUser(username = username1)
-    public void createPost1Right() throws Exception {
+    void createPost1Right() throws Exception {
 
         String subredditName = "nameSub1";
         String password1 = "dsd$%#@sdfs";
@@ -89,7 +89,7 @@ public class PostControllerTest {
     }
 
     @Test
-    public void createPost2Wrong() throws Exception {
+    void createPost2Wrong() throws Exception {
 
         String subredditName = "nameSub2";
 
@@ -106,7 +106,7 @@ public class PostControllerTest {
     }
 
     @Test
-    public void createPost3Wrong() throws Exception {
+    void createPost3Wrong() throws Exception {
 
         String subredditName = "nameSub2";
 
@@ -128,7 +128,7 @@ public class PostControllerTest {
 
     @Test
     @WithMockUser(username = username2)
-    public void getAllPosts1Right() throws Exception {
+    void getAllPosts1Right() throws Exception {
 
         String password1 = "dsd$%#@sdfs";
         Long postId1 = 104l;
@@ -163,7 +163,7 @@ public class PostControllerTest {
     }
 
     @Test
-    public void getAllPosts2Wrong() throws Exception {
+    void getAllPosts2Wrong() throws Exception {
 
         postRepository.save(Post.builder().createdDate(LocalDateTime.now())
                 .postId(1l).postName("post2").user(null).description("d2").voteCount(20).subreddit(null).build());
@@ -176,7 +176,7 @@ public class PostControllerTest {
 
     @Test
     @WithMockUser(username = username3)
-    public void getPost1Right() throws Exception {
+    void getPost1Right() throws Exception {
 
         String password1 = "dsd$%#@sdfs";
         Long postId = 1l;
@@ -202,7 +202,7 @@ public class PostControllerTest {
     }
 
     @Test
-    public void getPost2Wrong() throws Exception {
+    void getPost2Wrong() throws Exception {
         Long postId = 1000l;
         mockMvc.perform(
                 get("/api/posts/" + postId))
@@ -213,7 +213,7 @@ public class PostControllerTest {
 
     @Test
     @WithMockUser(username = username5)
-    public void getPostsBySubreddit1Right() throws Exception {
+    void getPostsBySubreddit1Right() throws Exception {
 
         String subredditName = "getPostsBySubreddit1Right";
         String password1 = "dsd$%#@sdfs";
@@ -237,7 +237,7 @@ public class PostControllerTest {
     }
 
     @Test
-    public void getPostsBySubreddit2Wrong() throws Exception {
+    void getPostsBySubreddit2Wrong() throws Exception {
 
         int subredditId = 151555;
         mockMvc.perform(
@@ -250,7 +250,7 @@ public class PostControllerTest {
 
     @Test
     @WithMockUser(username = username6)
-    public void getPostsByUsername1Right() throws Exception {
+    void getPostsByUsername1Right() throws Exception {
 
         String subredditName = "getPostsByUsername1RightS";
         String password1 = "asdasdasd";
@@ -275,7 +275,7 @@ public class PostControllerTest {
     }
 
     @Test
-    public void getPostsByUsername2Wrong() throws Exception {
+    void getPostsByUsername2Wrong() throws Exception {
         String username7 = "getPostsByUsername2Wrong";
         mockMvc.perform(
                 get("/api/posts/by-user/" + username7))

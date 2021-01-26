@@ -37,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @SpringBootTest(classes = Read1.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class AuthControllerTest {
+class AuthControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -65,7 +65,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void signUp1Right() throws Exception {
+    void signUp1Right() throws Exception {
 
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setEmail("sanolo2837@1heizi.com");
@@ -83,7 +83,7 @@ public class AuthControllerTest {
 
 
     @Test
-    public void signUp2Wrong() throws Exception {
+    void signUp2Wrong() throws Exception {
 
         RegisterRequest registerRequest = new RegisterRequest();
         registerRequest.setEmail("sanolo2837@1heizi.com");
@@ -100,7 +100,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void accountVerification1Right() throws Exception {
+    void accountVerification1Right() throws Exception {
 
         User user = userRepository.save(User.builder().created(Instant.now()).email("a@a.ru")
                 .username("a").password("1").id(1l).build());
@@ -116,7 +116,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void accountVerification2Wrong() throws Exception {
+    void accountVerification2Wrong() throws Exception {
         mockMvc.perform(
                 get("/api/auth/accountVerification/ljljljljlkjlk"))
                 .andDo(print())
@@ -125,7 +125,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void login1AllRight() throws Exception {
+    void login1AllRight() throws Exception {
         String password = "dsd$%#@$sfSDF";
         String username = "aasfdasf423";
 
@@ -149,7 +149,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void login2WrongPassword() throws Exception {
+    void login2WrongPassword() throws Exception {
         String password = "dsd$%#@wqerwerew";
         String username = "safsdfs";
 
@@ -169,7 +169,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void login3WrongPassword() throws Exception {
+    void login3WrongPassword() throws Exception {
         String password = "trewt43";
         String username = "dsfsd";
 
@@ -186,7 +186,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void refreshToken1Right() throws Exception {
+    void refreshToken1Right() throws Exception {
 
         String string = UUID.randomUUID().toString();
         String password = "trewt43";
@@ -214,7 +214,7 @@ public class AuthControllerTest {
     }
 
     @Test
-    public void refreshToken2Wrong() throws Exception {
+    void refreshToken2Wrong() throws Exception {
 
         String string = UUID.randomUUID().toString();
         String username = "asdsadsad";
@@ -232,7 +232,7 @@ public class AuthControllerTest {
 
 
     @Test
-    public void logout1Right() throws Exception {
+    void logout1Right() throws Exception {
 
         String string = UUID.randomUUID().toString();
         String username = "asdasdas";

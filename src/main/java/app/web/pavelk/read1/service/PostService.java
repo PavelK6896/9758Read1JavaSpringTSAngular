@@ -63,7 +63,7 @@ public class PostService {
                 .subReadName(post.getSubreddit().getName())
                 .subReadId(post.getSubreddit().getId())
                 .voteCount(voteRepository.getCount(post))
-                .commentCount(commentRepository.findByPost(post).size()) //todo оптимизировать запрос
+                .commentCount(commentRepository.findByPost(post).size())
                 .duration(post.getCreatedDate().toString())
                 .vote(getVote(post)).build();
     }
@@ -80,7 +80,6 @@ public class PostService {
     public ResponseEntity<List<PostResponseDto>> getAllPosts() {
         //todo page!! делать Lazy
         List<PostResponseDto> collect = postRepository.findAll().stream().map(this::getPostDto).collect(toList());
-        System.out.println(collect);
         return ResponseEntity.status(HttpStatus.OK).body(collect);
     }
 

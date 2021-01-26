@@ -30,7 +30,7 @@ public class ExceptionController {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> illegalArgumentException(Exception e) {
-        log.error(e.getMessage() + " Ошибка");
+        log.error(e.getMessage() + " Ошибка ");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 

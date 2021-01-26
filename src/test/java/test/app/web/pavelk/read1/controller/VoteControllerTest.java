@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @SpringBootTest(classes = Read1.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class VoteControllerTest {
+class VoteControllerTest {
 
     final String username1 = "voteRight1";
     @Autowired
@@ -61,7 +61,7 @@ public class VoteControllerTest {
 
     @Test
     @WithMockUser(username = username1)
-    public void voteRight1() throws Exception {
+    void voteRight1() throws Exception {
         String name = "voteRight1N";
         String description = "voteRight1D";
         String password1 = "dsd$%#@sdfs";
@@ -89,7 +89,7 @@ public class VoteControllerTest {
 
     @Test
     @WithMockUser(username = username1)
-    public void voteWrong2() throws Exception {
+    void voteWrong2() throws Exception {
         String password1 = "dsd$%#@sdfs";
 
         User user = userRepository.save(User.builder().created(Instant.now()).email("a@pvhfha.ru")

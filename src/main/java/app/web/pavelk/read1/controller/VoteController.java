@@ -17,7 +17,7 @@ public class VoteController {
     private final VoteService voteService;
 
     @PostMapping
-    public ResponseEntity<?> vote(@RequestBody VoteDto voteDto) {
+    public ResponseEntity<Integer> vote(@RequestBody VoteDto voteDto) {
         return voteService.vote(voteDto);
     }
 

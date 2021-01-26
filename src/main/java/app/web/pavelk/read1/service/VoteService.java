@@ -14,8 +14,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 
 @Slf4j
 @Service
@@ -27,7 +30,7 @@ public class VoteService {
     private final AuthService authService;
 
     @Transactional
-    public ResponseEntity<?> vote(VoteDto voteDto) {
+    public ResponseEntity<Integer> vote(VoteDto voteDto) {
         log.info("vote");
         if (authService.isLoggedIn()) {
             User currentUser = authService.getCurrentUser();
@@ -44,7 +47,7 @@ public class VoteService {
             }
             return ResponseEntity.status(HttpStatus.ACCEPTED).body(voteRepository.getCount(post));
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            throw new ResponseStatusException(UNAUTHORIZED, "not auth");
         }
     }
 }
