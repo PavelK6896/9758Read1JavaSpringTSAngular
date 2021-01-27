@@ -2,9 +2,8 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 
-// import {CreatePostPayload, PostModel} from "../utill/class1";
 import {url1} from "../utill/url1";
-import {PostRequestDto, PostResponseDto} from "../utill/interface1";
+import {PostResponseDto} from "../utill/interface1";
 import {CreatePostPayload} from "../utill/class1";
 
 @Injectable({

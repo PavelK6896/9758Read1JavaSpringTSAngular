@@ -102,7 +102,7 @@ class CommentsControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is(404))
-                .andExpect(content().string("No post " + postId));
+                .andExpect(content().string("No post " + comment1.getPostId()));
     }
 
     @Test
