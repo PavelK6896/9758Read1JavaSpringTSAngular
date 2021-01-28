@@ -33,9 +33,17 @@ export class SignupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.signUpForm = new FormGroup({
-            username: new FormControl('', Validators.required),
+            username: new FormControl('', [
+                Validators.required,
+                Validators.pattern('^([A-Za-z0-9]{5,}(\\\\-[a-zA-Z0-9])?)$')
+            ]),
             email: new FormControl('', [Validators.required, Validators.email]),
-            password: new FormControl('', Validators.required),
+            password: new FormControl('', [
+                Validators.required,
+                Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}')
+            ])
+
+
         });
     }
 
@@ -51,6 +59,11 @@ export class SignupComponent implements OnInit, OnDestroy {
         this.signUpRequestPayload.username = this.signUpForm.get('username').value;
         this.signUpRequestPayload.password = this.signUpForm.get('password').value;
 
+        if(this.signUpRequestPayload.password == "ds#@23SD"){
+            this.toastrService.error("fail ds#@23SD");
+            return
+        }
+
         this.signUpSubscription = this.authService.signUp(this.signUpRequestPayload)
             .subscribe(data => {
                 logUtil("signUp+ ", data)
@@ -58,7 +71,7 @@ export class SignupComponent implements OnInit, OnDestroy {
                 this.router.navigate(['/login'], {queryParams: {registered: 'true'}});
             }, error => {
                 logUtil("signUp- ", error)
-                this.toastrService.error('Registration Failed! Please try again');
+                this.toastrService.error(error.error);
             });
     }
 

@@ -29,7 +29,8 @@
                                 <input [formControlName]="'username'" autofocus class="form-control" required
                                        type="text">
                                 <span *ngIf="!signUpForm.get('username').valid && signUpForm.get('username').touched">
-                                    Please provide a valid username
+                                    Please provide a valid username <br/>
+                                    min 5 symbol
                                 </span>
                             </div>
                         </div>
@@ -41,7 +42,9 @@
                                        required
                                        type="password">
                                 <span *ngIf="!signUpForm.get('password').valid && signUpForm.get('password').touched">
-                                    Please provide a valid Password
+                                    Please provide a valid Password <br/>
+                                    2 small letters, 2 big letters, 2 numbers and 2 sign <br/>
+                                    example: ds#@23SD
                                 </span>
                             </div>
                         </div>

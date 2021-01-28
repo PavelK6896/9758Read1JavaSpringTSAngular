@@ -27,6 +27,7 @@ import static org.springframework.http.HttpStatus.OK;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
+
     private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final AuthService authService;

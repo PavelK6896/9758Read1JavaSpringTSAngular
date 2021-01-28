@@ -11,6 +11,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 @Slf4j
 @ControllerAdvice
@@ -78,7 +81,7 @@ public class ExceptionController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> methodArgumentNotValidException(Exception e) {
-        log.error(e.getMessage() + " ошибка параметры");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        log.error(e.getLocalizedMessage() + " ошибка параметры");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("validation failed");
     }
 }
