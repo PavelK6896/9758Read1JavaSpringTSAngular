@@ -5,9 +5,18 @@ import {HttpClientTestingModule} from "@angular/common/http/testing";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
 import {Router} from "@angular/router";
 import {SubredditService} from "../../../service/subreddit.service";
+import {ToastrService} from "ngx-toastr";
 
 class RouterStub {
     navigateByUrl(url: string) {
+    }
+}
+
+class ToastrServiceSub {
+    success(message?: string) {
+    }
+
+    error(message?: string) {
     }
 }
 
@@ -19,7 +28,8 @@ describe('CreateSubReadComponent 18', () => {
         await TestBed.configureTestingModule({
             declarations: [CreateSubredditComponent],
             providers: [SubredditService,
-                {provide: Router, useClass: RouterStub}
+                {provide: Router, useClass: RouterStub},
+                {provide: ToastrService, useClass: ToastrServiceSub},
             ],
             imports: [HttpClientTestingModule],
             schemas: [NO_ERRORS_SCHEMA]

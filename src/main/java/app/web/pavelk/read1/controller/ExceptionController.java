@@ -3,6 +3,7 @@ package app.web.pavelk.read1.controller;
 
 import app.web.pavelk.read1.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.DataException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -10,9 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import java.util.Arrays;
-import java.util.List;
 
 
 @Slf4j
@@ -84,4 +82,11 @@ public class ExceptionController {
         log.error(e.getLocalizedMessage() + " ошибка параметры");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("validation failed");
     }
+
+    @ExceptionHandler(DataException.class)
+    public ResponseEntity<String> dataException(Exception e) {
+        log.error(e.getMessage() + " error data");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error data");
+    }
+
 }

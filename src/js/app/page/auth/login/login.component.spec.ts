@@ -30,6 +30,9 @@ class ActivatedRouteStub {
 class ToastrServiceSub {
     success(message?: string) {
     }
+
+    error(message?: string) {
+    }
 }
 
 describe('LoginComponent 2', () => {

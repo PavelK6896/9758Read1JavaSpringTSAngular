@@ -5,6 +5,7 @@ import {throwError} from "rxjs";
 import {SubredditModel} from "../../../utill/class1";
 import {SubredditService} from "../../../service/subreddit.service";
 import {logUtil} from "../../../utill/log1";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
     selector: 'app-create-subreddit',
@@ -17,7 +18,10 @@ export class CreateSubredditComponent implements OnInit {
     title = new FormControl('');
     description = new FormControl('');
 
-    constructor(private router: Router, private subredditService: SubredditService) {
+    constructor(private router: Router,
+                private subredditService: SubredditService,
+                private toastrService: ToastrService
+    ) {
         logUtil("CreateSubredditComponent!")
         this.createSubredditForm = new FormGroup({
             title: new FormControl('', Validators.required),
@@ -43,9 +47,17 @@ export class CreateSubredditComponent implements OnInit {
         this.subredditService.createSubreddit(this.subredditModel)
             .subscribe(data => {
                 logUtil("createSubreddit+ ", data)
+                this.toastrService.success('Created', 'Info', {
+                    timeOut: 500,
+                });
                 this.router.navigateByUrl('/list-subreddits');
             }, error => {
                 logUtil("createSubreddit- ", error)
+                if(error.status == 400){
+                    this.toastrService.error('Value too long', 'Info', {
+                        timeOut: 500,
+                    });
+                }
                 throwError(error);
             })
     }
