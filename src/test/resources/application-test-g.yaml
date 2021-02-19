@@ -1,0 +1,37 @@
+server:
+  servlet:
+    context-path:
+  port: 8080
+
+spring:
+  #  https://mailtrap.io
+  mail:
+    host: smtp.mailtrap.io
+    port: 2525
+    protocol: smtp
+    username:
+    password:
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+
+  datasource:
+    initialization-mode: always
+
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:mydatabase;MODE=PostgreSQL
+    username: sa
+    password:
+
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    properties:
+      hibernate:
+        format_sql: true
+        ddl-auto: none
+        dialect: org.hibernate.dialect.H2Dialect
+
+jwt:
+  expiration: 1

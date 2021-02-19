@@ -5,7 +5,13 @@ server:
 
 spring:
   profiles:
-    active: "dev"
+#    active: "dev"
+  mail:
+    host: smtp.yandex.ru
+    port: 465
+    protocol: smtps
+    username:
+    password:
 
   jackson:
     serialization:
