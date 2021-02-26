@@ -1,0 +1,42 @@
+<configuration scan="true" scanPeriod="20 hours">
+
+    <!--    html-->
+<!--    <appender name="FILE" class="ch.qos.logback.core.FileAppender">-->
+<!--        <file>logs/testFile.html</file>-->
+<!--        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">-->
+<!--            <layout class="ch.qos.logback.classic.html.HTMLLayout">-->
+<!--                <pattern>%date [%thread] %-5level %logger - %msg%n"></pattern>-->
+<!--            </layout>-->
+<!--        </encoder>-->
+<!--    </appender>-->
+
+        <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>INFO</level>
+            </filter>
+            <file>logs/read1File.log</file>
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>logs/read1File.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <maxHistory>60</maxHistory>
+                <totalSizeCap>100MB</totalSizeCap>
+            </rollingPolicy>
+            <immediateFlush>true</immediateFlush>
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) [%10thread] %cyan(%-40logger{36}) - %msg%n</pattern>
+            </encoder>
+        </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) [%10thread] %cyan(%-40logger{36}) - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
+    </root>
+</configuration>
