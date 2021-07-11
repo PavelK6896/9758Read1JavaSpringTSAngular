@@ -1,0 +1,14 @@
+INSERT INTO client.refresh_token (id, created_date, token) VALUES (1000, '2021-01-30 10:26:29.260400', '6a059f1a-8370-4d27-9867-6200fb5bbaea') ON CONFLICT (id) DO NOTHING;
+INSERT INTO client.refresh_token (id, created_date, token) VALUES (2000, '2021-01-30 10:35:30.411372', 'ff0a6555-f112-49ca-a49c-e0f51ebe6c03') ON CONFLICT (id) DO NOTHING;
+INSERT INTO client.refresh_token (id, created_date, token) VALUES (3000, '2021-01-30 11:00:26.684317', '9c2821ef-1173-4c08-9128-09a40bd5c709') ON CONFLICT (id) DO NOTHING;
+INSERT INTO client.token (id, expiry_date, token, user_id) VALUES (1000, null, '92fd5023-9950-4d1c-a6ae-8c921cb0b262', 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO client.users (id, created, email, enabled, password, username) VALUES (1000, '2021-01-30 10:25:57.953057', '79208776896@yandex.ru', true, '{bcrypt}$2a$10$0q0yPhhE.GzzzMl089vHKujpqJlGxly3dm2VaIBv0xhDdhKbuwjby', 'Pavel') ON CONFLICT (id) DO NOTHING;
+INSERT INTO post.comment (id, created_date, text, post_id, user_id) VALUES (1000, '2021-01-30 11:07:58.436678', 'well', 2, 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO post.comment (id, created_date, text, post_id, user_id) VALUES (2000, '2021-01-30 11:08:56.346776', 'cool', 1, 1) ON CONFLICT (id) DO NOTHING;
+INSERT INTO post.post (post_id, created_date, description, post_name, vote_count, subreddit_id, user_id) VALUES (1000, '2021-01-30 11:02:42.572943', '25638', 'Самый большой процессор в мире — Cerebras CS-1.', null, 1, 1) ON CONFLICT (post_id) DO NOTHING;
+INSERT INTO post.post (post_id, created_date, description, post_name, vote_count, subreddit_id, user_id) VALUES (2000, '2021-01-30 11:03:32.656813', '25639', 'Двойной привод hdd - Seagate MACH.2.', null, 1, 1) ON CONFLICT (post_id) DO NOTHING;
+INSERT INTO post.post (post_id, created_date, description, post_name, vote_count, subreddit_id, user_id) VALUES (3000, '2021-01-30 11:06:47.074138', '25640', 'Функция в Kotlin.', null, 2, 1) ON CONFLICT (post_id) DO NOTHING;
+INSERT INTO post.subreddit (id, created_date, description, name, user_id) VALUES (1000, null, 'Computer equipment.', 'Technical', null) ON CONFLICT (id) DO NOTHING;
+INSERT INTO post.subreddit (id, created_date, description, name, user_id) VALUES (2000, null, 'A programming language is a formal language comprising a set of instructions that produce various kinds of output.', 'Programming language', null) ON CONFLICT (id) DO NOTHING;
+INSERT INTO post.vote (vote_id, vote_type, post_id, user_id) VALUES (1000, 0, 1, 1) ON CONFLICT (vote_id) DO NOTHING;
+INSERT INTO post.vote (vote_id, vote_type, post_id, user_id) VALUES (2000, 0, 2, 1) ON CONFLICT (vote_id) DO NOTHING;
