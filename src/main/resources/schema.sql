@@ -1,5 +1,19 @@
 CREATE SCHEMA IF NOT EXISTS client;
 CREATE SCHEMA IF NOT EXISTS post;
+CREATE SCHEMA IF NOT EXISTS words;
+
+drop table IF EXISTS words.word;
+
+create table IF NOT EXISTS words.word
+(
+    id           bigserial not null,
+    word1        varchar(255),
+    translate1        text,
+    primary key (id)
+    );
+
+-- TRUNCATE TABLE words.word;
+-- insert into  words.word (id, word1, translate1) values ( 1, '1', '1' );
 
 
 create table IF NOT EXISTS client.refresh_token
