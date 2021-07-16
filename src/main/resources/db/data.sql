@@ -1,0 +1,10 @@
+INSERT INTO client.users (id, created, email, enabled, password, username) VALUES (100, '2021-01-30 10:25:57.953057', '@yandex.ru', true, '{bcrypt}$2a$10$0q0yPhhE.GzzzMl089vHKujpqJlGxly3dm2VaIBv0xhDdhKbuwjby', 'Pavel') ON CONFLICT (id) DO NOTHING;
+INSERT INTO post.subreddit (id, created_date, description, name, user_id) VALUES (100, null, 'Computer equipment.', 'Technical', null) ON CONFLICT (id) DO NOTHING;
+INSERT INTO post.subreddit (id, created_date, description, name, user_id) VALUES (200, null, 'A programming language is a formal language comprising a set of instructions that produce various kinds of output.', 'Programming language', null) ON CONFLICT (id) DO NOTHING;
+INSERT INTO post.post (post_id, created_date, description, post_name, vote_count, subreddit_id, user_id) VALUES (100, '2021-01-30 11:02:42.572943', '25638', 'Самый большой процессор в мире — Cerebras CS-1.', null, 100, 100) ON CONFLICT (post_id) DO NOTHING;
+INSERT INTO post.post (post_id, created_date, description, post_name, vote_count, subreddit_id, user_id) VALUES (200, '2021-01-30 11:03:32.656813', '25639', 'Двойной привод hdd - Seagate MACH.2.', null, 100, 100) ON CONFLICT (post_id) DO NOTHING;
+INSERT INTO post.post (post_id, created_date, description, post_name, vote_count, subreddit_id, user_id) VALUES (300, '2021-01-30 11:06:47.074138', '25640', 'Функция в Kotlin.', null, 200, 100) ON CONFLICT (post_id) DO NOTHING;
+INSERT INTO post.comment (id, created_date, text, post_id, user_id) VALUES (100, '2021-01-30 11:07:58.436678', 'well', 200, 100) ON CONFLICT (id) DO NOTHING;
+INSERT INTO post.comment (id, created_date, text, post_id, user_id) VALUES (200, '2021-01-30 11:08:56.346776', 'cool', 100, 100) ON CONFLICT (id) DO NOTHING;
+INSERT INTO post.vote (vote_id, vote_type, post_id, user_id) VALUES (100, 0, 100, 100) ON CONFLICT (vote_id) DO NOTHING;
+INSERT INTO post.vote (vote_id, vote_type, post_id, user_id) VALUES (200, 0, 200, 100) ON CONFLICT (vote_id) DO NOTHING;

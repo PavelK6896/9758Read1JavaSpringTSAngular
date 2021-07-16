@@ -19,6 +19,7 @@ spring:
 
   datasource:
     initialization-mode: always
+    schema: classpath:schema.sql
 
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/read2
@@ -41,3 +42,4 @@ jwt:
 host-url:  http://18.156.192.31/read1
 host: http://18.156.192.31
 
+initWords2: true

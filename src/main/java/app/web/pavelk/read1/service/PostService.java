@@ -12,6 +12,7 @@ import app.web.pavelk.read1.model.VoteType;
 import app.web.pavelk.read1.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -78,8 +79,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public ResponseEntity<List<PostResponseDto>> getAllPosts() {
-        //todo page!! делать Lazy
-        List<PostResponseDto> collect = postRepository.findAll().stream().map(this::getPostDto).collect(toList());
+        List<PostResponseDto> collect = postRepository.findAll(PageRequest.of(0, 100)).getContent().stream().map(this::getPostDto).collect(toList());
         return ResponseEntity.status(HttpStatus.OK).body(collect);
     }
 

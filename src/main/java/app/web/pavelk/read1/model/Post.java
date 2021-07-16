@@ -26,7 +26,6 @@ public class Post {
     @NotBlank(message = "Post Name cannot be empty or Null")
     private String postName;
 
-    @Lob
     private String description;
 
     private LocalDateTime createdDate;
