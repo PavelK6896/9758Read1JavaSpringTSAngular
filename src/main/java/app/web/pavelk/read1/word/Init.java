@@ -25,6 +25,7 @@ public class Init {
 
 //    @Transactional
 //    public void one() throws IOException {
+    //        ClassPathResource classPathResource = new ClassPathResource("data/word2.txt");
 //        List<String> lines = Files.readAllLines(resource.getFile().toPath(), Charset.forName("windows-1251"));
 //        StringBuilder stringBuilder = new StringBuilder();
 //        stringBuilder.append(" insert into  words.word ( word1, translate1) values ");
@@ -34,10 +35,8 @@ public class Init {
 
     @Transactional
     public void two() throws IOException {
-//        ClassPathResource classPathResource = new ClassPathResource("data/word2.txt");
-//        List<String> lines = Files.readAllLines(Path.of(classPathResource.getURI()), Charset.forName("windows-1251"));
-
         List<String> lines = new ArrayList<>();
+
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(resource.getInputStream(), Charset.forName("windows-1251")))) {
             String string;
             while ((string = bufferedReader.readLine()) != null) {

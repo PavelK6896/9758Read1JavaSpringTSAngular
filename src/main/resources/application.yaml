@@ -20,6 +20,7 @@ spring:
   datasource:
     initialization-mode: always
     schema: classpath:schema.sql
+#    data: classpath:db/data.sql
 
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/read2
