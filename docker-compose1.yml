@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:13-alpine
+    container_name: postgres13
+    ports:
+      - "5433:5432"
+    #    jdbc:postgresql://localhost:5433/read4
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=read4
+      - POSTGRES_PASSWORD=0
+    volumes:
+      - "/private/var/lib/postgresql:/var/lib/postgresql"
+
