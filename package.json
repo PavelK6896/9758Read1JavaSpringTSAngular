@@ -6,6 +6,7 @@
     "start": "ng serve",
     "build prod static file": "ng build --prod --build-optimizer=true --baseHref=/read1/ --deployUrl=/read1/",
     "build prod static git page": "ng build --prod --build-optimizer=true --baseHref=/9758Read1JavaSpringTSAngular/ --deployUrl=/9758Read1JavaSpringTSAngular/",
+    "build prod static git page2": "ng build --prod --build-optimizer=true --baseHref=/9758Read1JavaSpringTSAngular/ --deployUrl=/9758Read1JavaSpringTSAngular/",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

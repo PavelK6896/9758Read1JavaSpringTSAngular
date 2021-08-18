@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/read1",
+            "outputPath": "docs",
             "index": "src/js/index.html",
             "main": "src/js/main.ts",
             "polyfills": "src/js/polyfills.ts",
@@ -121,6 +121,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "Read1JavaSpringTSAngular"
+    }
+  },
+  "defaultProject": "Read1JavaSpringTSAngular",
+  "cli": {
+    "analytics": "daedeb4a-b7a3-45bd-9420-02fba933931d"
+  }
 }
