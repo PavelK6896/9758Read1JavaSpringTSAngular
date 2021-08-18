@@ -12,5 +12,7 @@ services:
       - POSTGRES_DB=read4
       - POSTGRES_PASSWORD=0
     volumes:
-      - "/private/var/lib/postgresql:/var/lib/postgresql"
+      - postgres_data:/var/lib/postgresql/data
 
+volumes:
+  postgres_data:

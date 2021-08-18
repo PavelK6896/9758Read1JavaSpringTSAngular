@@ -1,9 +1,6 @@
 package app.web.pavelk.read1.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -26,7 +23,6 @@ public class Post {
     @NotBlank(message = "Post Name cannot be empty or Null")
     private String postName;
 
-    @Lob
     private String description;
 
     private LocalDateTime createdDate;

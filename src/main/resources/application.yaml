@@ -1,11 +1,11 @@
 server:
   servlet:
     context-path: /api/read1/
-  port: 8080
+  port: ${PORT:8080}
 
 spring:
   profiles:
-#    active: "dev"
+    active: "her"
   mail:
     host: smtp.yandex.ru
     port: 465
@@ -19,12 +19,13 @@ spring:
 
   datasource:
     initialization-mode: always
+#    schema: classpath:schema.sql
+#    data: classpath:db/data.sql
 
     driver-class-name: org.postgresql.Driver
-#    url: jdbc:postgresql://localhost:5432/read2
-    url: jdbc:postgresql://localhost:5433/read4
-    username: postgres
-    password: 0
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/read4}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:0}
 
   jpa:
     show-sql: true
