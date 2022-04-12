@@ -1,18 +1,23 @@
 version: '3.9'
 
 services:
-  postgres:
-    image: postgres:13-alpine
-    container_name: postgres13
+  postgres14_read1:
+    image: postgres:14
+    container_name: postgres14_read1
+    networks:
+      read1_net:
     ports:
-      - "5433:5432"
-    #    jdbc:postgresql://localhost:5433/read4
+      - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=read4
       - POSTGRES_PASSWORD=0
+      - POSTGRES_DB=read1
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres14_read1_data:/var/lib/postgresql/data
+
+networks:
+  read1_net:
+    driver: bridge
 
 volumes:
-  postgres_data:
+  postgres14_read1_data:

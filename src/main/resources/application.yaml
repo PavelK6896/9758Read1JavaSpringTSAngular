@@ -5,7 +5,7 @@ server:
 
 spring:
   profiles:
-    active: "her"
+    active: "dev"
   mail:
     host: smtp.yandex.ru
     port: 465
@@ -19,11 +19,11 @@ spring:
 
   datasource:
     initialization-mode: always
-#    schema: classpath:schema.sql
-#    data: classpath:db/data.sql
+    schema: classpath:db/schema.sql
+    data: classpath:db/data.sql
 
     driver-class-name: org.postgresql.Driver
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5433/read4}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/read1}
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD:0}
 

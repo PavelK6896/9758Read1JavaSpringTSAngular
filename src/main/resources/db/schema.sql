@@ -1,17 +1,14 @@
-CREATE SCHEMA IF NOT EXISTS client;
-CREATE SCHEMA IF NOT EXISTS post;
+create schema if not exists client;
+create schema if not exists post;
 
-
-create table IF NOT EXISTS client.refresh_token
+create table if not exists client.refresh_token
 (
     id           bigserial not null,
     created_date timestamp,
     token        varchar(255),
     primary key (id)
 );
-
-
-create table IF NOT EXISTS client.token
+create table if not exists client.token
 (
     id          bigserial not null,
     expiry_date timestamp,
@@ -19,9 +16,7 @@ create table IF NOT EXISTS client.token
     user_id     int8,
     primary key (id)
 );
-
-
-create table IF NOT EXISTS client.users
+create table if not exists client.users
 (
     id       bigserial not null,
     created  timestamp,
@@ -32,16 +27,7 @@ create table IF NOT EXISTS client.users
     primary key (id)
 );
 
-
--- delete
--- from client.users
--- where id = 100;
-
--- insert into  client.users (id, email, enabled, password, username)
--- values (100, '1', true, '{bcrypt}$2y$12$B5le4rjqinV9wp8zFH0a0elodBgl5rQE85xfAWH7WXZ3UtbjyG9vW', '1');
---
-
-create table IF NOT EXISTS post.comment
+create table if not exists post.comment
 (
     id           bigserial not null,
     created_date timestamp,
@@ -50,9 +36,7 @@ create table IF NOT EXISTS post.comment
     user_id      int8,
     primary key (id)
 );
-
-
-create table IF NOT EXISTS post.post
+create table if not exists post.post
 (
     post_id      bigserial not null,
     created_date timestamp,
@@ -63,9 +47,7 @@ create table IF NOT EXISTS post.post
     user_id      int8,
     primary key (post_id)
 );
-
-
-create table IF NOT EXISTS post.subreddit
+create table if not exists post.subreddit
 (
     id           bigserial not null,
     created_date timestamp,
@@ -74,9 +56,7 @@ create table IF NOT EXISTS post.subreddit
     user_id      int8,
     primary key (id)
 );
-
-
-create table IF NOT EXISTS post.vote
+create table if not exists post.vote
 (
     vote_id   bigserial not null,
     vote_type int4,
@@ -84,14 +64,11 @@ create table IF NOT EXISTS post.vote
     user_id   int8,
     primary key (vote_id)
 );
-
-
-create table IF NOT EXISTS subreddit_posts
+create table if not exists subreddit_posts
 (
     subreddit_id  int8 not null,
     posts_post_id int8 not null
 );
-
 
 alter table client.token
     drop constraint if exists FKj8rfw4x0wjjyibfqq566j4qng;
